@@ -8,4 +8,8 @@ import { Component } from '@angular/core';
 export class ServerComponent {
   serverId: number = 10;
   serverStatus: string = "離線";
+
+  getServerStatus() {
+    return this.serverStatus;
+  }
 }

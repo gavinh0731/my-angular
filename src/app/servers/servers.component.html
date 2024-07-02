@@ -1,2 +1,24 @@
+<button [disabled]="allowNewServer">添加服務</button>
+<button disabled={{allowNewServer}}>添加服務</button>
+
+<!-- 不同綁定，但效果相同 -->
+<p>插值表達式：{{allowNewServer}}</p>
+<img src="{{imgUrl}}"><br>
+屬性綁定模式<p [innerText]="allowNewServer"></p>
+<img [src]="imgUrl"><br>
+
+serverCreationStatus = {{serverCreationStatus}}<br>
+<button (click)="onCreateServer()">添加服務</button><br>
+
+<!-- 單向綁定 -->
+修改ServerName：
+<input type="text" (input)="onUpdateServerName($event)" />
+<p>{{serverName}}</p>
+
+<!-- 雙向綁定 -->
+<input type="text" [(ngModel)]="serverName" />
+
+
+<!-- 指令 -->
 <app-server></app-server>
 <app-server></app-server>
