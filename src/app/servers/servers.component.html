@@ -1,3 +1,105 @@
+<div class="container">
+  <div class="row">
+    <div class="col-6 col-sm-3">
+      <!-- {{}} 可以簡單理解為一段 js 執行區域，只不過語法有限制 -->
+      <h3>插值語法</h3>
+      <p>{{name + ",你好啊"}}</p>
+      <p>{{1+1}}</p>
+      <p>{{name ? 1+1 : name}}</p>
+      <p>{{false ? 1+1 : name}}</p>
+    </div>
+    <div class="col-6 col-sm-3">
+      <!-- 屬性綁定使用的語法是 [屬性名] -->
+      <h3>屬性綁定</h3>
+      <div [id]="'div-red'">屬性綁定-值</div>
+      <div [id]="box">屬性綁定-變數</div>
+      <div [class]="'item'">class綁定-值</div>
+      <div [class]="itemClass">class綁定-變數</div>
+    </div>
+
+    <div class="col-6 col-sm-3">
+      <!-- 循環語句 -->
+      <h3>For 循環</h3>
+      <div *ngFor="let item of colors let idx=index let isOdd=odd">
+        {{isOdd}}, {{idx}}, {{item}}</div>
+    </div>
+    <div class="col-6 col-sm-3">
+      <!-- 循環語句 -->
+      <h3>Switch 條件判斷</h3>
+      <div [ngSwitch]="type">
+        <p *ngSwitchCase="1">type = 1</p>
+        <p *ngSwitchCase="2">type = 2</p>
+        <p *ngSwitchDefalut>type != 1 and type != 2</p>
+      </div>
+    </div>
+
+    <!-- Force next columns to break to new line -->
+    <div class="w-100"></div>
+
+    <div class="col-6 col-sm-3">
+      <h3>事件綁定</h3>
+      <input type="text" (input)="inpChange($event)" name="" id="">
+      <button (click)="clickFun($event)">點擊</button>
+    </div>
+    <div class="col-6 col-sm-3">
+      <h3>模板引用變數</h3>
+      <input #userName2 type="text" name="" id="">
+      <button (click)="getUserName(userName2.value)">獲取userName2</button>
+    </div>
+
+    <div class="col-6 col-sm-3">
+      <h3>雙向綁定</h3>
+      輸入: <input [(ngModel)]="name">
+      <h4>你輸入了: {{name}}</h4>
+    </div>
+
+    <div class="col-6 col-sm-3">
+      <h3>表單控制項</h3>
+      年齡:
+      <input type="text" [formControl]="age">
+      <p>
+        年齡: {{ age.value }}
+      </p>
+      <button (click)="setAge()">長大</button>
+    </div>
+  </div>
+
+  <!-- Force next columns to break to new line -->
+  <div class="w-100"></div>
+
+  <div class="col-6 col-sm-3">
+    <h3>FormGroup 實例</h3>
+    <form [formGroup]="loginForm">
+      <label>
+        帳號:
+        <input type="text" formControlName="userName">
+      </label>
+      <label>
+        密碼:
+        <input type="text" formControlName="password">
+      </label>
+    </form>
+    {{loginForm.value["userName"]}}-{{loginForm.value["password"]}}
+    <button (click)="subFormFun()">提交</button>
+  </div>
+  <div class="col-6 col-sm-3">
+    <h3>表單驗證</h3>
+    <form action="">
+      帳號：<input required #nameInp="ngModel" type="text" [(ngModel)]="fromData.name" name="userName">
+      <br>
+      <span *ngIf="!nameInp.valid" [class]="invalid">請輸入帳號</span>
+      <hr>
+      密碼：<input required #pasInp="ngModel" type="text" [(ngModel)]="fromData.password" name="password">
+      <br>
+      <span *ngIf="!pasInp.valid" [class]="invalid">請輸入密碼</span>
+      <hr>
+      <button (click)="subBtnFUn(nameInp)">提交</button>
+    </form>
+  </div>
+
+
+</div>
+
 <button [disabled]="allowNewServer">添加服務</button>
 <button disabled={{allowNewServer}}>添加服務</button>
 

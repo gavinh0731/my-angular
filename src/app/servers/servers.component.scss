@@ -1,3 +1,29 @@
+h3 {
+  color: #00f;
+}
+
 div {
   background: #99f;
+}
+
+// id
+#div-dom {
+  color: #00f;
+}
+
+#div-red {
+  color: #f00;
+}
+
+// Class
+.item-p {
+  color: #0f0;
+}
+
+.ng-invalid {
+  border-color: red;
+}
+
+.form-red-text {
+  color: red;
 }

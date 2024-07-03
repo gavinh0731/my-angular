@@ -5,7 +5,8 @@
       <h5 class="card-title">App-Server 插值表達式</h5>
     </b>
     <p class="card-text">服務編號：{{serverId}}</p>
-    <p [ngStyle]="{backgroundColor: getColor()}" [ngClass]="{online: serverStatus=='離線'}" class="card-text">
+    <p [ngStyle]="{backgroundColor: getColor()}"
+      [ngClass]="{'offline': serverStatus=='離線', 'online':serverStatus!='離線'}" class="card-text">
       服務狀態：{{serverStatus}}</p>
     <p class="card-text">{{'服務內容'}}：{{getServerStatus()}}</p>
     <a href="#" class="btn btn-primary">Go somewhere</a>
