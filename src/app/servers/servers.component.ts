@@ -15,6 +15,7 @@ export class ServersComponent implements OnInit {
   serverCreationStatus = "服務沒有創建";
   serverName = "testServer";
   serverCreated = false;
+  servers = ["ServerTest", "ServerTest1", "ServerTest2"]
 
   constructor() {
     // 按鈕在 數秒之後就變成不可按
@@ -29,6 +30,7 @@ export class ServersComponent implements OnInit {
 
   onCreateServer() {
     this.serverCreated = true;
+    this.servers.push(this.serverName);
     this.serverCreationStatus = "服務已經創建";
   }
 

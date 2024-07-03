@@ -19,6 +19,14 @@ serverCreationStatus = {{serverCreationStatus}}<br>
 <input type="text" [(ngModel)]="serverName" />
 
 
-<!-- 指令 -->
-<app-server></app-server>
-<app-server></app-server>
+<!-- 判斷指令 -->
+<p *ngIf="serverCreated;else noServer">服務已經創建，服務名稱為：{{serverName}}</p>
+<ng-template #noServer>
+  <p>服務沒有創建</p>
+</ng-template>
+
+
+<!-- <app-server></app-server>
+<app-server></app-server> -->
+<!-- <app-server *ngFor="let server of servers"></app-server> -->
+<app-server *ngFor="let server of servers; let i = index" [ngStyle]="{color: i>=2 ? 'blue' :'green'}"></app-server>
