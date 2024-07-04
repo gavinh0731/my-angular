@@ -1,0 +1,8 @@
+<p>home works!</p>
+<app-title #titleDom (addList)="addListFun($event)" [title]="'傳入標題'"></app-title>
+
+<p *ngFor="let item of list">
+  {{item}}
+</p>
+
+<button (click)="addFun()">調用子組件</button>

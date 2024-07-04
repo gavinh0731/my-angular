@@ -1,8 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [];
+// 頁面
+import { HomeComponent } from './home/home.component';
+import { ServersComponent } from './servers/servers.component'
 
+// 路由配置
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'servers', component: ServersComponent },
+  // 通配
+  { path: '**', component: HomeComponent },
+]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
