@@ -3,6 +3,8 @@ import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
+// standalone
+import { CommonModule } from '@angular/common';  // 確保導入 CommonModule
 
 export interface PeriodicElement {
   name: string;
@@ -25,13 +27,13 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrl: './table.component.scss',
+  selector: 'app-stock-table',
+  templateUrl: './stock-table.component.html',
+  styleUrl: './stock-table.component.scss',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule],
+  imports: [MatTableModule, MatPaginatorModule, MatSortModule, CommonModule],
 })
-export class TableComponent implements AfterViewInit {
+export class StockTableComponent implements AfterViewInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
@@ -65,5 +67,10 @@ export class TableComponent implements AfterViewInit {
     } else {
       this.displayedColumns.push(column);
     }
+  }
+
+  // CSS
+  isHighlighted(value: number): boolean {
+    return value > 2; // 條件設定
   }
 }

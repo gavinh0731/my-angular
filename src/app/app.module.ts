@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 // Material Tabla
 import { MatTableModule } from '@angular/material/table';
@@ -10,16 +11,16 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
+// 服務需手動注入
+import { ListService } from './services/list.service';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
 import { AppComponent } from './app.component';
 import { ServerComponent } from './server/server.component';
 import { ServersComponent } from './servers/servers.component';
 import { TestPipe } from './pipes/test.pipe';
 import { HomeComponent } from './home/home.component';
 import { TitleComponent } from './title/title.component';
-
-// 服務需手動注入
-import { ListService } from './services/list.service';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    CommonModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
