@@ -4,6 +4,14 @@
   <button (click)="toggleColumn('weight')">Toggle Weight</button>
   <button (click)="toggleColumn('symbol')">Toggle Symbol</button>
 </div>
+<mat-form-field>
+  <mat-label>視角</mat-label>
+  <mat-select [(value)]="selected" (valueChange)="changeDisplayedColumns($event)">
+    @for (food of foods; track food) {
+    <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
 <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
   class="mat-elevation-z8">
 
