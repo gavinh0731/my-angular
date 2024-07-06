@@ -5,35 +5,18 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+
+import { StockStruct } from '../services/stock-data.service'
+
 // standalone
 import { CommonModule } from '@angular/common';  // 確保導入 CommonModule
+
 
 // === DropDown Menu ===
 interface Food {
   value: string;
   viewValue: string;
 }
-
-// === ELEMENT_DATA ===
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-];
 
 @Component({
   selector: 'app-stock-table',
@@ -43,8 +26,17 @@ const ELEMENT_DATA: PeriodicElement[] = [
   imports: [MatTableModule, MatPaginatorModule, MatSortModule, CommonModule, MatFormFieldModule, MatSelectModule],
 })
 export class StockTableComponent implements AfterViewInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  ELEMENT_DATA: any;
+  dataSource: any;
+
+  displayedColumns: string[] = [
+    'code', 'name', 'market', 'date', 'price',
+    'change', 'pct', 'face', 'capital', 'count',
+    'market_cap', 'up_year', 'market_year', 'futures', 'options',
+    'Warrant', 'debt', 'private', 'special', // 'verticals',
+    'chairman', 'manager',
+  ];
+
 
   constructor(private _liveAnnouncer: LiveAnnouncer) { }
 
@@ -57,6 +49,7 @@ export class StockTableComponent implements AfterViewInit {
   }
   ngOnInit() {
     console.log("2. ngOnInit");
+    this.dataSource = new MatTableDataSource<StockStruct>(this.ELEMENT_DATA);
   }
   // ngDoCheck() {
   //   console.log("3. ngDoCheck");
@@ -103,29 +96,35 @@ export class StockTableComponent implements AfterViewInit {
   // === DropDown Menu ===
   selected: string;
   foods: Food[] = [
-    { value: 'position', viewValue: 'Position' },
+    { value: 'basic', viewValue: '公司基本資料' },
     { value: 'name', viewValue: 'Name' },
-    { value: 'weight', viewValue: 'Weight' },
-    { value: 'symbol', viewValue: 'Symbol' },
+    { value: 'market', viewValue: 'market' },
+    { value: 'date', viewValue: 'date' },
   ];
 
   changeDisplayedColumns(perspective: any) {
     console.log(`perspective = ${perspective}`);
     switch (perspective) {
-      case 'position': {
-        this.displayedColumns = ['position'];
+      case 'basic': {
+        this.displayedColumns = [
+          'code', 'name', 'market', 'date', 'price',
+          'change', 'pct', 'face', 'capital', 'count',
+          'market_cap', 'up_year', 'market_year', 'futures', 'options',
+          'Warrant', 'debt', 'private', 'special', // 'verticals',
+          'chairman', 'manager',
+        ];
         break;
       }
       case 'name': {
         this.displayedColumns = ['name'];
         break;
       }
-      case 'weight': {
-        this.displayedColumns = ['weight'];
+      case 'market': {
+        this.displayedColumns = ['market'];
         break;
       }
       default: {
-        this.displayedColumns = ['symbol'];
+        this.displayedColumns = ['date'];
         break;
       }
     }
@@ -138,5 +137,25 @@ export class StockTableComponent implements AfterViewInit {
     } else {
       this.displayedColumns.push(column);
     }
+  }
+
+  setData(data: any) {
+    // console.log(`data = ${data}`)
+    // this.ELEMENT_DATA = [
+    //   { code: 1, name: 'Hydrogen', market: 1.0079, date: 'H' },
+    //   { code: 2, name: 'Helium', market: 4.0026, date: 'He' },
+    //   { code: 3, name: 'Lithium', market: 6.941, date: 'Li' },
+    //   { code: 4, name: 'Beryllium', market: 9.0122, date: 'Be' },
+    //   { code: 5, name: 'Boron', market: 10.811, date: 'B' },
+    //   { code: 6, name: 'Carbon', market: 12.0107, date: 'C' },
+    //   { code: 7, name: 'Nitrogen', market: 14.0067, date: 'N' },
+    //   { code: 8, name: 'Oxygen', market: 15.9994, date: 'O' },
+    //   { code: 9, name: 'Fluorine', market: 18.9984, date: 'F' },
+    //   { code: 10, name: 'Neon', market: 20.1797, date: 'Ne' },
+    // ];
+    this.ELEMENT_DATA = data;
+    this.dataSource = new MatTableDataSource<StockStruct>(this.ELEMENT_DATA);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 }

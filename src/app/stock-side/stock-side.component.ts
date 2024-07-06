@@ -1,5 +1,4 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,7 +7,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
+import { ChangeDetectorRef, Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+
 import { StockTableComponent } from '../stock-table/stock-table.component'
+import { StockDataService } from '../services/stock-data.service'
 
 // === DropDown Menu ===
 interface PickMethod {
@@ -21,24 +24,44 @@ interface PickMethod {
   templateUrl: './stock-side.component.html',
   styleUrl: './stock-side.component.scss',
   standalone: true,
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatSidenavModule, MatListModule, MatSelectModule, MatFormFieldModule, StockTableComponent],
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatSidenavModule, MatListModule, MatSelectModule, MatFormFieldModule,
+    HttpClientModule, StockTableComponent],
 })
-export class StockSideComponent {
-  mobileQuery: MediaQueryList;
+export class StockSideComponent implements OnInit {
+  @ViewChild("stockTableChild") child: any;
 
-  fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
+  data: any;
+
+  mobileQuery: MediaQueryList;
 
   private _mobileQueryListener: () => void;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private stockDataService: StockDataService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+
+    setTimeout(() => {
+      this.setChildDataFun();
+    }, 1000);
+  }
+  setChildDataFun() {
+    // console.log(this.data);
+    this.child.setData(this.data);
   }
 
+  // region === === 生命週期 === === === === === === === === === === === === ===
+  ngOnInit() {
+    this.data = this.stockDataService.getData();
+    // console.log(this.data);
+  }
+  ngAfterContentInit() {
+    console.log(`4. ngAfterContentInit`);
+  }
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
+  // region --- --- 生命週期 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   // region === === DropDown Menu === === === === === === === === === === === ===
   selected: string;

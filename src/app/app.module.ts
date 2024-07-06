@@ -15,6 +15,8 @@ import { MatInputModule } from '@angular/material/input';
 import { ListService } from './services/list.service';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import { AppComponent } from './app.component';
 import { ServerComponent } from './server/server.component';
 import { ServersComponent } from './servers/servers.component';
@@ -41,6 +43,7 @@ import { TitleComponent } from './title/title.component';
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
+    HttpClientModule,
   ],
   providers: [ListService, provideAnimationsAsync()],
   bootstrap: [AppComponent]
