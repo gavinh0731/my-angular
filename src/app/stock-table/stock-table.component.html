@@ -1,9 +1,3 @@
-<div>
-  <button (click)="toggleColumn('position')">Toggle Position</button>
-  <button (click)="toggleColumn('name')">Toggle Name</button>
-  <button (click)="toggleColumn('market')">Toggle market</button>
-  <button (click)="toggleColumn('date')">Toggle date</button>
-</div>
 <mat-form-field>
   <mat-label>視角</mat-label>
   <mat-select [(value)]="selected" (valueChange)="changeDisplayedColumns($event)">
@@ -53,7 +47,7 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by price">
       <b>成交價</b>
     </th>
-    <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+    <td mat-cell *matCellDef="let element" [ngStyle]="{color: element.pct>=0 ? 'red' :'green'}"> {{element.price}} </td>
   </ng-container>
 
   <!-- 1. Column -->
@@ -61,7 +55,8 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by change">
       <b>漲跌價</b>
     </th>
-    <td mat-cell *matCellDef="let element"> {{element.change}} </td>
+    <td mat-cell *matCellDef="let element" [ngStyle]="{color: element.pct>=0 ? 'red' :'green'}"> {{element.change}}
+    </td>
   </ng-container>
 
   <!-- 2. Column -->
@@ -69,7 +64,7 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by pct">
       <b>漲跌幅</b>
     </th>
-    <td mat-cell *matCellDef="let element"> {{element.pct}} </td>
+    <td mat-cell *matCellDef="let element" [ngStyle]="{color: element.pct>=0 ? 'red' :'green'}"> {{element.pct}} </td>
   </ng-container>
 
   <!-- 3. Column -->
@@ -117,7 +112,7 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by market_year">
       <b>上市年數</b>
     </th>
-    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlighted(element.market_year)}">
+    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlighted(10, element.market_year)}">
       {{element.market_year}}
     </td>
   </ng-container>
@@ -159,7 +154,7 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by private">
       <b>私募股</b>
     </th>
-    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlighted(element.private)}">
+    <td mat-cell *matCellDef="let element">
       {{element.private}}
     </td>
   </ng-container>

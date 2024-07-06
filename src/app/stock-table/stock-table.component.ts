@@ -86,12 +86,12 @@ export class StockTableComponent implements AfterViewInit {
     }
   }
 
-
-
-  // CSS
-  isHighlighted(value: number): boolean {
-    return value > 2; // 條件設定
+  // region === === CSS === === === === === === === === === === === === === ===
+  isHighlighted(min: number, value: number): boolean {
+    return value >= min; // 條件設定
   }
+
+  // region --- --- CSS --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   // === DropDown Menu ===
   selected: string;
@@ -127,15 +127,6 @@ export class StockTableComponent implements AfterViewInit {
         this.displayedColumns = ['date'];
         break;
       }
-    }
-  }
-
-  toggleColumn(column: string) {
-    const index = this.displayedColumns.indexOf(column);
-    if (index >= 0) {
-      this.displayedColumns.splice(index, 1);
-    } else {
-      this.displayedColumns.push(column);
     }
   }
 
