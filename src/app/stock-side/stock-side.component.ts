@@ -53,7 +53,7 @@ export class StockSideComponent implements OnInit {
   // region === === 生命週期 === === === === === === === === === === === === ===
   ngOnInit() {
     this.data = this.stockDataService.getData();
-    // console.log(this.data);
+    console.log(this.data);
   }
   ngAfterContentInit() {
     console.log(`4. ngAfterContentInit`);

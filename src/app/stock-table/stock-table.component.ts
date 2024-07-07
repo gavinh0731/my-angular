@@ -1,5 +1,5 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, HostListener } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
@@ -35,6 +35,8 @@ export class StockTableComponent implements AfterViewInit {
     'market_cap', 'up_year', 'market_year', 'futures', 'options',
     'Warrant', 'debt', 'private', 'special', // 'verticals',
     'chairman', 'manager',
+
+    'epsp',
   ];
 
 
@@ -96,7 +98,7 @@ export class StockTableComponent implements AfterViewInit {
   // === DropDown Menu ===
   selected: string;
   foods: Food[] = [
-    { value: 'basic', viewValue: '公司基本資料' },
+    { value: 'basic', viewValue: '🏢公司基本資料(1)' },
     { value: 'name', viewValue: 'Name' },
     { value: 'market', viewValue: 'market' },
     { value: 'date', viewValue: 'date' },
@@ -129,6 +131,20 @@ export class StockTableComponent implements AfterViewInit {
       }
     }
   }
+
+  // region === === 快捷鍵 === === === === === === === === === === === === === ===
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === '1') {
+      event.preventDefault();
+      this.changeDisplayedColumns("basic");
+      this.selected = "basic";
+    } else if (event.ctrlKey && event.key === 'k') {
+      event.preventDefault();
+      // this.showHelp();
+    }
+  }
+  // region --- --- 快捷鍵 --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   setData(data: any) {
     // console.log(`data = ${data}`)
