@@ -52,8 +52,18 @@ export class StockSideComponent implements OnInit {
 
   // region === === 生命週期 === === === === === === === === === === === === ===
   ngOnInit() {
-    this.data = this.stockDataService.getData();
-    console.log(this.data);
+    // this.data = this.stockDataService.getData1();
+    // console.log("this.data = ", this.data);
+
+    this.stockDataService.getMergedData().subscribe(
+      response => {
+        this.data = response;
+        console.log("this.data = ", this.data);
+      },
+      error => {
+        console.error('Error:', error);
+      }
+    );
   }
   ngAfterContentInit() {
     console.log(`4. ngAfterContentInit`);
