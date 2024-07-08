@@ -29,6 +29,8 @@ export class StockTableComponent implements AfterViewInit {
   ELEMENT_DATA: any;
   dataSource: any;
 
+  columnStr_m_info = [{ key: "epsp", value: "EPS股價" }];
+
   displayedColumns: string[] = [
     'code', 'name', 'market', 'date', 'price',
     'change', 'pct', 'face', 'capital', 'count',

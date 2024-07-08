@@ -194,11 +194,11 @@
 
   <!-- 我的基本面 Start ------------------------------------------------------ -->
   <!-- 1. Column -->
-  <ng-container matColumnDef="epsp">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by epsp">
-      <b>EPS股價</b>
+  <ng-container *ngFor="let col of columnStr_m_info let idx=index" [matColumnDef]="col.key">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <b>col.value</b>
     </th>
-    <td mat-cell *matCellDef="let element"> {{element.epsp}} </td>
+    <td mat-cell *matCellDef="let element"> {{element[idx]}} </td>
   </ng-container>
   <!-- 我的基本面 End -------------------------------------------------------- -->
 

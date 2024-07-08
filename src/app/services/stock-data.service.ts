@@ -66,8 +66,8 @@ export class StockDataService {
     );
   }
 
-  getMergedData(): Observable<any> {
-    return combineLatest([this.getData1(), this.getData2()]).pipe(
+  mergeData(obs1: Observable<any>, obs2: Observable<any>): Observable<any> {
+    return combineLatest([obs1, obs2]).pipe(
       map(([data1, data2]) => {
         // 將第二個資料陣列轉換為以 'code' 為鍵的對象
         const obj2 = _.keyBy(data2, 'code');
@@ -85,5 +85,9 @@ export class StockDataService {
         });
       })
     );
+  }
+
+  getMergedData(): Observable<any> {
+    return this.mergeData(this.getData1(), this.getData2());
   }
 }
