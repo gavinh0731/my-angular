@@ -53,7 +53,7 @@ export class StockTableComponent implements AfterViewInit {
   }
   ngOnInit() {
     console.log("2. ngOnInit");
-    this.dataSource = new MatTableDataSource<StockStruct>(this.ELEMENT_DATA);
+    this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
   }
   // ngDoCheck() {
   //   console.log("3. ngDoCheck");
@@ -163,7 +163,7 @@ export class StockTableComponent implements AfterViewInit {
     //   { code: 10, name: 'Neon', market: 20.1797, date: 'Ne' },
     // ];
     this.ELEMENT_DATA = data;
-    this.dataSource = new MatTableDataSource<StockStruct>(this.ELEMENT_DATA);
+    this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
