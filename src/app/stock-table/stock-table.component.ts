@@ -29,16 +29,27 @@ export class StockTableComponent implements AfterViewInit {
   ELEMENT_DATA: any;
   dataSource: any;
 
-  columnStr_m_info = [{ key: "epsp", value: "EPS股價" }];
+  columnStr_m_info = [
+    // { key: "epsp", value: "EPS估價" }, { key: "yiep", value: "殖利率估價" }, { key: "kp", value: "ROE估價" },
+    { key: "tper", value: "總報酬本益比" }, { key: "cheap", value: "便宜度" },  //{ key: "pbr", value: "股價淨值比" },
+    { key: "per", value: "本益比" }, { key: "gross_f", value: "毛利成長(%)" }, { key: "netrate5", value: "年複合成長率" },
+    //{ key: "peg", value: "PEG" }, { key: "cash_y", value: "現金殖利率" },
+    { key: "yCnt", value: "股利連漲(5年)" }, { key: "eps", value: "平均EPS(元)" }, { key: "yepsCount", value: "EPS成長" },
+    // { key: "roe", value: "平均ROE(>8%)" }, 
+    { key: "beta", value: "風險係數" }, { key: "wpct", value: "週漲跌幅" }, { key: "mpct", value: "月漲跌幅" },
+    { key: "volume", value: "成交張數" }, { key: "amount", value: "成交金額(萬)" }, { key: "turnover", value: "週轉率(%)" },
+    { key: "cheapCnt", value: "便宜度" }, { key: "growRateCnt", value: "年複合成長率" }, { key: "turnoverCnt", value: "週轉率>=1" },
+    { key: "prange", value: "股價區間" }
+
+  ];
+
 
   displayedColumns: string[] = [
     'code', 'name', 'market', 'date', 'price',
     'change', 'pct', 'face', 'capital', 'count',
     'market_cap', 'up_year', 'market_year', 'futures', 'options',
-    'Warrant', 'debt', 'private', 'special', // 'verticals',
+    'Warrant', 'debt', 'private', 'special', 'verticals',
     'chairman', 'manager',
-
-    'epsp',
   ];
 
 
@@ -91,8 +102,16 @@ export class StockTableComponent implements AfterViewInit {
   }
 
   // region === === CSS === === === === === === === === === === === === === ===
-  isHighlighted(min: number, value: number): boolean {
+  isHighlight_more_than(min: number, value: number): boolean {
     return value >= min; // 條件設定
+  }
+
+  isHighlight_less_than(max: number, value: number): boolean {
+    return value <= max; // 條件設定
+  }
+
+  isHighlight(min: number, max: number, value: number): boolean {
+    return value >= min && value <= max; // 條件設定
   }
 
   // region --- --- CSS --- --- --- --- --- --- --- --- --- --- --- --- --- ---
@@ -101,7 +120,7 @@ export class StockTableComponent implements AfterViewInit {
   selected: string;
   foods: Food[] = [
     { value: 'basic', viewValue: '🏢公司基本資料(1)' },
-    { value: 'name', viewValue: 'Name' },
+    { value: 'm_basic', viewValue: '🛖我的基本面(2)' },
     { value: 'market', viewValue: 'market' },
     { value: 'date', viewValue: 'date' },
   ];
@@ -114,13 +133,20 @@ export class StockTableComponent implements AfterViewInit {
           'code', 'name', 'market', 'date', 'price',
           'change', 'pct', 'face', 'capital', 'count',
           'market_cap', 'up_year', 'market_year', 'futures', 'options',
-          'Warrant', 'debt', 'private', 'special', // 'verticals',
+          'Warrant', 'debt', 'private', 'special', 'verticals',
           'chairman', 'manager',
         ];
         break;
       }
-      case 'name': {
-        this.displayedColumns = ['name'];
+      case 'm_basic': {
+        this.displayedColumns = [
+          'code', 'name', 'verticals', "epsp", "yiep", "kp", "pbr", "tper", "cheap",
+          "per", "gross_f", "netrate5", "peg", "cash_y", "yCnt",
+          "roe", "eps", "yepsCount", "beta",  //"e_icr.yepsCount"
+          'price', 'change', 'pct',
+          "wpct", "mpct", "volume", "amount", "turnover",
+          "cheapCnt", "growRateCnt", "turnoverCnt", "futures", "prange",
+        ];
         break;
       }
       case 'market': {
@@ -141,9 +167,10 @@ export class StockTableComponent implements AfterViewInit {
       event.preventDefault();
       this.changeDisplayedColumns("basic");
       this.selected = "basic";
-    } else if (event.ctrlKey && event.key === 'k') {
+    } else if (event.key === '2') {
       event.preventDefault();
-      // this.showHelp();
+      this.changeDisplayedColumns("m_basic");
+      this.selected = "m_basic";
     }
   }
   // region --- --- 快捷鍵 --- --- --- --- --- --- --- --- --- --- --- --- --- ---
