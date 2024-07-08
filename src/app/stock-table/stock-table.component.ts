@@ -171,6 +171,22 @@ export class StockTableComponent implements AfterViewInit {
       event.preventDefault();
       this.changeDisplayedColumns("m_basic");
       this.selected = "m_basic";
+    } else if (event.key === 'ArrowRight') {
+      this.nextPage();
+    } else if (event.key === 'ArrowLeft') {
+      this.previousPage();
+    }
+  }
+
+  nextPage() {
+    if (this.paginator.hasNextPage()) {
+      this.paginator.nextPage();
+    }
+  }
+
+  previousPage() {
+    if (this.paginator.hasPreviousPage()) {
+      this.paginator.previousPage();
     }
   }
   // region --- --- 快捷鍵 --- --- --- --- --- --- --- --- --- --- --- --- --- ---
