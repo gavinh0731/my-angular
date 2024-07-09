@@ -261,6 +261,16 @@
   </ng-container>
   <!-- 📈我的基本面 End ------------------------------------------------------ -->
 
+  <!-- 📈股魚 Start --------------------------------------------------------- -->
+  <!-- 1. Column -->
+  <ng-container *ngFor="let col of columnStr_e_fish let idx=index" [matColumnDef]="col.key">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <b>{{col.value}}</b>
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element[col.key]}} </td>
+  </ng-container>
+  <!-- 📈股魚 End ----------------------------------------------------------- -->
+
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>

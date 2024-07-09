@@ -40,10 +40,15 @@ export class StockTableComponent implements AfterViewInit {
     { key: "volume", value: "成交張數" }, { key: "amount", value: "成交金額(萬)" }, { key: "turnover", value: "週轉率(%)" },
     { key: "cheapCnt", value: "便宜度" }, { key: "growRateCnt", value: "年複合成長率" }, { key: "turnoverCnt", value: "週轉率>=1" },
     { key: "prange", value: "股價區間" }
-
   ];
 
+  columnStr_e_fish = [
+    { key: "iir", value: "本業收入率(>80%)" }, { key: "cash", value: "營運現金流量(>0億)" }, // { key: "debt", value: "平均負債總額(<60%)" },
+    { key: "opm", value: "營益率(>0%)" }, { key: "gross", value: "平均毛利(%)" }, { key: "opp", value: "平均營益(億)" },
+    { key: "noi", value: "平均業外損益(億)" },
+  ];
 
+  // ---------------------------------------------------------------------------
   displayedColumns: string[] = [
     'code', 'name', 'market', 'date', 'price',
     'change', 'pct', 'face', 'capital', 'count',
@@ -121,7 +126,7 @@ export class StockTableComponent implements AfterViewInit {
   foods: Food[] = [
     { value: 'basic', viewValue: '🏢公司基本資料(1)' },
     { value: 'm_basic', viewValue: '📈我的基本面(2)' },
-    { value: 'market', viewValue: 'market' },
+    { value: 'e_fish', viewValue: '📈股魚基本面(3)' },
     { value: 'date', viewValue: 'date' },
   ];
 
@@ -149,8 +154,13 @@ export class StockTableComponent implements AfterViewInit {
         ];
         break;
       }
-      case 'market': {
-        this.displayedColumns = ['market'];
+      case 'e_fish': {
+        this.displayedColumns = [
+          'code', 'name', 'verticals', 'price', 'change', 'pct',
+          "volume", "eps", "yepsCount", "roe", "iir",
+          "debt", "cash", "opm", "gross", "opp",
+          "noi",
+        ];
         break;
       }
       default: {

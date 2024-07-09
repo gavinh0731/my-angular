@@ -45,6 +45,8 @@ export interface StockStruct {
 export class StockDataService {
   private json_basic_info = 'assets/json/basic_info.json'; // JSON 檔案的路徑
   private json_my_basic = 'assets/json/my_basic.json'; // JSON 檔案的路徑
+  private json_e_fish = 'assets/json/export_stockfish.json'; // JSON 檔案的路徑
+
 
   constructor(private http: HttpClient) { }
 
@@ -66,6 +68,16 @@ export class StockDataService {
     );
   }
 
+  getData3(): Observable<any> {
+    return this.http.get(this.json_e_fish).pipe(
+      map(response => {
+        // 使用 Lodash 的 map 函數來轉換資料結構
+        return _.map(response, (item: any) => item.e_fish);
+      })
+    );
+  }
+
+  // ---------------------------------------------------------------------------
   mergeData(obs1: Observable<any>, obs2: Observable<any>): Observable<any> {
     return combineLatest([obs1, obs2]).pipe(
       map(([data1, data2]) => {
@@ -88,6 +100,7 @@ export class StockDataService {
   }
 
   getMergedData(): Observable<any> {
-    return this.mergeData(this.getData1(), this.getData2());
+    let tmpCombine1 = this.mergeData(this.getData1(), this.getData2());
+    return this.mergeData(tmpCombine1, this.getData3());
   }
 }
