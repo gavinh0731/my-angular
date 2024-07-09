@@ -29,17 +29,17 @@ export class StockTableComponent implements AfterViewInit {
   ELEMENT_DATA: any;
   dataSource: any;
 
-  columnStr_m_info = [
+  columnStr_m_basic = [
     // { key: "epsp", value: "EPS估價" }, { key: "yiep", value: "殖利率估價" }, { key: "kp", value: "ROE估價" },
-    { key: "tper", value: "總報酬本益比" }, { key: "cheap", value: "便宜度" },  //{ key: "pbr", value: "股價淨值比" },
-    { key: "per", value: "本益比" }, { key: "gross_f", value: "毛利成長(%)" }, { key: "netrate5", value: "年複合成長率" },
+    { key: "m_basic.tper", value: "總報酬本益比" }, { key: "m_basic.cheap", value: "便宜度" },  //{ key: "pbr", value: "股價淨值比" },
+    { key: "m_basic.per", value: "本益比" }, { key: "m_basic.gross_f", value: "毛利成長(%)" }, { key: "m_basic.netrate5", value: "年複合成長率" },
     //{ key: "peg", value: "PEG" }, { key: "cash_y", value: "現金殖利率" },
-    { key: "yCnt", value: "股利連漲(5年)" }, { key: "eps", value: "平均EPS(元)" }, { key: "yepsCount", value: "EPS成長" },
+    { key: "m_basic.yCnt", value: "股利連漲(5年)" }, { key: "m_basic.eps", value: "平均EPS(元)" }, { key: "e_icr.yepsCount", value: "EPS成長" },
     // { key: "roe", value: "平均ROE(>8%)" },
-    { key: "beta", value: "風險係數" }, { key: "wpct", value: "週漲跌幅" }, { key: "mpct", value: "月漲跌幅" },
-    { key: "volume", value: "成交張數" }, { key: "amount", value: "成交金額(萬)" }, { key: "turnover", value: "週轉率(%)" },
-    { key: "cheapCnt", value: "便宜度" }, { key: "growRateCnt", value: "年複合成長率" }, { key: "turnoverCnt", value: "週轉率>=1" },
-    { key: "prange", value: "股價區間" }
+    { key: "m_basic.beta", value: "風險係數" }, { key: "m_basic.wpct", value: "週漲跌幅" }, { key: "m_basic.mpct", value: "月漲跌幅" },
+    { key: "p_dpct.volume", value: "成交張數" }, { key: "m_basic.amount", value: "成交金額(萬)" }, { key: "m_basic.turnover", value: "週轉率(%)" },
+    { key: "m_basic.cheapCnt", value: "便宜度" }, { key: "m_basic.growRateCnt", value: "年複合成長率" }, { key: "m_basic.turnoverCnt", value: "週轉率>=1" },
+    { key: "m_basic.prange", value: "股價區間" }
   ];
 
   columnStr_e_fish = [
@@ -145,12 +145,13 @@ export class StockTableComponent implements AfterViewInit {
       }
       case 'm_basic': {
         this.displayedColumns = [
-          'code', 'name', 'verticals', "epsp", "yiep", "kp", "pbr", "tper", "cheap",
-          "per", "gross_f", "netrate5", "peg", "cash_y", "yCnt",
-          "roe", "eps", "yepsCount", "beta",  //"e_icr.yepsCount"
-          'price', 'change', 'pct',
-          "wpct", "mpct", "volume", "amount", "turnover",
-          "cheapCnt", "growRateCnt", "turnoverCnt", "futures", "prange",
+          'b_info.code', 'b_info.name', 'b_info.verticals',
+          "m_basic.epsp", "m_basic.yiep", "m_basic.kp", "m_basic.pbr", "m_basic.tper", "m_basic.cheap",
+          "m_basic.per", "m_basic.gross_f", "m_basic.netrate5", "m_basic.peg", "m_basic.cash_y", "m_basic.yCnt",
+          "m_basic.roe", "m_basic.eps", 'e_icr.yepsCount', "m_basic.beta",
+          'b_info.price', 'b_info.change', 'b_info.pct',
+          "m_basic.wpct", "m_basic.mpct", "p_dpct.volume", "m_basic.amount", "m_basic.turnover",
+          "m_basic.cheapCnt", "m_basic.growRateCnt", "m_basic.turnoverCnt", "b_info.futures", "m_basic.prange",
         ];
         break;
       }

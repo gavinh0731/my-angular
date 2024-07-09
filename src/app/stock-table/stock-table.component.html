@@ -198,69 +198,70 @@
 
   <!-- 📈我的基本面 Start ---------------------------------------------------- -->
   <!-- 1. Column -->
-  <ng-container *ngFor="let col of columnStr_m_info let idx=index" [matColumnDef]="col.key">
+  <ng-container *ngFor="let col of columnStr_m_basic let idx=index" [matColumnDef]="col.key">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>{{col.value}}</b>
     </th>
     <td mat-cell *matCellDef="let element"> {{element[col.key]}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="epsp">
+  <ng-container matColumnDef="m_basic.epsp">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by epsp">
       <b>EPS估價</b>
     </th>
     <td mat-cell *matCellDef="let element"
-      [ngClass]="{'highlight': isHighlight_less_than(element.epsp, element.price)}">
-      {{element.epsp}}
+      [ngClass]="{'highlight': isHighlight_less_than(element.m_basic.epsp, element.b_info.price)}">
+      {{element.m_basic.epsp}}
     </td>
   </ng-container>
-  <ng-container matColumnDef="yiep">
+  <ng-container matColumnDef="m_basic.yiep">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by yiep">
       <b>股價淨值比</b>
     </th>
     <td mat-cell *matCellDef="let element"
-      [ngClass]="{'highlight': isHighlight_less_than(element.yiep, element.price)}">
-      {{element.yiep}}
+      [ngClass]="{'highlight': isHighlight_less_than(element.m_basic.yiep, element.b_info.price)}">
+      {{element.m_basic.yiep}}
     </td>
   </ng-container>
-  <ng-container matColumnDef="kp">
+  <ng-container matColumnDef="m_basic.kp">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by kp">
       <b>ROE估價</b>
     </th>
-    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight_less_than(element.kp, element.price)}">
-      {{element.kp}}
+    <td mat-cell *matCellDef="let element"
+      [ngClass]="{'highlight': isHighlight_less_than(element.m_basic.kp, element.b_info.price)}">
+      {{element.m_basic.kp}}
     </td>
   </ng-container>
-  <ng-container matColumnDef="pbr">
+  <ng-container matColumnDef="m_basic.pbr">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by pbr">
       <b>股價淨值比</b>
     </th>
-    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(0,1, element.pbr)}">
-      {{element.pbr}}
+    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(0,1, element.m_basic.pbr)}">
+      {{element.m_basic.pbr}}
     </td>
   </ng-container>
-  <ng-container matColumnDef="peg">
+  <ng-container matColumnDef="m_basic.peg">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by peg">
       <b>PEG</b>
     </th>
-    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(0,999, element.peg)}">
+    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(0,999, element.m_basic.peg)}">
       {{element.peg}}
     </td>
   </ng-container>
-  <ng-container matColumnDef="cash_y">
+  <ng-container matColumnDef="m_basic.cash_y">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by cash_y">
       <b>現金殖利率</b>
     </th>
-    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(5,999, element.cash_y)}">
-      <b>{{element.cash_y}}</b>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(5,999, element.m_basic.cash_y)}">
+      <b>{{element.m_basic.cash_y}}</b>
     </td>
   </ng-container>
-  <ng-container matColumnDef="roe">
+  <ng-container matColumnDef="m_basic.roe">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by roe">
       <b>平均ROE(>8%)</b>
     </th>
-    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(8,999, element.roe)}">
-      {{element.roe}}
+    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(8,999, element.m_basic.roe)}">
+      {{element.m_basic.roe}}
     </td>
   </ng-container>
   <!-- 📈我的基本面 End ------------------------------------------------------ -->

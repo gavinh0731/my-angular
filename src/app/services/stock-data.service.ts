@@ -82,7 +82,8 @@ export class StockDataService {
     return combineLatest([obs1, obs2]).pipe(
       map(([data1, data2]) => {
         return data1.map((obj1: any) => {
-          const obj2 = data2.find((b: any) => b.id === obj1.id);
+          // console.log("data2", data2);
+          const obj2 = data2.find((b: any) => b.m_basic.code === obj1.b_info.code);
           return { ...obj1, ...obj2 };
 
         });
