@@ -54,7 +54,7 @@ export class StockDataService {
     return this.http.get(this.json_basic_info).pipe(
       map(response => {
         // 使用 Lodash 的 map 函數來轉換資料結構
-        return _.map(response, (item: any) => item.b_info);
+        return _.map(response, (item: any) => item);
       })
     );
   }
@@ -63,7 +63,7 @@ export class StockDataService {
     return this.http.get(this.json_my_basic).pipe(
       map(response => {
         // 使用 Lodash 的 map 函數來轉換資料結構
-        return _.map(response, (item: any) => item.m_basic);
+        return _.map(response, (item: any) => item);
       })
     );
   }
@@ -81,26 +81,18 @@ export class StockDataService {
   mergeData(obs1: Observable<any>, obs2: Observable<any>): Observable<any> {
     return combineLatest([obs1, obs2]).pipe(
       map(([data1, data2]) => {
-        // 將第二個資料陣列轉換為以 'code' 為鍵的對象
-        const obj2 = _.keyBy(data2, 'code');
+        return data1.map((obj1: any) => {
+          const obj2 = data2.find((b: any) => b.id === obj1.id);
+          return { ...obj1, ...obj2 };
 
-        // 遍歷第一個資料陣列，並根據 'code' 合併資料
-        return data1.map((item1: any) => {
-          const item2 = obj2[item1.code];
-          if (item2) {
-            // 如果第二個陣列中存在相同的 code，則合併兩個對象
-            return { ...item1, ...item2 };
-          } else {
-            // 否則，返回原來的對象
-            return item1;
-          }
         });
       })
     );
   }
 
   getMergedData(): Observable<any> {
-    let tmpCombine1 = this.mergeData(this.getData1(), this.getData2());
-    return this.mergeData(tmpCombine1, this.getData3());
+    // let tmpCombine1 = this.mergeData(this.getData1(), this.getData2());
+    // return this.mergeData(tmpCombine1, this.getData3());
+    return this.mergeData(this.getData1(), this.getData2());
   }
 }

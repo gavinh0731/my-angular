@@ -50,11 +50,11 @@ export class StockTableComponent implements AfterViewInit {
 
   // ---------------------------------------------------------------------------
   displayedColumns: string[] = [
-    'code', 'name', 'market', 'date', 'price',
-    'change', 'pct', 'face', 'capital', 'count',
-    'market_cap', 'up_year', 'market_year', 'futures', 'options',
-    'Warrant', 'debt', 'private', 'special', 'verticals',
-    'chairman', 'manager',
+    'b_info.code', 'b_info.name', 'b_info.verticals', 'b_info.market', 'b_info.date',
+    'b_info.price', 'b_info.change', 'b_info.pct', 'b_info.face', 'b_info.capital',
+    'b_info.count', 'b_info.market_cap', 'b_info.up_year', 'b_info.market_year', 'b_info.futures',
+    'b_info.options', 'b_info.Warrant', 'b_info.debt', 'b_info.private', 'b_info.special',
+    'b_info.chairman', 'b_info.manager',
   ];
 
 
@@ -135,11 +135,11 @@ export class StockTableComponent implements AfterViewInit {
     switch (perspective) {
       case 'basic': {
         this.displayedColumns = [
-          'code', 'name', 'market', 'date', 'price',
-          'change', 'pct', 'face', 'capital', 'count',
-          'market_cap', 'up_year', 'market_year', 'futures', 'options',
-          'Warrant', 'debt', 'private', 'special', 'verticals',
-          'chairman', 'manager',
+          'b_info.code', 'b_info.name', 'b_info.verticals', 'b_info.market', 'b_info.date',
+          'b_info.price', 'b_info.change', 'b_info.pct', 'b_info.face', 'b_info.capital',
+          'b_info.count', 'b_info.market_cap', 'b_info.up_year', 'b_info.market_year', 'b_info.futures',
+          'b_info.options', 'b_info.Warrant', 'b_info.debt', 'b_info.private', 'b_info.special',
+          'b_info.chairman', 'b_info.manager',
         ];
         break;
       }
