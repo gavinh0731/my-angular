@@ -9,7 +9,7 @@
 <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
   class="mat-elevation-z8">
 
-  <!-- 公司基本資料 Start ---------------------------------------------------- -->
+  <!-- 🏢公司基本資料 Start -------------------------------------------------- -->
   <!-- 1. Column -->
   <ng-container matColumnDef="code">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by code">
@@ -190,9 +190,9 @@
     </th>
     <td mat-cell *matCellDef="let element"> {{element.manager}} </td>
   </ng-container>
-  <!-- 公司基本資料 End ------------------------------------------------------ -->
+  <!-- 🏢公司基本資料 End ---------------------------------------------------- -->
 
-  <!-- 我的基本面 Start ------------------------------------------------------ -->
+  <!-- 📈我的基本面 Start ---------------------------------------------------- -->
   <!-- 1. Column -->
   <ng-container *ngFor="let col of columnStr_m_info let idx=index" [matColumnDef]="col.key">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -259,7 +259,7 @@
       {{element.roe}}
     </td>
   </ng-container>
-  <!-- 我的基本面 End -------------------------------------------------------- -->
+  <!-- 📈我的基本面 End ------------------------------------------------------ -->
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

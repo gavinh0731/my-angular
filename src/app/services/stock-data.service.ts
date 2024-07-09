@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 
 
 export interface StockStruct {
-  // region === === 公司基本資料 === === === === === === === === === === === ===
+  // region === === 🏢公司基本資料 === === === === === === === === === === === ===
   code: string;
   name: string;
   market: string;
@@ -34,7 +34,7 @@ export interface StockStruct {
   // ------------
   chairman: string;
   manager: string;
-  // region --- --- 公司基本資料 --- --- --- --- --- --- --- --- --- --- --- ---
+  // region --- --- 🏢公司基本資料 --- --- --- --- --- --- --- --- --- --- --- ---
 
   epsp: number;
 }

@@ -35,7 +35,7 @@ export class StockTableComponent implements AfterViewInit {
     { key: "per", value: "本益比" }, { key: "gross_f", value: "毛利成長(%)" }, { key: "netrate5", value: "年複合成長率" },
     //{ key: "peg", value: "PEG" }, { key: "cash_y", value: "現金殖利率" },
     { key: "yCnt", value: "股利連漲(5年)" }, { key: "eps", value: "平均EPS(元)" }, { key: "yepsCount", value: "EPS成長" },
-    // { key: "roe", value: "平均ROE(>8%)" }, 
+    // { key: "roe", value: "平均ROE(>8%)" },
     { key: "beta", value: "風險係數" }, { key: "wpct", value: "週漲跌幅" }, { key: "mpct", value: "月漲跌幅" },
     { key: "volume", value: "成交張數" }, { key: "amount", value: "成交金額(萬)" }, { key: "turnover", value: "週轉率(%)" },
     { key: "cheapCnt", value: "便宜度" }, { key: "growRateCnt", value: "年複合成長率" }, { key: "turnoverCnt", value: "週轉率>=1" },
@@ -120,7 +120,7 @@ export class StockTableComponent implements AfterViewInit {
   selected: string;
   foods: Food[] = [
     { value: 'basic', viewValue: '🏢公司基本資料(1)' },
-    { value: 'm_basic', viewValue: '🛖我的基本面(2)' },
+    { value: 'm_basic', viewValue: '📈我的基本面(2)' },
     { value: 'market', viewValue: 'market' },
     { value: 'date', viewValue: 'date' },
   ];
