@@ -43,9 +43,10 @@ export class StockTableComponent implements AfterViewInit {
   ];
 
   columnStr_e_fish = [
-    { key: "iir", value: "本業收入率 (>80%)" }, { key: "cash", value: "營運現金流量 (>0億)" }, // { key: "debt", value: "平均負債總額(<60%)" },
-    { key: "opm", value: "營益率 (>0%)" }, { key: "gross", value: "平均毛利 (%)" }, { key: "opp", value: "平均營益 (億)" },
-    { key: "noi", value: "平均業外損益(億)" },
+    { key: "e_fish_eps", value: "平均EPS (元)" }, { key: "e_fish_roe", value: "平均ROE (>8%)" },
+    { key: "e_fish_iir", value: "本業收入率 (>80%)" }, { key: "e_fish_debt", value: "平均負債總額 (<60%)" }, { key: "e_fish_cash", value: "營運現金流量 (>0億)" },
+    { key: "e_fish_opm", value: "營益率 (>0%)" }, { key: "e_fish_gross", value: "平均毛利 (%)" }, { key: "e_fish_opp", value: "平均營益 (億)" },
+    { key: "e_fish_noi", value: "平均業外損益 (億)" },
   ];
 
   // ---------------------------------------------------------------------------
@@ -150,17 +151,17 @@ export class StockTableComponent implements AfterViewInit {
           "m_basic_per", "m_basic_gross_f", "m_basic_netrate5", "m_basic_peg", "m_basic_cash_y", "m_basic_yCnt",
           "m_basic_roe", "m_basic_eps", 'e_icr.yepsCount', "m_basic_beta",
           'b_info_price', 'b_info_change', 'b_info_pct',
-          "m_basic_wpct", "m_basic_mpct", "p_dpct.volume", "m_basic_amount", "m_basic_turnover",
+          "m_basic_wpct", "m_basic_mpct", 'p_dpct.volume', "m_basic_amount", "m_basic_turnover",
           "m_basic_cheapCnt", "m_basic_growRateCnt", "m_basic_turnoverCnt", "b_info_futures", "m_basic_prange",
         ];
         break;
       }
       case 'e_fish': {
         this.displayedColumns = [
-          'code', 'name', 'verticals', 'price', 'change', 'pct',
-          "volume", "eps", "yepsCount", "roe", "iir",
-          "debt", "cash", "opm", "gross", "opp",
-          "noi",
+          'b_info_code', 'b_info_name', 'b_info_verticals', 'b_info_price', 'b_info_change', 'b_info_pct',
+          'p_dpct.volume', "e_fish_eps", 'e_icr.yepsCount', "e_fish_roe", "e_fish_iir",
+          "e_fish_debt", "e_fish_cash", "e_fish_opm", "e_fish_gross", "e_fish_opp",
+          "e_fish_noi",
         ];
         break;
       }
@@ -182,6 +183,10 @@ export class StockTableComponent implements AfterViewInit {
       event.preventDefault();
       this.changeDisplayedColumns("m_basic");
       this.selected = "m_basic";
+    } else if (event.key === '3') {
+      event.preventDefault();
+      this.changeDisplayedColumns("e_fish");
+      this.selected = "e_fish";
     } else if (event.key === 'ArrowRight') {
       this.nextPage();
     } else if (event.key === 'ArrowLeft') {
