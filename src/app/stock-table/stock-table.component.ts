@@ -50,11 +50,11 @@ export class StockTableComponent implements AfterViewInit {
 
   // ---------------------------------------------------------------------------
   displayedColumns: string[] = [
-    'b_info.code', 'b_info.name', 'b_info.verticals', 'b_info.market', 'b_info.date',
-    'b_info.price', 'b_info.change', 'b_info.pct', 'b_info.face', 'b_info.capital',
-    'b_info.count', 'b_info.market_cap', 'b_info.up_year', 'b_info.market_year', 'b_info.futures',
-    'b_info.options', 'b_info.Warrant', 'b_info.debt', 'b_info.private', 'b_info.special',
-    'b_info.chairman', 'b_info.manager',
+    'b_info_code', 'b_info_name', 'b_info_verticals', 'b_info_market', 'b_info_date',
+    'b_info_price', 'b_info_change', 'b_info_pct', 'b_info_face', 'b_info_capital',
+    'b_info_count', 'b_info_market_cap', 'b_info_up_year', 'b_info_market_year', 'b_info_futures',
+    'b_info_options', 'b_info_Warrant', 'b_info_debt', 'b_info_private', 'b_info_special',
+    'b_info_chairman', 'b_info_manager',
   ];
 
 
@@ -135,23 +135,23 @@ export class StockTableComponent implements AfterViewInit {
     switch (perspective) {
       case 'basic': {
         this.displayedColumns = [
-          'b_info.code', 'b_info.name', 'b_info.verticals', 'b_info.market', 'b_info.date',
-          'b_info.price', 'b_info.change', 'b_info.pct', 'b_info.face', 'b_info.capital',
-          'b_info.count', 'b_info.market_cap', 'b_info.up_year', 'b_info.market_year', 'b_info.futures',
-          'b_info.options', 'b_info.Warrant', 'b_info.debt', 'b_info.private', 'b_info.special',
-          'b_info.chairman', 'b_info.manager',
+          'b_info_code', 'b_info_name', 'b_info_verticals', 'b_info_market', 'b_info_date',
+          'b_info_price', 'b_info_change', 'b_info_pct', 'b_info_face', 'b_info_capital',
+          'b_info_count', 'b_info_market_cap', 'b_info_up_year', 'b_info_market_year', 'b_info_futures',
+          'b_info_options', 'b_info_Warrant', 'b_info_debt', 'b_info_private', 'b_info_special',
+          'b_info_chairman', 'b_info_manager',
         ];
         break;
       }
       case 'm_basic': {
         this.displayedColumns = [
-          'b_info.code', 'b_info.name', 'b_info.verticals',
+          'b_info_code', 'b_info_name', 'b_info_verticals',
           "m_basic.epsp", "m_basic.yiep", "m_basic.kp", "m_basic.pbr", "m_basic.tper", "m_basic.cheap",
           "m_basic.per", "m_basic.gross_f", "m_basic.netrate5", "m_basic.peg", "m_basic.cash_y", "m_basic.yCnt",
           "m_basic.roe", "m_basic.eps", 'e_icr.yepsCount', "m_basic.beta",
-          'b_info.price', 'b_info.change', 'b_info.pct',
+          'b_info_price', 'b_info_change', 'b_info_pct',
           "m_basic.wpct", "m_basic.mpct", "p_dpct.volume", "m_basic.amount", "m_basic.turnover",
-          "m_basic.cheapCnt", "m_basic.growRateCnt", "m_basic.turnoverCnt", "b_info.futures", "m_basic.prange",
+          "m_basic.cheapCnt", "m_basic.growRateCnt", "m_basic.turnoverCnt", "b_info_futures", "m_basic.prange",
         ];
         break;
       }

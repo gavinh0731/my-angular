@@ -50,21 +50,28 @@ export class StockDataService {
 
   constructor(private http: HttpClient) { }
 
+  // [ {"b_info": {"code": "0050", "price": 50}}, {"b_info": {"code": "0051", "price": 150}}]
+  // 改為 [ {"b_info_code": "0050", "b_info_price": 50}}, {"b_info_code": "0051", "b_info_price": 150}}]
+  transformObject(obj: any, prefix: any): any {
+    return Object.keys(obj).reduce((acc: any, key: any) => {
+      acc[`${prefix}_${key}`] = obj[key];
+      return acc;
+    }, {});
+  }
+
   getData1(): Observable<any> {
     return this.http.get(this.json_basic_info).pipe(
-      map(response => {
-        // 使用 Lodash 的 map 函數來轉換資料結構
-        return _.map(response, (item: any) => item);
-      })
+      map((data: any) => data.map((item: any) => this.transformObject(item.b_info, "b_info")))
+      // map((data: any) => data.map((item: any) => ({
+      //   b_info_code: item.b_info.code,
+      //   b_info_price: item.b_info.price
+      // })))
     );
   }
 
   getData2(): Observable<any> {
     return this.http.get(this.json_my_basic).pipe(
-      map(response => {
-        // 使用 Lodash 的 map 函數來轉換資料結構
-        return _.map(response, (item: any) => item);
-      })
+      map((data: any) => data.map((item: any) => this.transformObject(item.m_basic, "m_basic")))
     );
   }
 
@@ -83,7 +90,7 @@ export class StockDataService {
       map(([data1, data2]) => {
         return data1.map((obj1: any) => {
           // console.log("data2", data2);
-          const obj2 = data2.find((b: any) => b.m_basic.code === obj1.b_info.code);
+          const obj2 = data2.find((b: any) => b.m_basic_code === obj1.b_info_code);
           return { ...obj1, ...obj2 };
 
         });

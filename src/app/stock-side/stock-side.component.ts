@@ -56,6 +56,7 @@ export class StockSideComponent implements OnInit {
     // console.log("this.data = ", this.data);
 
     this.stockDataService.getMergedData().subscribe(
+      // this.stockDataService.getData1().subscribe(
       response => {
         this.data = response;
         console.log("this.data = ", this.data);
