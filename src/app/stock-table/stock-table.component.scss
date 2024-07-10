@@ -9,3 +9,31 @@
 .highlight_down {
   background-color: rgba(0, 255, 0, 0.056);
 }
+
+
+//#region === === 凍結欄位 Start === ===
+.mat-table-container {
+  overflow: auto;
+  max-height: 400px;
+}
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  background: #f7dea7;
+  z-index: 1;
+}
+
+.sticky-column {
+  position: sticky;
+  left: 0;
+  background: #d4d6fa;
+  z-index: 1;
+}
+
+/* 避免固定列和行之間的邊框重疊 */
+.sticky-header.sticky-column {
+  z-index: 2;
+}
+
+//#endregion --- --- 凍結欄位 End --- ---

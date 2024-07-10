@@ -12,23 +12,25 @@
   <!-- 🏢公司基本資料 Start -------------------------------------------------- -->
   <!-- 1. Column -->
   <ng-container matColumnDef="b_info_code">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by code">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="sticky-column">
       <b>代號</b>
     </th>
-    <td mat-cell *matCellDef="let element"> {{element.b_info_code}} </td>
+    <td mat-cell *matCellDef="let element" class="sticky-column"> <a target="_blank"
+        href="https://histock.tw/stock/{{element.b_info_code}}">{{element.b_info_code}}</a> </td>
   </ng-container>
 
   <!-- 2. Column -->
   <ng-container matColumnDef="b_info_name">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="sticky-column">
       <b>名稱</b>
     </th>
-    <td mat-cell *matCellDef="let element"> {{element.b_info_name}} </td>
+    <td mat-cell *matCellDef="let element" class="sticky-column"> <a target="_blank"
+        href="https://www.cmoney.tw/follow/channel/stock-{{element.b_info_code}}">{{element.b_info_name}}</a> </td>
   </ng-container>
 
   <!-- 3. Column -->
   <ng-container matColumnDef="b_info_market">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by market">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>市場</b>
     </th>
     <td mat-cell *matCellDef="let element"> {{element.b_info_market}} </td>
@@ -36,7 +38,7 @@
 
   <!-- 4. Column -->
   <ng-container matColumnDef="b_info_date">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by date">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>日期</b>
     </th>
     <td mat-cell *matCellDef="let element"> {{element.b_info_date}} </td>
@@ -44,7 +46,7 @@
 
   <!-- 5. Column -->
   <ng-container matColumnDef="b_info_price">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by price">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>成交價</b>
     </th>
     <td mat-cell *matCellDef="let element" [ngStyle]="{color: element.b_info_pct>=0 ? 'red' :'green'}">
@@ -53,7 +55,7 @@
 
   <!-- 1. Column -->
   <ng-container matColumnDef="b_info_change">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by change">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>漲跌價</b>
     </th>
     <td mat-cell *matCellDef="let element" [ngStyle]="{color: element.b_info_pct>=0 ? 'red' :'green'}">
@@ -63,7 +65,7 @@
 
   <!-- 2. Column -->
   <ng-container matColumnDef="b_info_pct">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by pct">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>漲跌幅</b>
     </th>
     <td mat-cell *matCellDef="let element" [ngStyle]="{color: element.b_info_pct>=0 ? 'red' :'green'}">
@@ -72,7 +74,7 @@
 
   <!-- 3. Column -->
   <ng-container matColumnDef="b_info_face">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by face">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>面值(元)</b>
     </th>
     <td mat-cell *matCellDef="let element"> {{element.b_info_face}} </td>
@@ -80,7 +82,7 @@
 
   <!-- 4. Column -->
   <ng-container matColumnDef="b_info_capital">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by capital">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>股本(億)</b>
     </th>
     <td mat-cell *matCellDef="let element"> {{element.b_info_capital}} </td>
@@ -88,7 +90,7 @@
 
   <!-- 5. Column -->
   <ng-container matColumnDef="b_info_count">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by count">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>發行量(萬張)</b>
     </th>
     <td mat-cell *matCellDef="let element"> {{element.b_info_count}} </td>
@@ -96,7 +98,7 @@
 
   <!-- 1. Column -->
   <ng-container matColumnDef="b_info_market_cap">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by market_cap">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>市值(億)</b>
     </th>
     <td mat-cell *matCellDef="let element"> {{element.b_info_market_cap}} </td>
@@ -104,7 +106,7 @@
 
   <!-- 2. Column -->
   <ng-container matColumnDef="b_info_up_year">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by up_year">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>成立年數</b>
     </th>
     <td mat-cell *matCellDef="let element"> {{element.b_info_up_year}} </td>
@@ -112,7 +114,7 @@
 
   <!-- 3. Column -->
   <ng-container matColumnDef="b_info_market_year">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by market_year">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>上市年數</b>
     </th>
     <td mat-cell *matCellDef="let element"
@@ -123,7 +125,7 @@
 
   <!-- 4. Column -->
   <ng-container matColumnDef="b_info_futures">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by futures">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>股票期貨</b>
     </th>
     <td mat-cell *matCellDef="let element"> {{element.b_info_futures}} </td>
@@ -131,7 +133,7 @@
 
   <!-- 5. Column -->
   <ng-container matColumnDef="b_info_options">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by options">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>選擇權</b>
     </th>
     <td mat-cell *matCellDef="let element"> {{element.b_info_options}} </td>
@@ -139,7 +141,7 @@
 
   <!-- 1. Column -->
   <ng-container matColumnDef="b_info_Warrant">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by Warrant">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>權證</b>
     </th>
     <td mat-cell *matCellDef="let element"> {{element.b_info_Warrant}} </td>
@@ -147,7 +149,7 @@
 
   <!-- 2. Column -->
   <ng-container matColumnDef="b_info_debt">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by debt">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>公司債</b>
     </th>
     <td mat-cell *matCellDef="let element"> {{element.b_info_debt}} </td>
@@ -155,7 +157,7 @@
 
   <!-- 3. Column -->
   <ng-container matColumnDef="b_info_private">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by private">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>私募股</b>
     </th>
     <td mat-cell *matCellDef="let element">
@@ -165,7 +167,7 @@
 
   <!-- 4. Column -->
   <ng-container matColumnDef="b_info_special">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by special">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>特別股</b>
     </th>
     <td mat-cell *matCellDef="let element"> {{element.b_info_special}} </td>
@@ -173,15 +175,16 @@
 
   <!-- 5. Column -->
   <ng-container matColumnDef="b_info_verticals">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by verticals">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>產業別</b>
     </th>
-    <td mat-cell *matCellDef="let element"> {{element.b_info_verticals}} </td>
+    <td mat-cell *matCellDef="let element"> <a target="_blank"
+        href="https://stock.cnyes.com/market/TWS:{{element.b_info_code}}:STOCK">{{element.b_info_verticals}}</a> </td>
   </ng-container>
 
   <!-- 1. Column -->
   <ng-container matColumnDef="b_info_chairman">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by chairman">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>董事長</b>
     </th>
     <td mat-cell *matCellDef="let element"> {{element.b_info_chairman}} </td>
@@ -189,7 +192,7 @@
 
   <!-- 2. Column -->
   <ng-container matColumnDef="b_info_manager">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by manager">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>總經理</b>
     </th>
     <td mat-cell *matCellDef="let element"> {{element.b_info_manager}} </td>
@@ -206,7 +209,7 @@
   </ng-container>
 
   <ng-container matColumnDef="m_basic_epsp">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by epsp">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>EPS估價</b>
     </th>
     <td mat-cell *matCellDef="let element"
@@ -215,7 +218,7 @@
     </td>
   </ng-container>
   <ng-container matColumnDef="m_basic_yiep">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by yiep">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>股價淨值比</b>
     </th>
     <td mat-cell *matCellDef="let element"
@@ -224,7 +227,7 @@
     </td>
   </ng-container>
   <ng-container matColumnDef="m_basic_kp">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by kp">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>ROE估價</b>
     </th>
     <td mat-cell *matCellDef="let element"
@@ -233,7 +236,7 @@
     </td>
   </ng-container>
   <ng-container matColumnDef="m_basic_pbr">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by pbr">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>股價淨值比</b>
     </th>
     <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(0,1, element.m_basic_pbr)}">
@@ -241,7 +244,7 @@
     </td>
   </ng-container>
   <ng-container matColumnDef="m_basic_peg">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by peg">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>PEG</b>
     </th>
     <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(0,999, element.m_basic_peg)}">
@@ -249,7 +252,7 @@
     </td>
   </ng-container>
   <ng-container matColumnDef="m_basic_cash_y">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by cash_y">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>現金殖利率</b>
     </th>
     <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(5,999, element.m_basic_cash_y)}">
@@ -257,7 +260,7 @@
     </td>
   </ng-container>
   <ng-container matColumnDef="m_basic_roe">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by roe">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>平均ROE (>8%)</b>
     </th>
     <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(8,999, element.m_basic_roe)}">
@@ -266,7 +269,7 @@
   </ng-container>
   <!-- 📈我的基本面 End ------------------------------------------------------ -->
 
-  <!-- 📈股魚 Start --------------------------------------------------------- -->
+  <!-- 🐟股魚基本面  Start --------------------------------------------------- -->
   <!-- 1. Column -->
   <ng-container *ngFor="let col of columnStr_e_fish let idx=index" [matColumnDef]="col.key">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -274,9 +277,53 @@
     </th>
     <td mat-cell *matCellDef="let element"> {{element[col.key]}} </td>
   </ng-container>
-  <!-- 📈股魚 End ----------------------------------------------------------- -->
+  <!-- 1. Column -->
+  <ng-container matColumnDef="e_fish_roe">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <b>平均ROE (>8%)</b>
+    </th>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight_more_than(8, element.e_fish_roe)}">
+      {{element.e_fish_roe}}
+    </td>
+  </ng-container>
+  <!-- 2. Column -->
+  <ng-container matColumnDef="e_fish_iir">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      本業收入率 (>80%)
+    </th>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight_more_than(80, element.e_fish_iir)}">
+      {{element.e_fish_iir}}
+    </td>
+  </ng-container>
+  <!-- 3. Column -->
+  <ng-container matColumnDef="e_fish_debt">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      平均負債總額 (<60%) </th>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight_less_than(60, element.e_fish_debt)}">
+      {{element.e_fish_debt}}
+    </td>
+  </ng-container>
+  <!-- 4. Column -->
+  <ng-container matColumnDef="e_fish_cash">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      營運現金流量 (>0億)
+    </th>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight_more_than(0, element.e_fish_cash)}">
+      {{element.e_fish_cash}}
+    </td>
+  </ng-container>
+  <!-- 4. Column -->
+  <ng-container matColumnDef="e_fish_opm">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      營益率 (>0%)
+    </th>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight_more_than(0, element.e_fish_opm)}">
+      {{element.e_fish_opm}}
+    </td>
+  </ng-container>
+  <!-- 🐟股魚基本面  End ----------------------------------------------------- -->
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns" class="sticky-header"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"
     [ngClass]="{'highlight_up': isHighlighted(row)==1, 'highlight_down': isHighlighted(row)==-1}"></tr>
 </table>

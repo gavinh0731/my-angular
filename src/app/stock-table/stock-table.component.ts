@@ -41,9 +41,11 @@ export class StockTableComponent implements AfterViewInit {
   ];
 
   columnStr_e_fish = [
-    { key: "e_fish_eps", value: "平均EPS (元)" }, { key: "e_fish_roe", value: "平均ROE (>8%)" },
-    { key: "e_fish_iir", value: "本業收入率 (>80%)" }, { key: "e_fish_debt", value: "平均負債總額 (<60%)" }, { key: "e_fish_cash", value: "營運現金流量 (>0億)" },
-    { key: "e_fish_opm", value: "營益率 (>0%)" }, { key: "e_fish_gross", value: "平均毛利 (%)" }, { key: "e_fish_opp", value: "平均營益 (億)" },
+    { key: "e_fish_eps", value: "平均EPS (元)" },
+    //{ key: "e_fish_roe", value: "平均ROE (>8%)" }, // { key: "e_fish_iir", value: "本業收入率 (>80%)" }, 
+    // { key: "e_fish_debt", value: "平均負債總額 (<60%)" }, { key: "e_fish_cash", value: "營運現金流量 (>0億)" },
+    // { key: "e_fish_opm", value: "營益率 (>0%)" },
+    { key: "e_fish_gross", value: "平均毛利 (%)" }, { key: "e_fish_opp", value: "平均營益 (億)" },
     { key: "e_fish_noi", value: "平均業外損益 (億)" },
   ];
 
@@ -69,6 +71,7 @@ export class StockTableComponent implements AfterViewInit {
   ngOnInit() {
     console.log("2. ngOnInit");
     this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
+    this.selected = "basic";
   }
   // ngDoCheck() {
   //   console.log("3. ngDoCheck");
@@ -138,7 +141,7 @@ export class StockTableComponent implements AfterViewInit {
   foods: Food[] = [
     { value: 'basic', viewValue: '🏢公司基本資料(1)' },
     { value: 'm_basic', viewValue: '📈我的基本面(2)' },
-    { value: 'e_fish', viewValue: '📈股魚基本面(3)' },
+    { value: 'e_fish', viewValue: '🐟股魚基本面(3)' },
     { value: 'date', viewValue: 'date' },
   ];
 
