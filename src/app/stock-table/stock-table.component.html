@@ -277,7 +277,8 @@
   <!-- 📈股魚 End ----------------------------------------------------------- -->
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+    [ngClass]="{'highlight_up': isHighlighted(row)==1, 'highlight_down': isHighlighted(row)==-1}"></tr>
 </table>
 <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons
   aria-label="Select page of periodic elements">

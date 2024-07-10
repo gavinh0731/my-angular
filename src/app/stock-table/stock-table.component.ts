@@ -118,6 +118,19 @@ export class StockTableComponent implements AfterViewInit {
     return value >= min && value <= max; // 條件設定
   }
 
+  // 根據某一欄位的值來決定是否高亮
+  isHighlighted(row: any): number {
+    let ret = 0;
+    if (row.b_info_pct > 9) {
+      // 假設 weight 大於 9 時高亮
+      ret = 1;
+    }
+    else if (row.b_info_pct < -9) {
+      // 假設 weight 大於 9 時高亮
+      ret = -1;
+    }
+    return ret;
+  }
   // region --- --- CSS --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   // === DropDown Menu ===
