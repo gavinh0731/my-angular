@@ -6,8 +6,6 @@ import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-import { StockStruct } from '../services/stock-data.service'
-
 // standalone
 import { CommonModule } from '@angular/common';  // 確保導入 CommonModule
 

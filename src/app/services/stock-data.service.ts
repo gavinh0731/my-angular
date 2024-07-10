@@ -5,40 +5,6 @@ import { Observable, forkJoin, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import * as _ from 'lodash';
 
-
-export interface StockStruct {
-  // region === === 🏢公司基本資料 === === === === === === === === === === === ===
-  code: string;
-  name: string;
-  market: string;
-  date: string;
-  price: number;
-  // ------------
-  change: number;
-  pct: number;
-  face: number;
-  capital: number;
-  count: number;
-  // ------------
-  market_cap: number;
-  up_year: number;
-  market_year: number;
-  futures: string;
-  options: string;
-  // ------------
-  Warrant: string;
-  debt: string;
-  private: string;
-  special: string;
-  verticals: string;
-  // ------------
-  chairman: string;
-  manager: string;
-  // region --- --- 🏢公司基本資料 --- --- --- --- --- --- --- --- --- --- --- ---
-
-  epsp: number;
-}
-
 @Injectable({
   providedIn: 'root'
 })
