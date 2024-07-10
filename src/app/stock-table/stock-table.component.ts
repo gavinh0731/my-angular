@@ -31,20 +31,20 @@ export class StockTableComponent implements AfterViewInit {
 
   columnStr_m_basic = [
     // { key: "epsp", value: "EPS估價" }, { key: "yiep", value: "殖利率估價" }, { key: "kp", value: "ROE估價" },
-    { key: "m_basic.tper", value: "總報酬本益比" }, { key: "m_basic.cheap", value: "便宜度" },  //{ key: "pbr", value: "股價淨值比" },
-    { key: "m_basic.per", value: "本益比" }, { key: "m_basic.gross_f", value: "毛利成長(%)" }, { key: "m_basic.netrate5", value: "年複合成長率" },
+    { key: "m_basic_tper", value: "總報酬本益比" }, { key: "m_basic_cheap", value: "便宜度" },  //{ key: "pbr", value: "股價淨值比" },
+    { key: "m_basic_per", value: "本益比" }, { key: "m_basic_gross_f", value: "毛利成長(%)" }, { key: "m_basic_netrate5", value: "年複合成長率" },
     //{ key: "peg", value: "PEG" }, { key: "cash_y", value: "現金殖利率" },
-    { key: "m_basic.yCnt", value: "股利連漲(5年)" }, { key: "m_basic.eps", value: "平均EPS(元)" }, { key: "e_icr.yepsCount", value: "EPS成長" },
+    { key: "m_basic_yCnt", value: "股利連漲(5年)" }, { key: "m_basic_eps", value: "平均EPS (元)" }, { key: "e_icr.yepsCount", value: "EPS成長" },
     // { key: "roe", value: "平均ROE(>8%)" },
-    { key: "m_basic.beta", value: "風險係數" }, { key: "m_basic.wpct", value: "週漲跌幅" }, { key: "m_basic.mpct", value: "月漲跌幅" },
-    { key: "p_dpct.volume", value: "成交張數" }, { key: "m_basic.amount", value: "成交金額(萬)" }, { key: "m_basic.turnover", value: "週轉率(%)" },
-    { key: "m_basic.cheapCnt", value: "便宜度" }, { key: "m_basic.growRateCnt", value: "年複合成長率" }, { key: "m_basic.turnoverCnt", value: "週轉率>=1" },
-    { key: "m_basic.prange", value: "股價區間" }
+    { key: "m_basic_beta", value: "風險係數" }, { key: "m_basic_wpct", value: "週漲跌幅" }, { key: "m_basic_mpct", value: "月漲跌幅" },
+    { key: "p_dpct.volume", value: "成交張數" }, { key: "m_basic_amount", value: "成交金額 (萬)" }, { key: "m_basic_turnover", value: "週轉率 (%)" },
+    { key: "m_basic_cheapCnt", value: "便宜度" }, { key: "m_basic_growRateCnt", value: "年複合成長率" }, { key: "m_basic_turnoverCnt", value: "週轉率>=1" },
+    { key: "m_basic_prange", value: "股價區間" }
   ];
 
   columnStr_e_fish = [
-    { key: "iir", value: "本業收入率(>80%)" }, { key: "cash", value: "營運現金流量(>0億)" }, // { key: "debt", value: "平均負債總額(<60%)" },
-    { key: "opm", value: "營益率(>0%)" }, { key: "gross", value: "平均毛利(%)" }, { key: "opp", value: "平均營益(億)" },
+    { key: "iir", value: "本業收入率 (>80%)" }, { key: "cash", value: "營運現金流量 (>0億)" }, // { key: "debt", value: "平均負債總額(<60%)" },
+    { key: "opm", value: "營益率 (>0%)" }, { key: "gross", value: "平均毛利 (%)" }, { key: "opp", value: "平均營益 (億)" },
     { key: "noi", value: "平均業外損益(億)" },
   ];
 
@@ -146,12 +146,12 @@ export class StockTableComponent implements AfterViewInit {
       case 'm_basic': {
         this.displayedColumns = [
           'b_info_code', 'b_info_name', 'b_info_verticals',
-          "m_basic.epsp", "m_basic.yiep", "m_basic.kp", "m_basic.pbr", "m_basic.tper", "m_basic.cheap",
-          "m_basic.per", "m_basic.gross_f", "m_basic.netrate5", "m_basic.peg", "m_basic.cash_y", "m_basic.yCnt",
-          "m_basic.roe", "m_basic.eps", 'e_icr.yepsCount', "m_basic.beta",
+          "m_basic_epsp", "m_basic_yiep", "m_basic_kp", "m_basic_pbr", "m_basic_tper", "m_basic_cheap",
+          "m_basic_per", "m_basic_gross_f", "m_basic_netrate5", "m_basic_peg", "m_basic_cash_y", "m_basic_yCnt",
+          "m_basic_roe", "m_basic_eps", 'e_icr.yepsCount', "m_basic_beta",
           'b_info_price', 'b_info_change', 'b_info_pct',
-          "m_basic.wpct", "m_basic.mpct", "p_dpct.volume", "m_basic.amount", "m_basic.turnover",
-          "m_basic.cheapCnt", "m_basic.growRateCnt", "m_basic.turnoverCnt", "b_info_futures", "m_basic.prange",
+          "m_basic_wpct", "m_basic_mpct", "p_dpct.volume", "m_basic_amount", "m_basic_turnover",
+          "m_basic_cheapCnt", "m_basic_growRateCnt", "m_basic_turnoverCnt", "b_info_futures", "m_basic_prange",
         ];
         break;
       }

@@ -205,63 +205,63 @@
     <td mat-cell *matCellDef="let element"> {{element[col.key]}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="m_basic.epsp">
+  <ng-container matColumnDef="m_basic_epsp">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by epsp">
       <b>EPS估價</b>
     </th>
     <td mat-cell *matCellDef="let element"
-      [ngClass]="{'highlight': isHighlight_less_than(element.m_basic.epsp, element.b_info_price)}">
-      {{element.m_basic.epsp}}
+      [ngClass]="{'highlight': isHighlight_less_than(element.m_basic_epsp, element.b_info_price)}">
+      {{element.m_basic_epsp}}
     </td>
   </ng-container>
-  <ng-container matColumnDef="m_basic.yiep">
+  <ng-container matColumnDef="m_basic_yiep">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by yiep">
       <b>股價淨值比</b>
     </th>
     <td mat-cell *matCellDef="let element"
-      [ngClass]="{'highlight': isHighlight_less_than(element.m_basic.yiep, element.b_info_price)}">
-      {{element.m_basic.yiep}}
+      [ngClass]="{'highlight': isHighlight_less_than(element.m_basic_yiep, element.b_info_price)}">
+      {{element.m_basic_yiep}}
     </td>
   </ng-container>
-  <ng-container matColumnDef="m_basic.kp">
+  <ng-container matColumnDef="m_basic_kp">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by kp">
       <b>ROE估價</b>
     </th>
     <td mat-cell *matCellDef="let element"
-      [ngClass]="{'highlight': isHighlight_less_than(element.m_basic.kp, element.b_info_price)}">
-      {{element.m_basic.kp}}
+      [ngClass]="{'highlight': isHighlight_less_than(element.m_basic_kp, element.b_info_price)}">
+      {{element.m_basic_kp}}
     </td>
   </ng-container>
-  <ng-container matColumnDef="m_basic.pbr">
+  <ng-container matColumnDef="m_basic_pbr">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by pbr">
       <b>股價淨值比</b>
     </th>
-    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(0,1, element.m_basic.pbr)}">
-      {{element.m_basic.pbr}}
+    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(0,1, element.m_basic_pbr)}">
+      {{element.m_basic_pbr}}
     </td>
   </ng-container>
-  <ng-container matColumnDef="m_basic.peg">
+  <ng-container matColumnDef="m_basic_peg">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by peg">
       <b>PEG</b>
     </th>
-    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(0,999, element.m_basic.peg)}">
-      {{element.m_basic.peg}}
+    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(0,999, element.m_basic_peg)}">
+      {{element.m_basic_peg}}
     </td>
   </ng-container>
-  <ng-container matColumnDef="m_basic.cash_y">
+  <ng-container matColumnDef="m_basic_cash_y">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by cash_y">
       <b>現金殖利率</b>
     </th>
-    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(5,999, element.m_basic.cash_y)}">
-      <b>{{element.m_basic.cash_y}}</b>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(5,999, element.m_basic_cash_y)}">
+      <b>{{element.m_basic_cash_y}}</b>
     </td>
   </ng-container>
-  <ng-container matColumnDef="m_basic.roe">
+  <ng-container matColumnDef="m_basic_roe">
     <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by roe">
-      <b>平均ROE(>8%)</b>
+      <b>平均ROE (>8%)</b>
     </th>
-    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(8,999, element.m_basic.roe)}">
-      {{element.m_basic.roe}}
+    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight(8,999, element.m_basic_roe)}">
+      {{element.m_basic_roe}}
     </td>
   </ng-container>
   <!-- 📈我的基本面 End ------------------------------------------------------ -->

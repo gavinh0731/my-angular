@@ -77,20 +77,17 @@ export class StockDataService {
 
   getData3(): Observable<any> {
     return this.http.get(this.json_e_fish).pipe(
-      map(response => {
-        // 使用 Lodash 的 map 函數來轉換資料結構
-        return _.map(response, (item: any) => item.e_fish);
-      })
+      map((data: any) => data.map((item: any) => this.transformObject(item.e_fish, "e_fish")))
     );
   }
 
   // ---------------------------------------------------------------------------
-  mergeData(obs1: Observable<any>, obs2: Observable<any>): Observable<any> {
+  mergeData(obs1: Observable<any>, key1: any, obs2: Observable<any>, key2: any): Observable<any> {
     return combineLatest([obs1, obs2]).pipe(
       map(([data1, data2]) => {
         return data1.map((obj1: any) => {
           // console.log("data2", data2);
-          const obj2 = data2.find((b: any) => b.m_basic_code === obj1.b_info_code);
+          const obj2 = data2.find((b: any) => b[key2] === obj1[key1]);
           return { ...obj1, ...obj2 };
 
         });
@@ -99,8 +96,7 @@ export class StockDataService {
   }
 
   getMergedData(): Observable<any> {
-    // let tmpCombine1 = this.mergeData(this.getData1(), this.getData2());
-    // return this.mergeData(tmpCombine1, this.getData3());
-    return this.mergeData(this.getData1(), this.getData2());
+    let tmpCombine1 = this.mergeData(this.getData1(), "b_info_code", this.getData2(), "m_basic_code");
+    return this.mergeData(tmpCombine1, "b_info_code", this.getData3(), "e_fish_code");
   }
 }
