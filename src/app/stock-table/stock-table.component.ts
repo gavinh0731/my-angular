@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';  // 確保導入 CommonModule
 
 
 // === DropDown Menu ===
-interface Food {
+interface StockMenu {
   value: string;
   viewValue: string;
 }
@@ -35,18 +35,26 @@ export class StockTableComponent implements AfterViewInit {
     { key: "m_basic_yCnt", value: "股利連漲(5年)" }, { key: "m_basic_eps", value: "平均EPS (元)" }, { key: "e_icr.yepsCount", value: "EPS成長" },
     // { key: "roe", value: "平均ROE(>8%)" },
     { key: "m_basic_beta", value: "風險係數" }, { key: "m_basic_wpct", value: "週漲跌幅" }, { key: "m_basic_mpct", value: "月漲跌幅" },
-    { key: "p_dpct.volume", value: "成交張數" }, { key: "m_basic_amount", value: "成交金額 (萬)" }, { key: "m_basic_turnover", value: "週轉率 (%)" },
+    { key: 'p_dpct.volume', value: "成交張數" }, { key: "m_basic_amount", value: "成交金額 (萬)" }, { key: "m_basic_turnover", value: "週轉率 (%)" },
     { key: "m_basic_cheapCnt", value: "便宜度" }, { key: "m_basic_growRateCnt", value: "年複合成長率" }, { key: "m_basic_turnoverCnt", value: "週轉率>=1" },
     { key: "m_basic_prange", value: "股價區間" }
   ];
 
   columnStr_e_fish = [
     { key: "e_fish_eps", value: "平均EPS (元)" },
-    //{ key: "e_fish_roe", value: "平均ROE (>8%)" }, // { key: "e_fish_iir", value: "本業收入率 (>80%)" }, 
+    //{ key: "e_fish_roe", value: "平均ROE (>8%)" }, // { key: "e_fish_iir", value: "本業收入率 (>80%)" },
     // { key: "e_fish_debt", value: "平均負債總額 (<60%)" }, { key: "e_fish_cash", value: "營運現金流量 (>0億)" },
     // { key: "e_fish_opm", value: "營益率 (>0%)" },
     { key: "e_fish_gross", value: "平均毛利 (%)" }, { key: "e_fish_opp", value: "平均營益 (億)" },
     { key: "e_fish_noi", value: "平均業外損益 (億)" },
+  ];
+
+  columnStr_p_dpct = [
+    { key: "p_dpct_market", value: "市場" }, { key: "p_dpct_date", value: "股價日期" }, { key: "p_dpct_kline", value: "K線" },
+    { key: "p_dpct_wchange", value: "漲跌價" }, { key: "p_dpct_dpct", value: "漲跌幅" }, { key: "p_dpct_volume", value: "成交張數" },
+    { key: "p_dpct_amount", value: "成交額 (百萬)" }, { key: "p_dpct_close", value: "昨收" }, { key: "p_dpct_open", value: "開盤" },
+    { key: "p_dpct_high", value: "最高" }, { key: "p_dpct_low", value: "最低" }, { key: "p_dpct_per", value: "PER" },
+    { key: "p_dpct_pbr", value: "PBR" },
   ];
 
   // ---------------------------------------------------------------------------
@@ -138,11 +146,15 @@ export class StockTableComponent implements AfterViewInit {
 
   // === DropDown Menu ===
   selected: string;
-  foods: Food[] = [
+  menu_items_basic: StockMenu[] = [
     { value: 'basic', viewValue: '🏢公司基本資料(1)' },
     { value: 'm_basic', viewValue: '📈我的基本面(2)' },
     { value: 'e_fish', viewValue: '🐟股魚基本面(3)' },
     { value: 'date', viewValue: 'date' },
+  ];
+
+  menu_items_transaction: StockMenu[] = [
+    { value: 'p_dpct', viewValue: '💰交易狀況_近12日漲跌幅' },
   ];
 
   changeDisplayedColumns(perspective: any) {
@@ -165,7 +177,7 @@ export class StockTableComponent implements AfterViewInit {
           "m_basic_per", "m_basic_gross_f", "m_basic_netrate5", "m_basic_peg", "m_basic_cash_y", "m_basic_yCnt",
           "m_basic_roe", "m_basic_eps", 'e_icr.yepsCount', "m_basic_beta",
           'b_info_price', 'b_info_change', 'b_info_pct',
-          "m_basic_wpct", "m_basic_mpct", 'p_dpct.volume', "m_basic_amount", "m_basic_turnover",
+          "m_basic_wpct", "m_basic_mpct", 'p_dpct_volume', "m_basic_amount", "m_basic_turnover",
           "m_basic_cheapCnt", "m_basic_growRateCnt", "m_basic_turnoverCnt", "b_info_futures", "m_basic_prange",
         ];
         break;
@@ -173,9 +185,18 @@ export class StockTableComponent implements AfterViewInit {
       case 'e_fish': {
         this.displayedColumns = [
           'b_info_code', 'b_info_name', 'b_info_verticals', 'b_info_price', 'b_info_change', 'b_info_pct',
-          'p_dpct.volume', "e_fish_eps", 'e_icr.yepsCount', "e_fish_roe", "e_fish_iir",
+          'p_dpct_volume', "e_fish_eps", 'e_icr.yepsCount', "e_fish_roe", "e_fish_iir",
           "e_fish_debt", "e_fish_cash", "e_fish_opm", "e_fish_gross", "e_fish_opp",
           "e_fish_noi",
+        ];
+        break;
+      }
+      case 'p_dpct': {
+        this.displayedColumns = [
+          'b_info_code', 'b_info_name',
+          "p_dpct_market", "p_dpct_date", "p_dpct_kline", "b_info_price", "p_dpct_wchange",
+          "p_dpct_dpct", "p_dpct_volume", "p_dpct_amount", "p_dpct_close", "p_dpct_open",
+          "p_dpct_high", "p_dpct_low", "b_info_pct", "p_dpct_per", "p_dpct_pbr",
         ];
         break;
       }
