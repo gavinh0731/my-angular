@@ -164,9 +164,9 @@ export class StockTableComponent implements AfterViewInit {
   // === DropDown Menu ===
   selected: string;
   menu_items_basic: StockMenu[] = [
-    { value: 'basic', viewValue: '🏢公司基本資料(Alt+1)' },
-    { value: 'm_basic', viewValue: '📈我的基本面(Alt+2)' },
-    { value: 'e_fish', viewValue: '🐟股魚基本面(Alt+3)' },
+    { value: 'basic', viewValue: '🏢公司基本資料(A1)' },
+    { value: 'm_basic', viewValue: '📈我的基本面　(A2)' },
+    { value: 'e_fish', viewValue: '🐟股魚基本面　(A3)' },
     { value: 'e_icr', viewValue: '💹EPS成長' },
     { value: 'p_dpct', viewValue: '💰交易狀況' }, //_近12日漲跌幅
   ];
