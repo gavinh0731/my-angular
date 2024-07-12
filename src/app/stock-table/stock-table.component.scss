@@ -10,6 +10,10 @@
   background-color: rgba(0, 255, 0, 0.056);
 }
 
+.selected-row {
+  background-color: rgba(0, 0, 255, 0.1);
+  /* 可以根據需要調整顏色 */
+}
 
 //#region === === 凍結欄位 Start === ===
 .mat-table-container {

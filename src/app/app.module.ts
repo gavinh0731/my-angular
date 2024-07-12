@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 
 // Material Tabla
 import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -39,6 +40,7 @@ import { TitleComponent } from './title/title.component';
     ReactiveFormsModule,
     CommonModule,
     MatTableModule,
+    MatCheckboxModule,
     MatPaginatorModule,
     MatSortModule,
     MatFormFieldModule,

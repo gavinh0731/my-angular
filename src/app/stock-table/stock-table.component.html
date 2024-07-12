@@ -18,6 +18,20 @@
 <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
   class="mat-elevation-z8">
 
+  <!-- Checkbox Column -->
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+        [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
+
   <!-- 🏢公司基本資料 Start -------------------------------------------------- -->
   <!-- 1. Column -->
   <ng-container matColumnDef="b_info_code">
@@ -380,3 +394,13 @@
 <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons
   aria-label="Select page of periodic elements">
 </mat-paginator>
+
+<button mat-button (click)="selectedRows = getSelectedRows()">Show Selected Rows</button>
+<div *ngIf="selectedRows && selectedRows.length">
+  <h3>Selected Rows:</h3>
+  <ul>
+    <li *ngFor="let row of selectedRows">
+      {{ row.b_info_code }} - {{ row.b_info_name }} - {{ row.b_info_price }} - {{ row.b_info_change }}
+    </li>
+  </ul>
+</div>

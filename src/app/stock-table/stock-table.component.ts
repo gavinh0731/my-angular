@@ -2,6 +2,8 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, AfterViewInit, ViewChild, HostListener } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -21,11 +23,12 @@ interface StockMenu {
   templateUrl: './stock-table.component.html',
   styleUrl: './stock-table.component.scss',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule, CommonModule, MatFormFieldModule, MatSelectModule],
+  imports: [MatTableModule, MatCheckboxModule, MatPaginatorModule, MatSortModule, CommonModule, MatFormFieldModule, MatSelectModule],
 })
 export class StockTableComponent implements AfterViewInit {
   ELEMENT_DATA: any;
   dataSource: any;
+  selection: any;
 
   columnStr_m_basic = [
     // { key: "epsp", value: "EPS估價" }, { key: "yiep", value: "殖利率估價" }, { key: "kp", value: "ROE估價" },
@@ -58,7 +61,7 @@ export class StockTableComponent implements AfterViewInit {
   ];
 
   columnStr_e_icr = [
-    // { key: "e_icr_ytotalCount", value: "12年總評分" }, 
+    // { key: "e_icr_ytotalCount", value: "12年總評分" },
     { key: "e_icr_yepsCount", value: "12年EPS連漲" }, { key: "e_icr_yroeCount", value: "12年ROE連漲" },
     // { key: "e_icr_totalCount", value: "近期總評分" },
     { key: "e_icr_epsCount", value: "近期EPS" }, { key: "e_icr_roeCount", value: "近期ROE" },
@@ -68,6 +71,7 @@ export class StockTableComponent implements AfterViewInit {
 
   // ---------------------------------------------------------------------------
   displayedColumns: string[] = [
+    "select",
     'b_info_code', 'b_info_name', 'b_info_verticals', 'b_info_market', 'b_info_date',
     'b_info_price', 'b_info_change', 'b_info_pct', 'b_info_face', 'b_info_capital',
     'b_info_count', 'b_info_market_cap', 'b_info_up_year', 'b_info_market_year', 'b_info_futures',
@@ -88,6 +92,7 @@ export class StockTableComponent implements AfterViewInit {
   ngOnInit() {
     console.log("2. ngOnInit");
     this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
+    this.selection = new SelectionModel<any>(true, []);
     this.selected = "basic";
   }
   // ngDoCheck() {
@@ -160,7 +165,7 @@ export class StockTableComponent implements AfterViewInit {
     { value: 'm_basic', viewValue: '📈我的基本面(2)' },
     { value: 'e_fish', viewValue: '🐟股魚基本面(3)' },
     { value: 'e_icr', viewValue: '💹EPS成長' },
-    { value: 'date', viewValue: 'date' },
+    { value: 'p_dpct', viewValue: '💰交易狀況' }, //_近12日漲跌幅
   ];
 
   menu_items_transaction: StockMenu[] = [
@@ -262,6 +267,38 @@ export class StockTableComponent implements AfterViewInit {
     }
   }
   // region --- --- 快捷鍵 --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+  // region === === 選取列 === === === === === === === === === === === === === ===
+  selectedRows: any;
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: any): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource._renderData._value.length;
+    console.log(`numSelected = ${numSelected}, numRows = ${numRows}`);
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    // console.log("this.dataSource = ", this.dataSource);
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.dataSource._renderData._value.forEach((row: any) => this.selection.select(row));
+  }
+
+  /** Get selected rows */
+  getSelectedRows() {
+    return this.selection.selected;
+  }
+  // region --- --- 選取列 --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   setData(data: any) {
     // console.log(`data = ${data}`)
