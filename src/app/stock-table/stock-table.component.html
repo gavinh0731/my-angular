@@ -1,3 +1,8 @@
+<mat-form-field appearance="fill">
+  <mat-label>全域搜尋</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="0050">
+</mat-form-field>
+
 <mat-form-field>
   <mat-label>基本面</mat-label>
   <mat-select [(value)]="selected" (valueChange)="changeDisplayedColumns($event)">

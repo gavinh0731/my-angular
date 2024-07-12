@@ -3,6 +3,7 @@ import { Component, AfterViewInit, ViewChild, HostListener } from '@angular/core
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material/input';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
@@ -23,7 +24,9 @@ interface StockMenu {
   templateUrl: './stock-table.component.html',
   styleUrl: './stock-table.component.scss',
   standalone: true,
-  imports: [MatTableModule, MatCheckboxModule, MatPaginatorModule, MatSortModule, CommonModule, MatFormFieldModule, MatSelectModule],
+  imports: [
+    MatTableModule, MatCheckboxModule, MatInputModule, MatPaginatorModule,
+    MatSortModule, CommonModule, MatFormFieldModule, MatSelectModule,],
 })
 export class StockTableComponent implements AfterViewInit {
   ELEMENT_DATA: any;
@@ -161,9 +164,9 @@ export class StockTableComponent implements AfterViewInit {
   // === DropDown Menu ===
   selected: string;
   menu_items_basic: StockMenu[] = [
-    { value: 'basic', viewValue: '🏢公司基本資料(1)' },
-    { value: 'm_basic', viewValue: '📈我的基本面(2)' },
-    { value: 'e_fish', viewValue: '🐟股魚基本面(3)' },
+    { value: 'basic', viewValue: '🏢公司基本資料(Alt+1)' },
+    { value: 'm_basic', viewValue: '📈我的基本面(Alt+2)' },
+    { value: 'e_fish', viewValue: '🐟股魚基本面(Alt+3)' },
     { value: 'e_icr', viewValue: '💹EPS成長' },
     { value: 'p_dpct', viewValue: '💰交易狀況' }, //_近12日漲跌幅
   ];
@@ -236,15 +239,15 @@ export class StockTableComponent implements AfterViewInit {
   // region === === 快捷鍵 === === === === === === === === === === === === === ===
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
-    if (event.key === '1') {
+    if (event.altKey && event.key === '1') {
       event.preventDefault();
       this.changeDisplayedColumns("basic");
       this.selected = "basic";
-    } else if (event.key === '2') {
+    } else if (event.altKey && event.key === '2') {
       event.preventDefault();
       this.changeDisplayedColumns("m_basic");
       this.selected = "m_basic";
-    } else if (event.key === '3') {
+    } else if (event.altKey && event.key === '3') {
       event.preventDefault();
       this.changeDisplayedColumns("e_fish");
       this.selected = "e_fish";
@@ -299,6 +302,13 @@ export class StockTableComponent implements AfterViewInit {
     return this.selection.selected;
   }
   // region --- --- 選取列 --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+  // region === === 搜尋過濾 === === === === === === === === === === === === ===
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  // region --- --- 搜尋過濾 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   setData(data: any) {
     // console.log(`data = ${data}`)
