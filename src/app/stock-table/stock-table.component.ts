@@ -72,6 +72,13 @@ export class StockTableComponent implements AfterViewInit {
     { key: "e_icr_roes12", value: "12年ROE斜率" }, { key: "e_icr_roes3", value: "3年ROE斜率" }, { key: "e_icr_roes1", value: "1年ROE斜率" },
   ];
 
+  columnStr_m_eps = [
+    { key: "m_eps_yeps8", value: "-5年EPS (元)" }, { key: "m_eps_yeps9", value: "-4年EPS (元)" }, { key: "m_eps_yeps10", value: "-3年EPS (元)" },
+    { key: "m_eps_yeps11", value: "-2年EPS (元)" }, { key: "m_eps_yeps12", value: "去年EPS (元)" }, { key: "m_eps_yeps13", value: "今年EPS (元)" },
+    { key: "m_eps_yroe8", value: "-5年ROE (%)" }, { key: "m_eps_yroe9", value: "-4年ROE (%)" }, { key: "m_eps_yroe10", value: "-3年ROE (%)" },
+    { key: "m_eps_yroe11", value: "-2年ROE (%)" }, { key: "m_eps_yroe12", value: "去年ROE (%)" }, { key: "m_eps_yroe13", value: "今年ROE (%)" },
+  ];
+
   // ---------------------------------------------------------------------------
   displayedColumns: string[] = [
     "select",
@@ -167,6 +174,7 @@ export class StockTableComponent implements AfterViewInit {
     { value: 'basic', viewValue: '🏢公司基本資料(A1)' },
     { value: 'm_basic', viewValue: '📈我的基本面　(A2)' },
     { value: 'e_fish', viewValue: '🐟股魚基本面　(A3)' },
+    { value: 'm_eps', viewValue: '💷我的EPS　　(A4)' },
     { value: 'e_icr', viewValue: '💹EPS成長' },
     { value: 'p_dpct', viewValue: '💰交易狀況' }, //_近12日漲跌幅
   ];
@@ -229,6 +237,17 @@ export class StockTableComponent implements AfterViewInit {
         ];
         break;
       }
+      case 'm_eps': {
+        this.displayedColumns = [
+          'b_info_code', 'b_info_name', 'b_info_verticals',
+          "m_eps_yeps8", "m_eps_yeps9", "m_eps_yeps10",
+          "m_eps_yeps11", "m_eps_yeps12", "m_eps_yeps13",
+          "m_eps_yroe8", "m_eps_yroe9", "m_eps_yroe10",
+          "m_eps_yroe11", "m_eps_yroe12", "m_eps_yroe13",
+          'b_info_price',
+        ];
+        break;
+      }
       default: {
         this.displayedColumns = ['date'];
         break;
@@ -251,6 +270,10 @@ export class StockTableComponent implements AfterViewInit {
       event.preventDefault();
       this.changeDisplayedColumns("e_fish");
       this.selected = "e_fish";
+    } else if (event.altKey && event.key === '4') {
+      event.preventDefault();
+      this.changeDisplayedColumns("m_eps");
+      this.selected = "m_eps";
     } else if (event.key === 'ArrowRight') {
       this.nextPage();
     } else if (event.key === 'ArrowLeft') {

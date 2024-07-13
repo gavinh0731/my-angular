@@ -13,7 +13,8 @@ export class StockDataService {
   private json_my_basic = 'assets/json/my_basic.json'; // JSON 檔案的路徑
   private json_e_fish = 'assets/json/export_stockfish.json'; // JSON 檔案的路徑
   private json_p_dpct = 'assets/json/price_dpct.json'; // 交易狀況_近12日漲跌幅
-  private json_e_icr = 'assets/json/export_incomerate.json'; // 交易狀況_近12日漲跌幅
+  private json_e_icr = 'assets/json/export_incomerate.json'; // EPS成長
+  private json_m_eps = 'assets/json/my_eps.json'; // 我的EPS
 
 
   constructor(private http: HttpClient) { }
@@ -61,6 +62,13 @@ export class StockDataService {
     );
   }
 
+  getData6(): Observable<any> {
+    return this.http.get(this.json_m_eps).pipe(
+      map((data: any) => data.map((item: any) => this.transformObject(item.m_eps, "m_eps")))
+    );
+  }
+
+
   // ---------------------------------------------------------------------------
   mergeData(obs1: Observable<any>, key1: any, obs2: Observable<any>, key2: any): Observable<any> {
     return combineLatest([obs1, obs2]).pipe(
@@ -79,6 +87,7 @@ export class StockDataService {
     let tmpCombine = this.mergeData(this.getData1(), "b_info_code", this.getData2(), "m_basic_code");
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData3(), "e_fish_code");
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData4(), "p_dpct_code");
-    return this.mergeData(tmpCombine, "b_info_code", this.getData5(), "e_icr_code");
+    tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData5(), "e_icr_code");
+    return this.mergeData(tmpCombine, "b_info_code", this.getData6(), "m_eps_code");
   }
 }
