@@ -35,7 +35,7 @@ export class StockTableComponent implements AfterViewInit {
 
   columnStr_m_basic = [
     // { key: "epsp", value: "EPS估價" }, { key: "yiep", value: "殖利率估價" }, { key: "kp", value: "ROE估價" },
-    { key: "m_basic_tper", value: "總報酬本益比" }, { key: "m_basic_cheap", value: "便宜度" },  //{ key: "pbr", value: "股價淨值比" },
+    //{ key: "pbr", value: "股價淨值比" }, { key: "m_basic_tper", value: "總報酬本益比" }, { key: "m_basic_cheap", value: "便宜度" },  
     { key: "m_basic_per", value: "本益比" }, { key: "m_basic_gross_f", value: "毛利成長(%)" }, { key: "m_basic_netrate5", value: "年複合成長率" },
     //{ key: "peg", value: "PEG" }, { key: "cash_y", value: "現金殖利率" },
     { key: "m_basic_yCnt", value: "股利連漲(5年)" }, { key: "m_basic_eps", value: "平均EPS (元)" },// { key: "e_icr_yepsCount", value: "EPS成長" },
@@ -166,6 +166,26 @@ export class StockTableComponent implements AfterViewInit {
     }
     return ret;
   }
+
+  hl_my_eps(row_value: any): number {
+    let ret = 0;
+    if (row_value < 10) {
+      ret = 1;
+    }
+    else if (row_value < 20) {
+      ret = 2;
+    }
+    else if (row_value < 30) {
+      ret = 3;
+    }
+    else if (row_value < 40) {
+      ret = 4;
+    }
+    else if (row_value < 200) {
+      ret = 5;
+    }
+    return ret;
+  }
   // region --- --- CSS --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   // === DropDown Menu ===
@@ -173,8 +193,8 @@ export class StockTableComponent implements AfterViewInit {
   menu_items_basic: StockMenu[] = [
     { value: 'basic', viewValue: '🏢公司基本資料(A1)' },
     { value: 'm_basic', viewValue: '📈我的基本面　(A2)' },
-    { value: 'e_fish', viewValue: '🐟股魚基本面　(A3)' },
-    { value: 'm_eps', viewValue: '💷我的EPS　　(A4)' },
+    { value: 'm_eps', viewValue: '💷我的EPS　　(A3)' },
+    { value: 'e_fish', viewValue: '🐟股魚基本面　(A4)' },
     { value: 'e_icr', viewValue: '💹EPS成長' },
     { value: 'p_dpct', viewValue: '💰交易狀況' }, //_近12日漲跌幅
   ];
@@ -268,12 +288,12 @@ export class StockTableComponent implements AfterViewInit {
       this.selected = "m_basic";
     } else if (event.altKey && event.key === '3') {
       event.preventDefault();
-      this.changeDisplayedColumns("e_fish");
-      this.selected = "e_fish";
-    } else if (event.altKey && event.key === '4') {
-      event.preventDefault();
       this.changeDisplayedColumns("m_eps");
       this.selected = "m_eps";
+    } else if (event.altKey && event.key === '4') {
+      event.preventDefault();
+      this.changeDisplayedColumns("e_fish");
+      this.selected = "e_fish";
     } else if (event.key === 'ArrowRight') {
       this.nextPage();
     } else if (event.key === 'ArrowLeft') {

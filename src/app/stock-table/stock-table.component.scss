@@ -10,9 +10,24 @@
   background-color: rgba(0, 255, 0, 0.056);
 }
 
-.selected-row {
-  background-color: rgba(0, 0, 255, 0.1);
-  /* 可以根據需要調整顏色 */
+.hl_eps_1 {
+  background-color: rgba(0, 255, 0, 0.056);
+}
+
+.hl_eps_2 {
+  background-color: rgba(0, 255, 0, 0.1);
+}
+
+.hl_eps_3 {
+  background-color: rgba(0, 255, 0, 0.5);
+}
+
+.hl_eps_4 {
+  background-color: rgba(10, 197, 10, 0.5);
+}
+
+.hl_eps_5 {
+  background-color: rgba(10, 197, 10, 0.7);
 }
 
 // mat-form-field {
