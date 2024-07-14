@@ -6,6 +6,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+
+import { filter, map } from 'rxjs/operators';
 
 import { ChangeDetectorRef, Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -25,12 +28,13 @@ interface PickMethod {
   styleUrl: './stock-side.component.scss',
   standalone: true,
   imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatSidenavModule, MatListModule, MatSelectModule, MatFormFieldModule,
-    HttpClientModule, StockTableComponent],
+    HttpClientModule, StockTableComponent, FormsModule],
 })
 export class StockSideComponent implements OnInit {
   @ViewChild("stockTableChild") child: any;
 
   data: any;
+  obsData: any;
 
   mobileQuery: MediaQueryList;
 
@@ -52,16 +56,23 @@ export class StockSideComponent implements OnInit {
 
   // region === === 生命週期 === === === === === === === === === === === === ===
   ngOnInit() {
+    let tmpData: any;
     // this.data = this.stockDataService.getData1();
     // console.log("this.data = ", this.data);
 
-    this.stockDataService.getMergedData().subscribe(
+    this.obsData = this.stockDataService.getMergedData();
+    tmpData = this.obsData;
+    // tmpData = this.obsData.pipe(
+    //   map((items: any) => items.filter((item: any) => item.b_info_code === "0050"))
+    // );
+
+    tmpData.subscribe(
       // this.stockDataService.getData1().subscribe(
-      response => {
+      (response: any) => {
         this.data = response;
         console.log("this.data = ", this.data);
       },
-      error => {
+      (error: any) => {
         console.error('Error:', error);
       }
     );
@@ -81,6 +92,51 @@ export class StockSideComponent implements OnInit {
     { value: 'name', viewValue: 'Name' },
     { value: 'weight', viewValue: 'Weight' },
     { value: 'symbol', viewValue: 'Symbol' },
+  ];
+
+  pickIndustrys: PickMethod[] = [
+    { value: 'N/A', viewValue: 'N/A' },
+    { value: '水泥工業', viewValue: '水泥工業' },
+    { value: '食品工業', viewValue: '食品工業' },
+    { value: '塑膠工業', viewValue: '塑膠工業' },
+    { value: '汽車工業', viewValue: '汽車工業' },
+
+    { value: '紡織纖維', viewValue: '紡織纖維' },
+    { value: '運動休閒', viewValue: '運動休閒' },
+    { value: '建材營造業', viewValue: '建材營造業' },
+    { value: '電機機械', viewValue: '電機機械' },
+    { value: '電器電纜', viewValue: '電器電纜' },
+
+    { value: '電子零組件業', viewValue: '電子零組件業' },
+    { value: '化學工業', viewValue: '化學工業' },
+    { value: '生技醫療業', viewValue: '生技醫療業' },
+    { value: '玻璃陶瓷', viewValue: '玻璃陶瓷' },
+    { value: '造紙工業', viewValue: '造紙工業' },
+
+    { value: '鋼鐵工業', viewValue: '鋼鐵工業' },
+    { value: '居家生活', viewValue: '居家生活' },
+    { value: '橡膠工業', viewValue: '橡膠工業' },
+    { value: '電腦及週邊設備業', viewValue: '電腦及週邊設備業' },
+    { value: '半導體業', viewValue: '半導體業' },
+
+    { value: '其他電子業', viewValue: '其他電子業' },
+    { value: '通信網路業', viewValue: '通信網路業' },
+    { value: '光電業', viewValue: '光電業' },
+    { value: '電子通路業', viewValue: '電子通路業' },
+    { value: '資訊服務業', viewValue: '資訊服務業' },
+
+    { value: '觀光餐旅', viewValue: '觀光餐旅' },
+    { value: '銀行業', viewValue: '銀行業' },
+    { value: '保險業', viewValue: '保險業' },
+    { value: '證券業', viewValue: '證券業' },
+    { value: '金控業', viewValue: '金控業' },
+
+    { value: '貿易百貨業', viewValue: '貿易百貨業' },
+    { value: '綠能環保', viewValue: '綠能環保' },
+    { value: '數位雲端', viewValue: '數位雲端' },
+    { value: '油電燃氣業', viewValue: '油電燃氣業' },
+
+    { value: '其他業', viewValue: '其他業' },
   ];
 
   changeDisplayedColumns(perspective: any) {
@@ -103,6 +159,45 @@ export class StockSideComponent implements OnInit {
         break;
       }
     }
+  }
+
+  selectedOptions: string[] = [];
+  IndustryToFilter: string[];  // 需要匹配的category值集合
+  changeIndustrys(items: Array<string>) {
+    console.log(`items = ${items}`);
+
+    this.IndustryToFilter = items;
+    // console.log("IndustryToFilter = ", this.IndustryToFilter);
+
+    // region === === 過濾 === === === === === === === === === === === === ===
+    let tmpData: any;
+
+    if (this.IndustryToFilter.length == 0) {
+      tmpData = this.obsData;
+    }
+    else {
+      tmpData = this.obsData.pipe(
+        // map((items: any) => items.filter((item: any) => item.b_info_verticals === (element || "0050")))
+        map((items: any) => items.filter((item: any) => this.IndustryToFilter.includes(item.b_info_verticals)))
+      );
+    }
+
+    tmpData.subscribe(
+      // this.stockDataService.getData1().subscribe(
+      (response: any) => {
+        this.data = response;
+        console.log("this.data = ", this.data);
+      },
+      (error: any) => {
+        console.error('Error:', error);
+      }
+    );
+
+    setTimeout(() => {
+      this.setChildDataFun();
+    }, 500);
+    // region --- --- 過濾 --- --- --- --- --- --- --- --- --- --- --- --- ---
+
   }
   // region --- --- DropDown Menu --- --- --- --- --- --- --- --- --- --- --- ---
 }

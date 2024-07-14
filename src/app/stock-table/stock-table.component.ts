@@ -328,7 +328,7 @@ export class StockTableComponent implements AfterViewInit {
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource._renderData._value.length;
-    console.log(`numSelected = ${numSelected}, numRows = ${numRows}`);
+    // console.log(`numSelected = ${numSelected}, numRows = ${numRows}`);
     return numSelected === numRows;
   }
 
