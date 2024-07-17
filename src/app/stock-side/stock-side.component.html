@@ -10,17 +10,7 @@
       fixedTopGap="56">
 
       <mat-form-field>
-        <mat-label>選股心法</mat-label>
-        <mat-select [(value)]="selected" (valueChange)="change_ByPickerMethods($event)">
-          @for (pickMethod of pickMethods; track pickMethod) {
-          <mat-option [value]="pickMethod.value">{{pickMethod.viewValue}}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-      <br>
-
-      <mat-form-field>
-        <mat-label>產業別</mat-label>
+        <mat-label>產業別(取消勾選重設)</mat-label>
         <mat-select [(ngModel)]="selected_ByIndustrys" (valueChange)="change_ByIndustrys($event)" multiple>
           @for (pickMethod of pickIndustrys; track pickMethod) {
           <mat-option [value]=" pickMethod.value">{{pickMethod.viewValue}}</mat-option>
@@ -28,6 +18,16 @@
         </mat-select>
       </mat-form-field>
       <!-- {{selected_ByIndustrys}} -->
+      <br>
+
+      <mat-form-field>
+        <mat-label>選股心法</mat-label>
+        <mat-select [(value)]="selected_ByPickerMethods" (valueChange)="change_ByPickerMethods($event)">
+          @for (pickMethod of pickMethods; track pickMethod) {
+          <mat-option [value]="pickMethod.value">{{pickMethod.viewValue}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
 
     </mat-sidenav>
 

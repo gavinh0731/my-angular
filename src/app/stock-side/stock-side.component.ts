@@ -35,6 +35,7 @@ export class StockSideComponent implements OnInit {
 
   data: any;
   obsData: any;
+  filteredData: any;
 
   mobileQuery: MediaQueryList;
 
@@ -61,6 +62,7 @@ export class StockSideComponent implements OnInit {
     // console.log("this.data = ", this.data);
 
     this.obsData = this.stockDataService.getMergedData();
+    this.filteredData = this.obsData;
     tmpData = this.obsData;
     // tmpData = this.obsData.pipe(
     //   map((items: any) => items.filter((item: any) => item.b_info_code === "0050"))
@@ -141,10 +143,11 @@ export class StockSideComponent implements OnInit {
 
 
   // ---------------------------------------------------------------------------
+  selected_ByPickerMethods: string = "";
   change_ByStockFish() {
     let tmpData: any;
 
-    tmpData = this.obsData.pipe(
+    tmpData = this.filteredData.pipe(
       // map((items: any) => items.filter((item: any) => item.b_info_verticals === (element || "0050")))
       map((items: any) => items.filter((item: any) => item.e_fish_roe > 8)
         .filter((item: any) => item.e_fish_iir > 80)
@@ -153,6 +156,8 @@ export class StockSideComponent implements OnInit {
         .filter((item: any) => item.e_fish_opm > 0)
       )
     );
+
+    this.filteredData = tmpData;
 
     tmpData.subscribe(
       // this.stockDataService.getData1().subscribe(
@@ -206,12 +211,16 @@ export class StockSideComponent implements OnInit {
 
     if (this.filtered_ByIndustrys.length == 0) {
       tmpData = this.obsData;
+      this.filteredData = tmpData;
+      this.selected_ByPickerMethods = "";   // 取消選取
     }
     else {
-      tmpData = this.obsData.pipe(
+      tmpData = this.filteredData.pipe(
         // map((items: any) => items.filter((item: any) => item.b_info_verticals === (element || "0050")))
         map((items: any) => items.filter((item: any) => this.filtered_ByIndustrys.includes(item.b_info_verticals)))
       );
+
+      this.filteredData = tmpData;
     }
 
     tmpData.subscribe(
