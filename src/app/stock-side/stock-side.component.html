@@ -1,38 +1,38 @@
 <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
-    <mat-toolbar class="example-toolbar">
-        <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-        <h1 class="example-app-name">選股神器</h1>
-        <!-- <button (click)="setChildDataFun()">調用子組件</button> -->
-    </mat-toolbar>
+  <mat-toolbar class="example-toolbar">
+    <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+    <h1 class="example-app-name">選股神器</h1>
+    <!-- <button (click)="setChildDataFun()">調用子組件</button> -->
+  </mat-toolbar>
 
-    <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-        <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
-            fixedTopGap="56">
+  <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="56">
 
-            <mat-form-field>
-                <mat-label>選股心法</mat-label>
-                <mat-select [(value)]="selected" (valueChange)="changeDisplayedColumns($event)">
-                    @for (pickMethod of pickMethods; track pickMethod) {
-                    <mat-option [value]="pickMethod.value">{{pickMethod.viewValue}}</mat-option>
-                    }
-                </mat-select>
-            </mat-form-field>
-            <br>
+      <mat-form-field>
+        <mat-label>選股心法</mat-label>
+        <mat-select [(value)]="selected" (valueChange)="change_ByPickerMethods($event)">
+          @for (pickMethod of pickMethods; track pickMethod) {
+          <mat-option [value]="pickMethod.value">{{pickMethod.viewValue}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <br>
 
-            <mat-form-field>
-                <mat-label>產業別</mat-label>
-                <mat-select [(ngModel)]="selectedOptions" (valueChange)="changeIndustrys($event)" multiple>
-                    @for (pickMethod of pickIndustrys; track pickMethod) {
-                    <mat-option [value]=" pickMethod.value">{{pickMethod.viewValue}}</mat-option>
-                    }
-                </mat-select>
-            </mat-form-field>
-            <!-- {{selectedOptions}} -->
+      <mat-form-field>
+        <mat-label>產業別</mat-label>
+        <mat-select [(ngModel)]="selected_ByIndustrys" (valueChange)="change_ByIndustrys($event)" multiple>
+          @for (pickMethod of pickIndustrys; track pickMethod) {
+          <mat-option [value]=" pickMethod.value">{{pickMethod.viewValue}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <!-- {{selected_ByIndustrys}} -->
 
-        </mat-sidenav>
+    </mat-sidenav>
 
-        <mat-sidenav-content>
-            <app-stock-table #stockTableChild></app-stock-table>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
+    <mat-sidenav-content>
+      <app-stock-table #stockTableChild></app-stock-table>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>

@@ -139,11 +139,42 @@ export class StockSideComponent implements OnInit {
     { value: '其他業', viewValue: '其他業' },
   ];
 
-  changeDisplayedColumns(perspective: any) {
+
+  // ---------------------------------------------------------------------------
+  change_ByStockFish() {
+    let tmpData: any;
+
+    tmpData = this.obsData.pipe(
+      // map((items: any) => items.filter((item: any) => item.b_info_verticals === (element || "0050")))
+      map((items: any) => items.filter((item: any) => item.e_fish_roe > 8)
+        .filter((item: any) => item.e_fish_iir > 80)
+        .filter((item: any) => item.e_fish_debt < 60)
+        .filter((item: any) => item.e_fish_cash > 0)
+        .filter((item: any) => item.e_fish_opm > 0)
+      )
+    );
+
+    tmpData.subscribe(
+      // this.stockDataService.getData1().subscribe(
+      (response: any) => {
+        this.data = response;
+        console.log("this.data = ", this.data);
+      },
+      (error: any) => {
+        console.error('Error:', error);
+      }
+    );
+
+    setTimeout(() => {
+      this.setChildDataFun();
+    }, 500);
+  }
+
+  change_ByPickerMethods(perspective: any) {
     console.log(`perspective = ${perspective}`);
     switch (perspective) {
       case 'stock_fish': {
-        // this.displayedColumns = ['position'];
+        this.change_ByStockFish();
         break;
       }
       case 'name': {
@@ -161,24 +192,25 @@ export class StockSideComponent implements OnInit {
     }
   }
 
-  selectedOptions: string[] = [];
-  IndustryToFilter: string[];  // 需要匹配的category值集合
-  changeIndustrys(items: Array<string>) {
+
+  // region === === 過濾產業別 === === === === === === === === === === === === ===
+  selected_ByIndustrys: string[] = [];
+  filtered_ByIndustrys: string[];  // 需要匹配的category值集合
+  change_ByIndustrys(items: Array<string>) {
     console.log(`items = ${items}`);
 
-    this.IndustryToFilter = items;
-    // console.log("IndustryToFilter = ", this.IndustryToFilter);
+    this.filtered_ByIndustrys = items;
+    // console.log("filtered_ByIndustrys = ", this.filtered_ByIndustrys);
 
-    // region === === 過濾 === === === === === === === === === === === === ===
     let tmpData: any;
 
-    if (this.IndustryToFilter.length == 0) {
+    if (this.filtered_ByIndustrys.length == 0) {
       tmpData = this.obsData;
     }
     else {
       tmpData = this.obsData.pipe(
         // map((items: any) => items.filter((item: any) => item.b_info_verticals === (element || "0050")))
-        map((items: any) => items.filter((item: any) => this.IndustryToFilter.includes(item.b_info_verticals)))
+        map((items: any) => items.filter((item: any) => this.filtered_ByIndustrys.includes(item.b_info_verticals)))
       );
     }
 
@@ -196,8 +228,7 @@ export class StockSideComponent implements OnInit {
     setTimeout(() => {
       this.setChildDataFun();
     }, 500);
-    // region --- --- 過濾 --- --- --- --- --- --- --- --- --- --- --- --- ---
-
   }
+  // region --- --- 過濾產業別 --- --- --- --- --- --- --- --- --- --- --- --- ---
   // region --- --- DropDown Menu --- --- --- --- --- --- --- --- --- --- --- ---
 }
