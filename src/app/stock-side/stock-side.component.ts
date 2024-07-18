@@ -88,9 +88,9 @@ export class StockSideComponent implements OnInit {
   // region --- --- 生命週期 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   // region === === DropDown Menu === === === === === === === === === === === ===
-  selected: string;
+  pickSelected: string;
   pickMethods: PickMethod[] = [
-    { value: 'stock_fish', viewValue: '股魚選股心法' },
+    { value: 'stock_fish', viewValue: '股魚選股心法(A4)' },
     { value: 'name', viewValue: 'Name' },
     { value: 'weight', viewValue: 'Weight' },
     { value: 'symbol', viewValue: 'Symbol' },
@@ -144,6 +144,9 @@ export class StockSideComponent implements OnInit {
 
   // ---------------------------------------------------------------------------
   selected_ByPickerMethods: string = "";
+  selected_ByIndustrys: string[] = [];
+  filtered_ByIndustrys: string[];  // 需要匹配的category值集合
+
   change_ByStockFish() {
     let tmpData: any;
 
@@ -197,10 +200,34 @@ export class StockSideComponent implements OnInit {
     }
   }
 
+  // 重新設定
+  refresh() {
+    let tmpData: any;
+
+    tmpData = this.obsData;
+    this.filteredData = tmpData;
+    this.selected_ByIndustrys = [];   // 取消選取
+    this.selected_ByPickerMethods = "";   // 取消選取
+
+    tmpData.subscribe(
+      // this.stockDataService.getData1().subscribe(
+      (response: any) => {
+        this.data = response;
+        console.log("this.data = ", this.data);
+      },
+      (error: any) => {
+        console.error('Error:', error);
+      }
+    );
+
+    setTimeout(() => {
+      this.setChildDataFun();
+    }, 500);
+  }
 
   // region === === 過濾產業別 === === === === === === === === === === === === ===
-  selected_ByIndustrys: string[] = [];
-  filtered_ByIndustrys: string[];  // 需要匹配的category值集合
+  // selected_ByIndustrys: string[] = [];
+  // filtered_ByIndustrys: string[];  // 需要匹配的category值集合
   change_ByIndustrys(items: Array<string>) {
     console.log(`items = ${items}`);
 
@@ -210,9 +237,9 @@ export class StockSideComponent implements OnInit {
     let tmpData: any;
 
     if (this.filtered_ByIndustrys.length == 0) {
-      tmpData = this.obsData;
-      this.filteredData = tmpData;
-      this.selected_ByPickerMethods = "";   // 取消選取
+      // tmpData = this.obsData;
+      // this.filteredData = tmpData;
+      // this.selected_ByPickerMethods = "";   // 取消選取
     }
     else {
       tmpData = this.filteredData.pipe(
