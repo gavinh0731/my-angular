@@ -10,7 +10,7 @@
       fixedTopGap="56">
 
       <mat-form-field>
-        <mat-label>產業別(取消勾選重設)</mat-label>
+        <mat-label>產業別</mat-label>
         <mat-select [(ngModel)]="selected_ByIndustrys" (valueChange)="change_ByIndustrys($event)" multiple>
           @for (pickMethod of pickIndustrys; track pickMethod) {
           <mat-option [value]=" pickMethod.value">{{pickMethod.viewValue}}</mat-option>
@@ -18,6 +18,9 @@
         </mat-select>
       </mat-form-field>
       <!-- {{selected_ByIndustrys}} -->
+      <button mat-fab extended>
+        <mat-icon>refresh</mat-icon>
+      </button>
       <br>
 
       <mat-form-field>
