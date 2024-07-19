@@ -16,6 +16,12 @@ export class StockDataService {
   private json_e_icr = 'assets/json/export_incomerate.json'; // EPS成長
   private json_m_eps = 'assets/json/my_eps.json'; // 我的EPS
 
+  private json_otc_basic_info = 'assets/json_otc/basic_info.json'; // JSON 檔案的路徑
+  // private json_otc_my_basic = 'assets/json_otc/my_basic.json'; // JSON 檔案的路徑
+  // private json_otc_e_fish = 'assets/json_otc/export_stockfish.json'; // JSON 檔案的路徑
+  private json_otc_p_dpct = 'assets/json_otc/price_dpct.json'; // 交易狀況_近12日漲跌幅
+  // private json_otc_e_icr = 'assets/json_otc/export_incomerate.json'; // EPS成長
+  // private json_otc_m_eps = 'assets/json_otc/my_eps.json'; // 我的EPS
 
   constructor(private http: HttpClient) { }
 
@@ -29,12 +35,24 @@ export class StockDataService {
   }
 
   getData1(): Observable<any> {
-    return this.http.get(this.json_basic_info).pipe(
-      map((data: any) => data.map((item: any) => this.transformObject(item.b_info, "b_info")))
-      // map((data: any) => data.map((item: any) => ({
-      //   b_info_code: item.b_info.code,
-      //   b_info_price: item.b_info.price
-      // })))
+    // 發送兩個 HTTP 請求來讀取 JSON 檔案
+    return forkJoin([
+      this.http.get<any[]>(this.json_basic_info),
+      this.http.get<any[]>(this.json_otc_basic_info)
+    ]).pipe(
+      // 合併兩個數據流的結果
+      map(([array1, array2]) => {
+        // 確保每個請求返回的是數組
+        if (!Array.isArray(array1)) {
+          array1 = [];
+        }
+        if (!Array.isArray(array2)) {
+          array2 = [];
+        }
+        // 合併兩個數組
+        return [...array1, ...array2];
+      }), map((data: any) => data.map((item: any) => this.transformObject(item.b_info, "b_info")))
+
     );
   }
 
@@ -51,8 +69,24 @@ export class StockDataService {
   }
 
   getData4(): Observable<any> {
-    return this.http.get(this.json_p_dpct).pipe(
-      map((data: any) => data.map((item: any) => this.transformObject(item.p_dpct, "p_dpct")))
+    // 發送兩個 HTTP 請求來讀取 JSON 檔案
+    return forkJoin([
+      this.http.get<any[]>(this.json_p_dpct),
+      this.http.get<any[]>(this.json_otc_p_dpct)
+    ]).pipe(
+      // 合併兩個數據流的結果
+      map(([array1, array2]) => {
+        // 確保每個請求返回的是數組
+        if (!Array.isArray(array1)) {
+          array1 = [];
+        }
+        if (!Array.isArray(array2)) {
+          array2 = [];
+        }
+        // 合併兩個數組
+        return [...array1, ...array2];
+      }), map((data: any) => data.map((item: any) => this.transformObject(item.p_dpct, "p_dpct")))
+
     );
   }
 
