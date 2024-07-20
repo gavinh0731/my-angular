@@ -32,6 +32,56 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-tab-group>
+        <mat-tab label="我的基本面">
+          <button mat-button extended> <mat-icon>cancel</mat-icon> 取消基本快選 </button>
+          <br>
+
+          <section>
+            <mat-button-toggle-group [(ngModel)]="bFastPickerValues" hideMultipleSelectionIndicator=true multiple>
+              <mat-button-toggle value="b_fast_picker_futures" (click)="change_XXX()">
+                <mat-icon>paid</mat-icon>期貨
+              </mat-button-toggle>
+              <mat-button-toggle value="b_fast_picker_growRateCnt" (click)="change_XXX()">
+                <mat-icon>trending_up</mat-icon> 年複合成長率>0
+              </mat-button-toggle>
+              <mat-button-toggle value="b_fast_picker_turnoverCnt" (click)="change_XXX()">
+                <mat-icon>currency_exchange</mat-icon> 週轉率>=1
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </section>
+
+          <section>
+            <mat-button-toggle-group name=" ingredients" aria-label="Ingredients" hideMultipleSelectionIndicator=true
+              multiple>
+              <mat-button-toggle value="flour"> <mat-icon>shopping_cart</mat-icon> 便宜度1 </mat-button-toggle>
+              <mat-button-toggle value="eggs"> <mat-icon>shopping_cart</mat-icon> 2 </mat-button-toggle>
+              <mat-button-toggle value="sugar"> <mat-icon>shopping_cart</mat-icon> 3 </mat-button-toggle>
+              <mat-button-toggle value="sugar"> <mat-icon>shopping_cart</mat-icon> 4 </mat-button-toggle>
+            </mat-button-toggle-group>
+          </section>
+
+          <section>
+            <mat-button-toggle-group name="ingredients" aria-label="Ingredients" hideMultipleSelectionIndicator=true
+              multiple>
+              <mat-button-toggle value="flour"> <mat-icon>expand</mat-icon> 區間股價50 </mat-button-toggle>
+              <mat-button-toggle value="eggs"> <mat-icon>expand</mat-icon> 100 </mat-button-toggle>
+              <mat-button-toggle value="sugar"> <mat-icon>expand</mat-icon> 150 </mat-button-toggle>
+              <mat-button-toggle value="sugar"> <mat-icon>expand</mat-icon> 200 </mat-button-toggle>
+              <mat-button-toggle value="sugar"> <mat-icon>expand</mat-icon> 300 </mat-button-toggle>
+              <mat-button-toggle value="sugar"> <mat-icon>expand</mat-icon> 500 </mat-button-toggle>
+              <mat-button-toggle value="sugar"> <mat-icon>expand</mat-icon> 1000 </mat-button-toggle>
+              <mat-button-toggle value="sugar"> <mat-icon>expand</mat-icon> 9000 </mat-button-toggle>
+            </mat-button-toggle-group>
+          </section>
+          <p>Selected values: {{ bFastPickerValues }}</p>
+
+        </mat-tab>
+        <mat-tab label="Second"> Content 2 </mat-tab>
+        <mat-tab label="Third"> Content 3 </mat-tab>
+      </mat-tab-group>
+
+
     </mat-sidenav>
 
     <mat-sidenav-content>
