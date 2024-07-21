@@ -6,8 +6,8 @@
   </mat-toolbar>
 
   <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
-      fixedTopGap="56">
+    <mat-sidenav class="example-sidenav" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
 
       <mat-form-field>
         <mat-label>產業別</mat-label>
@@ -38,7 +38,8 @@
           <br>
 
           <section>
-            <mat-button-toggle-group [(ngModel)]="bFastPickerValues" hideMultipleSelectionIndicator=true multiple>
+            <mat-button-toggle-group class="button-toggle-group" [(ngModel)]="bFastPickerValues"
+              hideMultipleSelectionIndicator=true multiple>
               <mat-button-toggle value="b_fast_picker_futures" (click)="change_XXX()">
                 <mat-icon>paid</mat-icon>期貨
               </mat-button-toggle>
@@ -48,33 +49,35 @@
               <mat-button-toggle value="b_fast_picker_turnoverCnt" (click)="change_XXX()">
                 <mat-icon>currency_exchange</mat-icon> 週轉率>=1
               </mat-button-toggle>
-            </mat-button-toggle-group>
-          </section>
 
-          <section>
-            <mat-button-toggle-group name=" ingredients" aria-label="Ingredients" hideMultipleSelectionIndicator=true
-              multiple>
-              <mat-button-toggle value="flour"> <mat-icon>shopping_cart</mat-icon> 便宜度1 </mat-button-toggle>
-              <mat-button-toggle value="eggs"> <mat-icon>shopping_cart</mat-icon> 2 </mat-button-toggle>
-              <mat-button-toggle value="sugar"> <mat-icon>shopping_cart</mat-icon> 3 </mat-button-toggle>
-              <mat-button-toggle value="sugar"> <mat-icon>shopping_cart</mat-icon> 4 </mat-button-toggle>
-            </mat-button-toggle-group>
-          </section>
+              <mat-button-toggle value="b_fast_picker_cheapCnt1" (click)="change_XXX()">
+                <mat-icon>shopping_cart</mat-icon> 便宜度1 </mat-button-toggle>
+              <mat-button-toggle value="b_fast_picker_cheapCnt2" (click)="change_XXX()">
+                <mat-icon>shopping_cart</mat-icon> 2 </mat-button-toggle>
+              <mat-button-toggle value="b_fast_picker_cheapCnt3" (click)="change_XXX()">
+                <mat-icon>shopping_cart</mat-icon> 3 </mat-button-toggle>
+              <mat-button-toggle value="b_fast_picker_cheapCnt4" (click)="change_XXX()">
+                <mat-icon>shopping_cart</mat-icon> 4 </mat-button-toggle>
 
-          <section>
-            <mat-button-toggle-group name="ingredients" aria-label="Ingredients" hideMultipleSelectionIndicator=true
-              multiple>
-              <mat-button-toggle value="flour"> <mat-icon>expand</mat-icon> 區間股價50 </mat-button-toggle>
-              <mat-button-toggle value="eggs"> <mat-icon>expand</mat-icon> 100 </mat-button-toggle>
-              <mat-button-toggle value="sugar"> <mat-icon>expand</mat-icon> 150 </mat-button-toggle>
-              <mat-button-toggle value="sugar"> <mat-icon>expand</mat-icon> 200 </mat-button-toggle>
-              <mat-button-toggle value="sugar"> <mat-icon>expand</mat-icon> 300 </mat-button-toggle>
-              <mat-button-toggle value="sugar"> <mat-icon>expand</mat-icon> 500 </mat-button-toggle>
-              <mat-button-toggle value="sugar"> <mat-icon>expand</mat-icon> 1000 </mat-button-toggle>
-              <mat-button-toggle value="sugar"> <mat-icon>expand</mat-icon> 9000 </mat-button-toggle>
+              <mat-button-toggle value="b_fast_picker_prange50" (click)="change_XXX()"> <mat-icon>expand</mat-icon>
+                區間股價50 </mat-button-toggle>
+              <mat-button-toggle value="b_fast_picker_prange100" (click)="change_XXX()"> <mat-icon>expand</mat-icon> 100
+              </mat-button-toggle>
+              <mat-button-toggle value="b_fast_picker_prange150" (click)="change_XXX()"> <mat-icon>expand</mat-icon> 150
+              </mat-button-toggle>
+              <mat-button-toggle value="b_fast_picker_prange200" (click)="change_XXX()"> <mat-icon>expand</mat-icon> 200
+              </mat-button-toggle>
+              <mat-button-toggle value="b_fast_picker_prange300" (click)="change_XXX()"> <mat-icon>expand</mat-icon> 300
+              </mat-button-toggle>
+              <mat-button-toggle value="b_fast_picker_prange500" (click)="change_XXX()"> <mat-icon>expand</mat-icon> 500
+              </mat-button-toggle>
+              <mat-button-toggle value="b_fast_picker_prange1000" (click)="change_XXX()"> <mat-icon>expand</mat-icon>
+                1000 </mat-button-toggle>
+              <mat-button-toggle value="b_fast_picker_prange9000" (click)="change_XXX()"> <mat-icon>expand</mat-icon>
+                9000 </mat-button-toggle>
             </mat-button-toggle-group>
           </section>
-          <p>Selected values: {{ bFastPickerValues }}</p>
+          <!-- <p>Selected values: {{ bFastPickerValues }}</p> -->
 
         </mat-tab>
         <mat-tab label="Second"> Content 2 </mat-tab>

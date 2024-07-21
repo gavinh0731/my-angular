@@ -288,10 +288,43 @@ export class StockSideComponent implements OnInit {
   shouldFilter_growRateCnt = false;
   shouldFilter_turnoverCnt = false;
 
+  shouldFilter_cheapCnt = false;
+  _shouldFilter_cheapCnt1 = false;
+  _shouldFilter_cheapCnt2 = false;
+  _shouldFilter_cheapCnt3 = false;
+  _shouldFilter_cheapCnt4 = false;
+
+  shouldFilter_prange = false;
+  _shouldFilter_prange50 = false;
+  _shouldFilter_prange100 = false;
+  _shouldFilter_prange150 = false;
+  _shouldFilter_prange200 = false;
+  _shouldFilter_prange300 = false;
+  _shouldFilter_prange500 = false;
+  _shouldFilter_prange1000 = false;
+  _shouldFilter_prange9000 = false;
+
   _fastInit() {
     this.shouldFilter_futures = false;
     this.shouldFilter_growRateCnt = false;
     this.shouldFilter_turnoverCnt = false;
+
+    this.shouldFilter_cheapCnt = false;
+    this._shouldFilter_cheapCnt1 = false;
+    this._shouldFilter_cheapCnt2 = false;
+    this._shouldFilter_cheapCnt3 = false;
+    this._shouldFilter_cheapCnt4 = false;
+
+    this.shouldFilter_prange = false;
+    this._shouldFilter_prange50 = false;
+    this._shouldFilter_prange100 = false;
+    this._shouldFilter_prange150 = false;
+    this._shouldFilter_prange200 = false;
+    this._shouldFilter_prange300 = false;
+    this._shouldFilter_prange500 = false;
+    this._shouldFilter_prange1000 = false;
+    this._shouldFilter_prange9000 = false;
+
     // ------------------------------------------------------------------------
     if (this.bFastPickerValues.includes("b_fast_picker_futures")) {
       this.shouldFilter_futures = true;
@@ -302,9 +335,56 @@ export class StockSideComponent implements OnInit {
     if (this.bFastPickerValues.includes("b_fast_picker_turnoverCnt")) {
       this.shouldFilter_turnoverCnt = true;
     }
-    // console.log(`shouldFilter_futures = ${this.shouldFilter_futures}`);
-    // console.log(`shouldFilter_growRateCnt = ${this.shouldFilter_growRateCnt}`);
-    // console.log(`shouldFilter_turnoverCnt = ${this.shouldFilter_turnoverCnt}`);
+
+    if (this.bFastPickerValues.includes("b_fast_picker_cheapCnt1")) {
+      this.shouldFilter_cheapCnt = true;
+      this._shouldFilter_cheapCnt1 = true;
+    }
+    if (this.bFastPickerValues.includes("b_fast_picker_cheapCnt2")) {
+      this.shouldFilter_cheapCnt = true;
+      this._shouldFilter_cheapCnt2 = true;
+    }
+    if (this.bFastPickerValues.includes("b_fast_picker_cheapCnt3")) {
+      this.shouldFilter_cheapCnt = true;
+      this._shouldFilter_cheapCnt3 = true;
+    }
+    if (this.bFastPickerValues.includes("b_fast_picker_cheapCnt4")) {
+      this.shouldFilter_cheapCnt = true;
+      this._shouldFilter_cheapCnt4 = true;
+    }
+
+    if (this.bFastPickerValues.includes("b_fast_picker_prange50")) {
+      this.shouldFilter_prange = true;
+      this._shouldFilter_prange50 = true;
+    }
+    if (this.bFastPickerValues.includes("b_fast_picker_prange100")) {
+      this.shouldFilter_prange = true;
+      this._shouldFilter_prange100 = true;
+    }
+    if (this.bFastPickerValues.includes("b_fast_picker_prange150")) {
+      this.shouldFilter_prange = true;
+      this._shouldFilter_prange150 = true;
+    }
+    if (this.bFastPickerValues.includes("b_fast_picker_prange200")) {
+      this.shouldFilter_prange = true;
+      this._shouldFilter_prange200 = true;
+    }
+    if (this.bFastPickerValues.includes("b_fast_picker_prange300")) {
+      this.shouldFilter_prange = true;
+      this._shouldFilter_prange300 = true;
+    }
+    if (this.bFastPickerValues.includes("b_fast_picker_prange500")) {
+      this.shouldFilter_prange = true;
+      this._shouldFilter_prange500 = true;
+    }
+    if (this.bFastPickerValues.includes("b_fast_picker_prange1000")) {
+      this.shouldFilter_prange = true;
+      this._shouldFilter_prange1000 = true;
+    }
+    if (this.bFastPickerValues.includes("b_fast_picker_prange9000")) {
+      this.shouldFilter_prange = true;
+      this._shouldFilter_prange9000 = true;
+    }
   }
   _fastCondition(item: any) {
     let isValid = true;
@@ -316,6 +396,52 @@ export class StockSideComponent implements OnInit {
     }
     if (this.shouldFilter_turnoverCnt) {
       isValid = isValid && item.m_basic_turnoverCnt >= 1;
+    }
+
+    if (this.shouldFilter_cheapCnt) {
+      let isCheap = false;
+      if (this._shouldFilter_cheapCnt1) {
+        isCheap = isCheap || (item.m_basic_cheapCnt == 1);
+      }
+      if (this._shouldFilter_cheapCnt2) {
+        isCheap = isCheap || (item.m_basic_cheapCnt == 2);
+      }
+      if (this._shouldFilter_cheapCnt3) {
+        isCheap = isCheap || (item.m_basic_cheapCnt == 3);
+      }
+      if (this._shouldFilter_cheapCnt4) {
+        isCheap = isCheap || (item.m_basic_cheapCnt == 4);
+      }
+      isValid = isValid && (isCheap);
+    }
+
+    if (this.shouldFilter_prange) {
+      let isRange = false;
+      if (this._shouldFilter_prange50) {
+        isRange = isRange || (item.m_basic_prange == 50);
+      }
+      if (this._shouldFilter_prange100) {
+        isRange = isRange || (item.m_basic_prange == 100);
+      }
+      if (this._shouldFilter_prange150) {
+        isRange = isRange || (item.m_basic_prange == 150);
+      }
+      if (this._shouldFilter_prange200) {
+        isRange = isRange || (item.m_basic_prange == 200);
+      }
+      if (this._shouldFilter_prange300) {
+        isRange = isRange || (item.m_basic_prange == 300);
+      }
+      if (this._shouldFilter_prange500) {
+        isRange = isRange || (item.m_basic_prange == 500);
+      }
+      if (this._shouldFilter_prange1000) {
+        isRange = isRange || (item.m_basic_prange == 1000);
+      }
+      if (this._shouldFilter_prange9000) {
+        isRange = isRange || (item.m_basic_prange == 9000);
+      }
+      isValid = isValid && (isRange);
     }
     return isValid;
   }

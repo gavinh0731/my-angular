@@ -22,6 +22,7 @@ h1.example-app-name {
     /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
        causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
     flex: 1;
+    // height: 100%;
 }
 
 .example-is-mobile .example-sidenav-container {
@@ -30,6 +31,34 @@ h1.example-app-name {
     flex: 1 0 auto;
 }
 
+.example-sidenav {
+    max-width: 400px;
+    /* 設置最大寬度 */
+}
+
+//#region === === 基本快選 === === === === === === === === === === === === === ===
+/* 自定義 button-toggle-group 的樣式 */
+.button-toggle-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    /* 可選：設置按鈕之間的間距 */
+}
+
+/* 設置每個 mat-button-toggle 的樣式 */
+mat-button-toggle {
+    flex: 1 1 auto;
+    /* 確保按鈕在換行時保持一致的寬度 */
+    min-width: 60px;
+    /* 調整按鈕的最小寬度 */
+    // margin: 4px;
+    // /* 調整按鈕的外邊距 */
+    // margin-bottom: 10px;
+    // /* 可選：設置每個按鈕底部的間距，防止太過緊湊 */
+}
+
 mat-button-toggle-group {
     margin-left: 12px;
 }
+
+//#endregion --- --- 基本快選 --- --- --- --- --- --- --- --- --- --- --- --- ---
