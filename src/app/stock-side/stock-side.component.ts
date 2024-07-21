@@ -230,7 +230,7 @@ export class StockSideComponent implements OnInit {
   pickSelected: string;
   pickMethods: PickMethod[] = [
     { value: 'stock_fish', viewValue: '股魚選股心法(A4)' },
-    { value: 'name', viewValue: 'Name' },
+    { value: 'export_yield', viewValue: '高殖填息心法(A5)' },
     { value: 'weight', viewValue: 'Weight' },
     { value: 'none', viewValue: '沒選' },
   ];
@@ -253,8 +253,9 @@ export class StockSideComponent implements OnInit {
         isValid = isValid && item.e_fish_opm > 0;
         break;
       }
-      case 'name': {
-        // this.displayedColumns = ['name'];
+      case 'export_yield': {
+        isValid = isValid && item.e_yield_cashT == 5; // 5年全填息
+        isValid = isValid && item.e_yield_cashG >= 5; // 殖利率大於等於5
         break;
       }
       case 'weight': {

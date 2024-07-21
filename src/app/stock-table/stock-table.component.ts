@@ -83,7 +83,8 @@ export class StockTableComponent implements AfterViewInit {
 
   columnStr_e_yield = [
     { key: "e_yield_stat2", value: "除息交易日" }, { key: "e_yield_cashC", value: "統計次數" }, { key: "e_yield_cashF", value: "現金發放次數" },
-    { key: "e_yield_cashG", value: "平均殖利率" }, { key: "e_yield_cashT", value: "填息成功次數" }, { key: "e_yield_cashD", value: "填息平均天數" },
+    // { key: "e_yield_cashG", value: "平均殖利率" }, { key: "e_yield_cashT", value: "填息成功次數" }, 
+    { key: "e_yield_cashD", value: "填息平均天數" },
     { key: "e_yield_cash_g1", value: "-1年殖利率" }, { key: "e_yield_cash_g2", value: "-2年殖利率" }, { key: "e_yield_cash_g3", value: "-3年殖利率" },
     { key: "e_yield_cash_g4", value: "-4年殖利率" }, { key: "e_yield_cash_g5", value: "-5年殖利率" },
     { key: "e_yield_cash_d1", value: "-1年填息天數" }, { key: "e_yield_cash_d2", value: "-2年填息天數" }, { key: "e_yield_cash_d3", value: "-3年填息天數" },
@@ -301,7 +302,7 @@ export class StockTableComponent implements AfterViewInit {
   }
   //#endregion --- --- 顯示的欄位名稱 --- --- --- --- --- --- --- --- --- --- ---
 
-  // region === === 快捷鍵 === === === === === === === === === === === === === ===
+  //#region === === 快捷鍵 === === === === === === === === === === === === === ===
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
     if (event.altKey && event.key === '1') {
@@ -320,6 +321,10 @@ export class StockTableComponent implements AfterViewInit {
       event.preventDefault();
       this.changeDisplayedColumns("e_fish");
       this.selected = "e_fish";
+    } else if (event.altKey && event.key === '5') {
+      event.preventDefault();
+      this.changeDisplayedColumns("e_yield");
+      this.selected = "e_yield";
     } else if (event.key === 'ArrowRight') {
       this.nextPage();
     } else if (event.key === 'ArrowLeft') {
@@ -338,9 +343,9 @@ export class StockTableComponent implements AfterViewInit {
       this.paginator.previousPage();
     }
   }
-  // region --- --- 快捷鍵 --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+  //#endregion --- --- 快捷鍵 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
-  // region === === 選取列 === === === === === === === === === === === === === ===
+  //#region === === 選取列 === === === === === === === === === === === === === ===
   selectedRows: any;
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?: any): string {
@@ -370,14 +375,14 @@ export class StockTableComponent implements AfterViewInit {
   getSelectedRows() {
     return this.selection.selected;
   }
-  // region --- --- 選取列 --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+  //#endregion --- --- 選取列 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
-  // region === === 搜尋過濾 === === === === === === === === === === === === ===
+  //#region === === 搜尋過濾 === === === === === === === === === === === === ===
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  // region --- --- 搜尋過濾 --- --- --- --- --- --- --- --- --- --- --- --- ---
+  //#endregion --- --- 搜尋過濾 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   setData(data: any) {
     // console.log(`data = ${data}`)

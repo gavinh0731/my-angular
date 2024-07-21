@@ -440,6 +440,24 @@
     </th>
     <td mat-cell *matCellDef="let element"> {{element[col.key]}} </td>
   </ng-container>
+  <!-- 1. Column -->
+  <ng-container matColumnDef="e_yield_cashG">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <b>平均殖利率</b>
+    </th>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight_more_than(5, element.e_yield_cashG)}">
+      <b>{{element.e_yield_cashG}}</b>
+    </td>
+  </ng-container>
+  <!-- 2. Column -->
+  <ng-container matColumnDef="e_yield_cashT">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <b>填息成功次數</b>
+    </th>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight_more_than(5, element.e_yield_cashT)}">
+      <b>{{element.e_yield_cashT}}</b>
+    </td>
+  </ng-container>
   <!-- 💰除權息統計 End --------------------------------------------------------->
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns" class="sticky-header"></tr>
