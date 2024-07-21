@@ -15,13 +15,15 @@ export class StockDataService {
   private json_p_dpct = 'assets/json/price_dpct.json'; // 交易狀況_近12日漲跌幅
   private json_e_icr = 'assets/json/export_incomerate.json'; // EPS成長
   private json_m_eps = 'assets/json/my_eps.json'; // 我的EPS
+  private json_e_yield = 'assets/json/export_yield.json'; // JSON 檔案的路徑
 
   private json_otc_basic_info = 'assets/json_otc/basic_info.json'; // JSON 檔案的路徑
   // private json_otc_my_basic = 'assets/json_otc/my_basic.json'; // JSON 檔案的路徑
-  // private json_otc_e_fish = 'assets/json_otc/export_stockfish.json'; // JSON 檔案的路徑
+  // private json_otc_e_fish = 'assets/json_otc/export_stockfish.json'; // JSON 檔案的路徑  
   private json_otc_p_dpct = 'assets/json_otc/price_dpct.json'; // 交易狀況_近12日漲跌幅
   // private json_otc_e_icr = 'assets/json_otc/export_incomerate.json'; // EPS成長
   // private json_otc_m_eps = 'assets/json_otc/my_eps.json'; // 我的EPS
+  // private json_otc_e_yield = 'assets/json_otc/export_yield.json'; // JSON 檔案的路徑
 
   constructor(private http: HttpClient) { }
 
@@ -102,6 +104,12 @@ export class StockDataService {
     );
   }
 
+  getData7(): Observable<any> {
+    return this.http.get(this.json_e_yield).pipe(
+      map((data: any) => data.map((item: any) => this.transformObject(item.e_yield, "e_yield")))
+    );
+  }
+
 
   // ---------------------------------------------------------------------------
   mergeData(obs1: Observable<any>, key1: any, obs2: Observable<any>, key2: any): Observable<any> {
@@ -122,6 +130,7 @@ export class StockDataService {
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData3(), "e_fish_code");
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData4(), "p_dpct_code");
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData5(), "e_icr_code");
-    return this.mergeData(tmpCombine, "b_info_code", this.getData6(), "m_eps_code");
+    tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData6(), "m_eps_code");
+    return this.mergeData(tmpCombine, "b_info_code", this.getData7(), "e_yield_code");
   }
 }

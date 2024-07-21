@@ -33,6 +33,8 @@ export class StockTableComponent implements AfterViewInit {
   dataSource: any;
   selection: any;
 
+
+  //#region === === 自動生成項目 === === === === === === === === === === === ===
   columnStr_m_basic = [
     // { key: "epsp", value: "EPS估價" }, { key: "yiep", value: "殖利率估價" }, { key: "kp", value: "ROE估價" },
     //{ key: "pbr", value: "股價淨值比" }, { key: "m_basic_tper", value: "總報酬本益比" }, { key: "m_basic_cheap", value: "便宜度" },  
@@ -78,6 +80,16 @@ export class StockTableComponent implements AfterViewInit {
     { key: "m_eps_yroe8", value: "-5年ROE (%)" }, { key: "m_eps_yroe9", value: "-4年ROE (%)" }, { key: "m_eps_yroe10", value: "-3年ROE (%)" },
     { key: "m_eps_yroe11", value: "-2年ROE (%)" }, { key: "m_eps_yroe12", value: "去年ROE (%)" }, { key: "m_eps_yroe13", value: "今年ROE (%)" },
   ];
+
+  columnStr_e_yield = [
+    { key: "e_yield_stat2", value: "除息交易日" }, { key: "e_yield_cashC", value: "統計次數" }, { key: "e_yield_cashF", value: "現金發放次數" },
+    { key: "e_yield_cashG", value: "平均殖利率" }, { key: "e_yield_cashT", value: "填息成功次數" }, { key: "e_yield_cashD", value: "填息平均天數" },
+    { key: "e_yield_cash_g1", value: "-1年殖利率" }, { key: "e_yield_cash_g2", value: "-2年殖利率" }, { key: "e_yield_cash_g3", value: "-3年殖利率" },
+    { key: "e_yield_cash_g4", value: "-4年殖利率" }, { key: "e_yield_cash_g5", value: "-5年殖利率" },
+    { key: "e_yield_cash_d1", value: "-1年填息天數" }, { key: "e_yield_cash_d2", value: "-2年填息天數" }, { key: "e_yield_cash_d3", value: "-3年填息天數" },
+    { key: "e_yield_cash_d4", value: "-4年填息天數" }, { key: "e_yield_cash_d5", value: "-5年填息天數" },
+  ];
+  //#endregion --- --- 自動生成項目 --- --- --- --- --- --- --- --- --- --- --- ---
 
   // ---------------------------------------------------------------------------
   displayedColumns: string[] = [
@@ -195,14 +207,17 @@ export class StockTableComponent implements AfterViewInit {
     { value: 'm_basic', viewValue: '📈我的基本面　(A2)' },
     { value: 'm_eps', viewValue: '💷我的EPS　　(A3)' },
     { value: 'e_fish', viewValue: '🐟股魚基本面　(A4)' },
+    { value: 'e_yield', viewValue: '💰除權息統計　(A5)' },
     { value: 'e_icr', viewValue: '💹EPS成長' },
-    { value: 'p_dpct', viewValue: '💰交易狀況' }, //_近12日漲跌幅
+    { value: 'p_dpct', viewValue: '📊交易狀況' }, //_近12日漲跌幅
   ];
 
   menu_items_transaction: StockMenu[] = [
-    { value: 'p_dpct', viewValue: '💰交易狀況_近12日漲跌幅' },
+    { value: 'p_dpct', viewValue: '📊交易狀況_近12日漲跌幅' },
   ];
 
+
+  //#region === === 顯示的欄位名稱 === === === === === === === === === === === ===
   changeDisplayedColumns(perspective: any) {
     console.log(`perspective = ${perspective}`);
     switch (perspective) {
@@ -268,12 +283,23 @@ export class StockTableComponent implements AfterViewInit {
         ];
         break;
       }
+      case 'e_yield': {
+        this.displayedColumns = [
+          'b_info_code', 'b_info_name', 'b_info_price', 'b_info_change', 'b_info_pct',
+          "e_yield_stat2", "e_yield_cashC", "e_yield_cashF", "e_yield_cashG", "e_yield_cashT",
+          "e_yield_cashD",
+          "e_yield_cash_g1", "e_yield_cash_g2", "e_yield_cash_g3", "e_yield_cash_g4", "e_yield_cash_g5",
+          "e_yield_cash_d1", "e_yield_cash_d2", "e_yield_cash_d3", "e_yield_cash_d4", "e_yield_cash_d5",
+        ];
+        break;
+      }
       default: {
         this.displayedColumns = ['date'];
         break;
       }
     }
   }
+  //#endregion --- --- 顯示的欄位名稱 --- --- --- --- --- --- --- --- --- --- ---
 
   // region === === 快捷鍵 === === === === === === === === === === === === === ===
   @HostListener('window:keydown', ['$event'])
