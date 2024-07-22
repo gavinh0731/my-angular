@@ -470,7 +470,7 @@
   </ng-container>
   <!-- 🪙我的籌碼面 End --------------------------------------------------------->
 
-  <!-- 👩‍🦳法人投本比　Start ------------------------------------------------------>
+  <!-- 🤵法人投本比　Start ------------------------------------------------------>
   <!-- 1. Column -->
   <ng-container *ngFor="let col of columnStr_c_trust let idx=index" [matColumnDef]="col.key">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -479,7 +479,18 @@
     <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight_more_than(0, element[col.key])}">
       {{element[col.key]}} </td>
   </ng-container>
-  <!-- 👩‍🦳法人投本比 End --------------------------------------------------------->
+  <!-- 🤵法人投本比 End --------------------------------------------------------->
+
+  <!-- 👨法人外本比　Start ------------------------------------------------------>
+  <!-- 1. Column -->
+  <ng-container *ngFor="let col of columnStr_c_foreign let idx=index" [matColumnDef]="col.key">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <b>{{col.value}}</b>
+    </th>
+    <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight_more_than(0, element[col.key])}">
+      {{element[col.key]}} </td>
+  </ng-container>
+  <!-- 👨法人外本比 End --------------------------------------------------------->
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns" class="sticky-header"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"

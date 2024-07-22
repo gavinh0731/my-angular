@@ -105,6 +105,14 @@ export class StockTableComponent implements AfterViewInit {
     { key: "c_trust_year", value: "今年投本比" }, { key: "c_trust_year1", value: "一年投本比" }, { key: "c_trust_year3", value: "三年投本比" },
     { key: "c_trust_year10", value: "十年投本比" },
   ];
+
+  columnStr_c_foreign = [
+    { key: "c_foreign_date", value: "法人買賣日期" }, { key: "c_foreign_today", value: "當日外本比" }, { key: "c_foreign_day2", value: "2日外本比" },
+    { key: "c_foreign_day3", value: "3日外本比" }, { key: "c_foreign_day5", value: "5日外本比" }, { key: "c_foreign_day10", value: "10日外本比" },
+    { key: "c_foreign_day30", value: "一個月外本比" }, { key: "c_foreign_day90", value: "三個月外本比" }, { key: "c_foreign_day180", value: "半年外本比" },
+    { key: "c_foreign_year", value: "今年外本比" }, { key: "c_foreign_year1", value: "一年外本比" }, { key: "c_foreign_year3", value: "三年外本比" },
+    { key: "c_foreign_year10", value: "十年外本比" },
+  ];
   //#endregion --- --- 自動生成項目 --- --- --- --- --- --- --- --- --- --- --- ---
 
   // ---------------------------------------------------------------------------
@@ -230,7 +238,8 @@ export class StockTableComponent implements AfterViewInit {
 
   menu_items_chip: StockMenu[] = [
     { value: 'm_chip', viewValue: '🪙我的籌碼面　(A6)' },
-    { value: 'c_trust', viewValue: '👩‍🦳法人投本比　(A7)' },
+    { value: 'c_trust', viewValue: '🤵法人投本比　(A7)' },
+    { value: 'c_foreign', viewValue: '👨法人外本比　(A8)' },
   ];
 
 
@@ -329,6 +338,15 @@ export class StockTableComponent implements AfterViewInit {
         ];
         break;
       }
+      case 'c_foreign': {
+        this.displayedColumns = [
+          'b_info_code', 'b_info_name', 'b_info_price', 'b_info_change', 'b_info_pct',
+          "c_foreign_date", "c_foreign_today", "c_foreign_day2", "c_foreign_day3", "c_foreign_day5",
+          "c_foreign_day10", "c_foreign_day30", "c_foreign_day90", "c_foreign_day180", "c_foreign_year",
+          "c_foreign_year1", "c_foreign_year3", "c_foreign_year10",
+        ];
+        break;
+      }
       default: {
         this.displayedColumns = ['date'];
         break;
@@ -368,6 +386,10 @@ export class StockTableComponent implements AfterViewInit {
       event.preventDefault();
       this.changeDisplayedColumns("c_trust");
       this.selected = "c_trust";
+    } else if (event.altKey && event.key === '8') {
+      event.preventDefault();
+      this.changeDisplayedColumns("c_foreign");
+      this.selected = "c_foreign";
     } else if (event.key === 'ArrowRight') {
       this.nextPage();
     } else if (event.key === 'ArrowLeft') {

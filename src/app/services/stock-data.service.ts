@@ -32,9 +32,11 @@ export class StockDataService {
   //#region === === 籌碼面 === === === === === === === === === === === === === ===
   private json_m_chip = 'assets/json/my_chip.json'; // JSON 檔案的路徑
   private json_c_trust = 'assets/json/chip_trust.json'; // JSON 檔案的路徑
+  private json_c_foreign = 'assets/json/chip_foreign.json'; // JSON 檔案的路徑
 
   // private json_otc_m_chip = 'assets/json_otc/my_chip.json'; // JSON 檔案的路徑
   private json_otc_c_trust = 'assets/json_otc/chip_trust.json'; // JSON 檔案的路徑
+  private json_otc_c_foreign = 'assets/json_otc/chip_foreign.json'; // JSON 檔案的路徑
   //#endregion --- --- 籌碼面 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   constructor(private http: HttpClient) { }
@@ -153,6 +155,28 @@ export class StockDataService {
 
     );
   }
+
+  getData10(): Observable<any> {
+    // 發送兩個 HTTP 請求來讀取 JSON 檔案
+    return forkJoin([
+      this.http.get<any[]>(this.json_c_foreign),
+      this.http.get<any[]>(this.json_otc_c_foreign)
+    ]).pipe(
+      // 合併兩個數據流的結果
+      map(([array1, array2]) => {
+        // 確保每個請求返回的是數組
+        if (!Array.isArray(array1)) {
+          array1 = [];
+        }
+        if (!Array.isArray(array2)) {
+          array2 = [];
+        }
+        // 合併兩個數組
+        return [...array1, ...array2];
+      }), map((data: any) => data.map((item: any) => this.transformObject(item.c_foreign, "c_foreign")))
+
+    );
+  }
   //#endregion --- --- 籌碼面 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   // ---------------------------------------------------------------------------
@@ -177,6 +201,7 @@ export class StockDataService {
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData6(), "m_eps_code");
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData7(), "e_yield_code");
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData8(), "m_chip_code");
-    return this.mergeData(tmpCombine, "b_info_code", this.getData9(), "c_trust_code");
+    tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData9(), "c_trust_code");
+    return this.mergeData(tmpCombine, "b_info_code", this.getData10(), "c_foreign_code");
   }
 }
