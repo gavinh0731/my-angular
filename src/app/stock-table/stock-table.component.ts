@@ -97,6 +97,14 @@ export class StockTableComponent implements AfterViewInit {
     { key: "m_chip_tbuy180", value: "投信_半年內買" }, { key: "m_chip_tod1", value: "投本比_當天等於0.X%" }, { key: "m_chip_fbuy180", value: "外資_半年內買" },
     { key: "m_chip_retail", value: "散戶減少" }, { key: "m_chip_big", value: "大戶增加" }, { key: "m_chip_loan10", value: "10日融資減" },
   ];
+
+  columnStr_c_trust = [
+    { key: "c_trust_date", value: "法人買賣日期" }, { key: "c_trust_today", value: "當日投本比" }, { key: "c_trust_day2", value: "2日投本比" },
+    { key: "c_trust_day3", value: "3日投本比" }, { key: "c_trust_day5", value: "5日投本比" }, { key: "c_trust_day10", value: "10日投本比" },
+    { key: "c_trust_day30", value: "一個月投本比" }, { key: "c_trust_day90", value: "三個月投本比" }, { key: "c_trust_day180", value: "半年投本比" },
+    { key: "c_trust_year", value: "今年投本比" }, { key: "c_trust_year1", value: "一年投本比" }, { key: "c_trust_year3", value: "三年投本比" },
+    { key: "c_trust_year10", value: "十年投本比" },
+  ];
   //#endregion --- --- 自動生成項目 --- --- --- --- --- --- --- --- --- --- --- ---
 
   // ---------------------------------------------------------------------------
@@ -221,7 +229,8 @@ export class StockTableComponent implements AfterViewInit {
   ];
 
   menu_items_chip: StockMenu[] = [
-    { value: 'm_chip', viewValue: '🪙我的籌碼面　(Aq)' },
+    { value: 'm_chip', viewValue: '🪙我的籌碼面　(A6)' },
+    { value: 'c_trust', viewValue: '👩‍🦳法人投本比　(A7)' },
   ];
 
 
@@ -311,6 +320,15 @@ export class StockTableComponent implements AfterViewInit {
         ];
         break;
       }
+      case 'c_trust': {
+        this.displayedColumns = [
+          'b_info_code', 'b_info_name', 'b_info_price', 'b_info_change', 'b_info_pct',
+          "c_trust_date", "c_trust_today", "c_trust_day2", "c_trust_day3", "c_trust_day5",
+          "c_trust_day10", "c_trust_day30", "c_trust_day90", "c_trust_day180", "c_trust_year",
+          "c_trust_year1", "c_trust_year3", "c_trust_year10",
+        ];
+        break;
+      }
       default: {
         this.displayedColumns = ['date'];
         break;
@@ -342,10 +360,14 @@ export class StockTableComponent implements AfterViewInit {
       event.preventDefault();
       this.changeDisplayedColumns("e_yield");
       this.selected = "e_yield";
-    } else if (event.altKey && event.key === 'q') {
+    } else if (event.altKey && event.key === '6') {
       event.preventDefault();
       this.changeDisplayedColumns("m_chip");
       this.selected = "m_chip";
+    } else if (event.altKey && event.key === '7') {
+      event.preventDefault();
+      this.changeDisplayedColumns("c_trust");
+      this.selected = "c_trust";
     } else if (event.key === 'ArrowRight') {
       this.nextPage();
     } else if (event.key === 'ArrowLeft') {
