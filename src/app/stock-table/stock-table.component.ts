@@ -313,7 +313,7 @@ export class StockTableComponent implements AfterViewInit {
       case 'm_chip': {
         this.displayedColumns = [
           'b_info_code', 'b_info_name', 'b_info_capital', 'b_info_price', 'b_info_change', 'b_info_pct',
-          'p_dpct_volume', 'm_basic_amount', 'm_basic_turnover', //'c_trust_date',
+          'p_dpct_volume', 'm_basic_amount', 'm_basic_turnover', 'c_trust_date',
           "m_chip_phigh6", "m_chip_ttoday", "m_chip_inc100", "m_chip_inc400", "m_chip_lday10",
           "m_chip_phigh240", "m_chip_tbuy180", "m_chip_tod1", "m_chip_fbuy180", "m_chip_retail",
           "m_chip_big", "m_chip_loan10",
