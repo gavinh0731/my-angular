@@ -93,6 +93,34 @@ export class StockSideComponent implements OnInit {
   //#endregion --- --- 生命週期 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   //#region === === DropDown Menu === === === === === === === === === === === ===
+  change_XXX() {
+    let tmpData: any;
+    tmpData = this._change_XXX();
+    this._activate_data(tmpData);
+  }
+
+  _change_XXX() {
+    let tmpData: any;
+
+    // 動態變數設置過濾條件
+    this._fastInit();
+    this._fastChipInit();
+
+    tmpData = this.filterdData.pipe(
+      map((items: any[]) => {
+        return items.filter(item => {
+          let isValid = true;
+          isValid = isValid && this._industrysCondition(item);
+          isValid = isValid && this._pickerCondition(item);
+          isValid = isValid && this._fastCondition(item);
+          isValid = isValid && this._fastChipCondition(item);
+          return isValid;
+        });
+      })
+    );
+    return tmpData;
+  }
+
   _activate_data(tmpData: any) {
     tmpData.subscribe(
       // this.stockDataService.getData1().subscribe(
@@ -446,33 +474,115 @@ export class StockSideComponent implements OnInit {
     }
     return isValid;
   }
-
-  change_XXX() {
-    let tmpData: any;
-    tmpData = this._change_XXX();
-    this._activate_data(tmpData);
-  }
-
-  _change_XXX() {
-    let tmpData: any;
-
-    // 動態變數設置過濾條件
-    this._fastInit();
-
-    tmpData = this.filterdData.pipe(
-      map((items: any[]) => {
-        return items.filter(item => {
-          let isValid = true;
-          isValid = isValid && this._industrysCondition(item);
-          isValid = isValid && this._pickerCondition(item);
-          isValid = isValid && this._fastCondition(item);
-          return isValid;
-        });
-      })
-    );
-    return tmpData;
-  }
   //#endregion --- --- 基本快選 --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+  //#region === === 籌碼快選 === === === === === === === === === === === === ===
+  bFastChipPickerValues: string[] = []; // 多選模式的選擇值
+
+  shouldFilter_Chip_phigh240 = false;
+
+  shouldFilter_Chip_tbuy180 = false;
+  _shouldFilter_Chip_tbuy180_1 = false;
+  _shouldFilter_Chip_tbuy180_2 = false;
+  _shouldFilter_Chip_tbuy180_3 = false;
+  _shouldFilter_Chip_tbuy180_4 = false;
+  _shouldFilter_Chip_tbuy180_5 = false;
+  _shouldFilter_Chip_tbuy180_6 = false;
+  _shouldFilter_Chip_tbuy180_7 = false;
+  _shouldFilter_Chip_tbuy180_8 = false;
+
+
+  _fastChipInit() {
+    this.shouldFilter_Chip_phigh240 = false;
+
+    this.shouldFilter_Chip_tbuy180 = false;
+    this._shouldFilter_Chip_tbuy180_1 = false;
+    this._shouldFilter_Chip_tbuy180_2 = false;
+    this._shouldFilter_Chip_tbuy180_3 = false;
+    this._shouldFilter_Chip_tbuy180_4 = false;
+    this._shouldFilter_Chip_tbuy180_5 = false;
+    this._shouldFilter_Chip_tbuy180_6 = false;
+    this._shouldFilter_Chip_tbuy180_7 = false;
+    this._shouldFilter_Chip_tbuy180_8 = false;
+
+    // ------------------------------------------------------------------------
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_phigh240")) {
+      this.shouldFilter_Chip_phigh240 = true;
+    }
+
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tbuy180_1")) {
+      this.shouldFilter_Chip_tbuy180 = true;
+      this._shouldFilter_Chip_tbuy180_1 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tbuy180_2")) {
+      this.shouldFilter_Chip_tbuy180 = true;
+      this._shouldFilter_Chip_tbuy180_2 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tbuy180_3")) {
+      this.shouldFilter_Chip_tbuy180 = true;
+      this._shouldFilter_Chip_tbuy180_3 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tbuy180_4")) {
+      this.shouldFilter_Chip_tbuy180 = true;
+      this._shouldFilter_Chip_tbuy180_4 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tbuy180_5")) {
+      this.shouldFilter_Chip_tbuy180 = true;
+      this._shouldFilter_Chip_tbuy180_5 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tbuy180_6")) {
+      this.shouldFilter_Chip_tbuy180 = true;
+      this._shouldFilter_Chip_tbuy180_6 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tbuy180_7")) {
+      this.shouldFilter_Chip_tbuy180 = true;
+      this._shouldFilter_Chip_tbuy180_7 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tbuy180_8")) {
+      this.shouldFilter_Chip_tbuy180 = true;
+      this._shouldFilter_Chip_tbuy180_8 = true;
+    }
+
+  }
+  _fastChipCondition(item: any) {
+    let isValid = true;
+    if (this.shouldFilter_Chip_phigh240) {
+      isValid = isValid && item.m_chip_phigh240 == 1;
+    }
+
+    if (this.shouldFilter_Chip_tbuy180) {
+      let isChip = false;
+      if (this._shouldFilter_Chip_tbuy180_1) {
+        isChip = isChip || (item.m_chip_tbuy180 == 1);
+      }
+      if (this._shouldFilter_Chip_tbuy180_2) {
+        isChip = isChip || (item.m_chip_tbuy180 == 2);
+      }
+      if (this._shouldFilter_Chip_tbuy180_3) {
+        isChip = isChip || (item.m_chip_tbuy180 == 3);
+      }
+      if (this._shouldFilter_Chip_tbuy180_4) {
+        isChip = isChip || (item.m_chip_tbuy180 == 4);
+      }
+      if (this._shouldFilter_Chip_tbuy180_5) {
+        isChip = isChip || (item.m_chip_tbuy180 == 5);
+      }
+      if (this._shouldFilter_Chip_tbuy180_6) {
+        isChip = isChip || (item.m_chip_tbuy180 == 6);
+      }
+      if (this._shouldFilter_Chip_tbuy180_7) {
+        isChip = isChip || (item.m_chip_tbuy180 == 7);
+      }
+      if (this._shouldFilter_Chip_tbuy180_8) {
+        isChip = isChip || (item.m_chip_tbuy180 == 8);
+      }
+      isValid = isValid && (isChip);
+    }
+    return isValid;
+  }
+
+
+  //#endregion --- --- 籌碼快選 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   //#endregion --- --- DropDown Menu --- --- --- --- --- --- --- --- --- --- --- ---
 }
