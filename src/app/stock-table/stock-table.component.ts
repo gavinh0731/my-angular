@@ -90,6 +90,13 @@ export class StockTableComponent implements AfterViewInit {
     { key: "e_yield_cash_d1", value: "-1年填息天數" }, { key: "e_yield_cash_d2", value: "-2年填息天數" }, { key: "e_yield_cash_d3", value: "-3年填息天數" },
     { key: "e_yield_cash_d4", value: "-4年填息天數" }, { key: "e_yield_cash_d5", value: "-5年填息天數" },
   ];
+
+  columnStr_my_chip = [
+    { key: "m_chip_phigh6", value: "半年最高價" }, { key: "m_chip_ttoday", value: "當日投本比" }, { key: "m_chip_inc100", value: "100張以下散戶增減" },
+    { key: "m_chip_inc400", value: "400張以上大戶增減" }, { key: "m_chip_lday10", value: "10日融資增減佔發行量％" }, { key: "m_chip_phigh240", value: "股價創半年新高" },
+    { key: "m_chip_tbuy180", value: "投信_半年內買" }, { key: "m_chip_tod1", value: "投本比_當天等於0.X%" }, { key: "m_chip_fbuy180", value: "外資_半年內買" },
+    { key: "m_chip_retail", value: "散戶減少" }, { key: "m_chip_big", value: "大戶增加" }, { key: "m_chip_loan10", value: "10日融資減" },
+  ];
   //#endregion --- --- 自動生成項目 --- --- --- --- --- --- --- --- --- --- --- ---
 
   // ---------------------------------------------------------------------------
@@ -213,8 +220,8 @@ export class StockTableComponent implements AfterViewInit {
     { value: 'p_dpct', viewValue: '📊交易狀況' }, //_近12日漲跌幅
   ];
 
-  menu_items_transaction: StockMenu[] = [
-    { value: 'p_dpct', viewValue: '📊交易狀況_近12日漲跌幅' },
+  menu_items_chip: StockMenu[] = [
+    { value: 'm_chip', viewValue: '🪙我的籌碼面　(Aq)' },
   ];
 
 
@@ -294,6 +301,16 @@ export class StockTableComponent implements AfterViewInit {
         ];
         break;
       }
+      case 'm_chip': {
+        this.displayedColumns = [
+          'b_info_code', 'b_info_name', 'b_info_capital', 'b_info_price', 'b_info_change', 'b_info_pct',
+          'p_dpct_volume', 'm_basic_amount', 'm_basic_turnover', //'c_trust_date',
+          "m_chip_phigh6", "m_chip_ttoday", "m_chip_inc100", "m_chip_inc400", "m_chip_lday10",
+          "m_chip_phigh240", "m_chip_tbuy180", "m_chip_tod1", "m_chip_fbuy180", "m_chip_retail",
+          "m_chip_big", "m_chip_loan10",
+        ];
+        break;
+      }
       default: {
         this.displayedColumns = ['date'];
         break;
@@ -325,6 +342,10 @@ export class StockTableComponent implements AfterViewInit {
       event.preventDefault();
       this.changeDisplayedColumns("e_yield");
       this.selected = "e_yield";
+    } else if (event.altKey && event.key === 'q') {
+      event.preventDefault();
+      this.changeDisplayedColumns("m_chip");
+      this.selected = "m_chip";
     } else if (event.key === 'ArrowRight') {
       this.nextPage();
     } else if (event.key === 'ArrowLeft') {

@@ -9,6 +9,8 @@ import * as _ from 'lodash';
   providedIn: 'root'
 })
 export class StockDataService {
+
+  //#region === === 基本面 === === === === === === === === === === === === === ===
   private json_basic_info = 'assets/json/basic_info.json'; // JSON 檔案的路徑
   private json_my_basic = 'assets/json/my_basic.json'; // JSON 檔案的路徑
   private json_e_fish = 'assets/json/export_stockfish.json'; // JSON 檔案的路徑
@@ -24,6 +26,14 @@ export class StockDataService {
   // private json_otc_e_icr = 'assets/json_otc/export_incomerate.json'; // EPS成長
   // private json_otc_m_eps = 'assets/json_otc/my_eps.json'; // 我的EPS
   // private json_otc_e_yield = 'assets/json_otc/export_yield.json'; // JSON 檔案的路徑
+  //#endregion --- --- 基本面 --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+
+  //#region === === 籌碼面 === === === === === === === === === === === === === ===
+  private json_m_chip = 'assets/json/my_chip.json'; // JSON 檔案的路徑
+
+  private json_otc_m_chip = 'assets/json_otc/my_chip.json'; // JSON 檔案的路徑
+  //#endregion --- --- 籌碼面 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   constructor(private http: HttpClient) { }
 
@@ -36,6 +46,7 @@ export class StockDataService {
     }, {});
   }
 
+  //#region === === 基本面 === === === === === === === === === === === === === ===
   getData1(): Observable<any> {
     // 發送兩個 HTTP 請求來讀取 JSON 檔案
     return forkJoin([
@@ -109,7 +120,16 @@ export class StockDataService {
       map((data: any) => data.map((item: any) => this.transformObject(item.e_yield, "e_yield")))
     );
   }
+  //#endregion --- --- 基本面 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
+
+  //#region === === 籌碼面 === === === === === === === === === === === === === ===
+  getData8(): Observable<any> {
+    return this.http.get(this.json_m_chip).pipe(
+      map((data: any) => data.map((item: any) => this.transformObject(item.m_chip, "m_chip")))
+    );
+  }
+  //#endregion --- --- 籌碼面 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   // ---------------------------------------------------------------------------
   mergeData(obs1: Observable<any>, key1: any, obs2: Observable<any>, key2: any): Observable<any> {
@@ -131,6 +151,7 @@ export class StockDataService {
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData4(), "p_dpct_code");
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData5(), "e_icr_code");
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData6(), "m_eps_code");
-    return this.mergeData(tmpCombine, "b_info_code", this.getData7(), "e_yield_code");
+    tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData7(), "e_yield_code");
+    return this.mergeData(tmpCombine, "b_info_code", this.getData8(), "m_chip_code");
   }
 }

@@ -12,9 +12,9 @@
   </mat-select>
 </mat-form-field>
 <mat-form-field>
-  <mat-label>交易狀況</mat-label>
+  <mat-label>籌碼面</mat-label>
   <mat-select [(value)]="selected" (valueChange)="changeDisplayedColumns($event)">
-    @for (menu of menu_items_transaction; track menu) {
+    @for (menu of menu_items_chip; track menu) {
     <mat-option [value]="menu.value">{{menu.viewValue}}</mat-option>
     }
   </mat-select>
@@ -457,6 +457,16 @@
     <td mat-cell *matCellDef="let element" [ngClass]="{'highlight': isHighlight_more_than(5, element.e_yield_cashT)}">
       <b>{{element.e_yield_cashT}}</b>
     </td>
+  </ng-container>
+  <!-- 💰除權息統計 End --------------------------------------------------------->
+
+  <!-- 💰除權息統計　Start ------------------------------------------------------>
+  <!-- 1. Column -->
+  <ng-container *ngFor="let col of columnStr_my_chip let idx=index" [matColumnDef]="col.key">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <b>{{col.value}}</b>
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element[col.key]}} </td>
   </ng-container>
   <!-- 💰除權息統計 End --------------------------------------------------------->
 
