@@ -33,8 +33,8 @@
       </mat-form-field>
 
       <mat-tab-group>
-        <mat-tab label="我的基本面">
-          <button mat-button extended> <mat-icon>cancel</mat-icon> 取消基本快選 </button>
+        <mat-tab label="我的基本面(A2)">
+          <button mat-button extended (click)="refresh_Basic()"> <mat-icon>cancel</mat-icon> 取消基本快選 </button>
           <br>
           <hr>
 
@@ -82,8 +82,12 @@
         </mat-tab>
 
 
-        <mat-tab label="我的籌碼面">
-          <button mat-button extended> <mat-icon>cancel</mat-icon> 取消籌碼快選 </button>
+        <mat-tab label="我的籌碼面(A6)">
+          <button mat-button extended (click)="refresh_Chip()"> <mat-icon>cancel</mat-icon> 取消籌碼快選 </button>
+          <button mat-button extended (click)="trigger_retail()"> <mat-icon>tungsten</mat-icon> 散戶明燈 </button>
+          <button mat-button extended (click)="trigger_tbuy()"> <mat-icon>savings</mat-icon> 投信半年持續買 </button>
+          <button mat-button extended (click)="trigger_tod1()"> <mat-icon>account_balance_wallet</mat-icon> 投信忽然大買
+          </button>
           <br>
           <hr>
 

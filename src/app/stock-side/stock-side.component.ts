@@ -229,29 +229,60 @@ export class StockSideComponent implements OnInit {
 
   // 重新設定
   refresh() {
-    let tmpData: any;
-
-    tmpData = this.obsData;
-    this.filterdData = tmpData;
     this.selected_ByIndustrys = [];   // 取消產業別選取
     this.selected_ByPickerMethods = "none";   // 取消選股心法選取
     this.bFastPickerValues = [];  // 取消快選
     this.bFastChipPickerValues = [];  // 取消快選
 
-    tmpData.subscribe(
-      // this.stockDataService.getData1().subscribe(
-      (response: any) => {
-        this.data = response;
-        console.log("this.data = ", this.data);
-      },
-      (error: any) => {
-        console.error('Error:', error);
-      }
-    );
+    this.change_XXX();
+  }
 
-    setTimeout(() => {
-      this.setChildDataFun();
-    }, 500);
+  refresh_Basic() {
+    // this.selected_ByIndustrys = [];   // 取消產業別選取
+    // this.selected_ByPickerMethods = "none";   // 取消選股心法選取
+    this.bFastPickerValues = [];  // 取消快選
+    // this.bFastChipPickerValues = [];  // 取消快選
+
+    this.change_XXX();
+  }
+
+  refresh_Chip() {
+    // this.selected_ByIndustrys = [];   // 取消產業別選取
+    // this.selected_ByPickerMethods = "none";   // 取消選股心法選取
+    // this.bFastPickerValues = [];  // 取消快選
+    this.bFastChipPickerValues = [];  // 取消快選
+
+    this.change_XXX();
+  }
+
+  // 散戶明燈
+  trigger_retail() {
+    this.bFastChipPickerValues = ["b_fast_picker_chip_phigh240",
+      "b_fast_picker_chip_retail", "b_fast_picker_chip_loan10",
+    ];
+
+    this.change_XXX();
+  }
+
+  trigger_tbuy() {
+    this.bFastChipPickerValues = ["b_fast_picker_chip_tbuy180_8",
+      "b_fast_picker_chip_tod1_1", "b_fast_picker_chip_tod1_2", "b_fast_picker_chip_tod1_3",
+      "b_fast_picker_chip_tod1_4", "b_fast_picker_chip_tod1_5", "b_fast_picker_chip_tod1_6",
+      "b_fast_picker_chip_tod1_7", "b_fast_picker_chip_tod1_8", "b_fast_picker_chip_tod1_9",
+      "b_fast_picker_chip_tod1_10",
+    ];
+
+    this.change_XXX();
+  }
+
+  trigger_tod1() {
+    this.bFastChipPickerValues = ["b_fast_picker_chip_tbuy180_8",
+      "b_fast_picker_chip_fbuy180_1", "b_fast_picker_chip_fbuy180_2", "b_fast_picker_chip_fbuy180_3",
+      "b_fast_picker_chip_fbuy180_4", "b_fast_picker_chip_fbuy180_5", "b_fast_picker_chip_fbuy180_6",
+      "b_fast_picker_chip_fbuy180_7", "b_fast_picker_chip_fbuy180_8",
+    ];
+
+    this.change_XXX();
   }
   //#endregion --- --- 過濾產業別 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
