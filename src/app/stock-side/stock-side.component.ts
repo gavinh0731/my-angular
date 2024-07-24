@@ -491,6 +491,18 @@ export class StockSideComponent implements OnInit {
   _shouldFilter_Chip_tbuy180_7 = false;
   _shouldFilter_Chip_tbuy180_8 = false;
 
+  shouldFilter_Chip_tod1 = false;
+  _shouldFilter_Chip_tod1_1 = false;
+  _shouldFilter_Chip_tod1_2 = false;
+  _shouldFilter_Chip_tod1_3 = false;
+  _shouldFilter_Chip_tod1_4 = false;
+  _shouldFilter_Chip_tod1_5 = false;
+  _shouldFilter_Chip_tod1_6 = false;
+  _shouldFilter_Chip_tod1_7 = false;
+  _shouldFilter_Chip_tod1_8 = false;
+  _shouldFilter_Chip_tod1_9 = false;
+  _shouldFilter_Chip_tod1_10 = false;
+
 
   _fastChipInit() {
     this.shouldFilter_Chip_phigh240 = false;
@@ -504,6 +516,18 @@ export class StockSideComponent implements OnInit {
     this._shouldFilter_Chip_tbuy180_6 = false;
     this._shouldFilter_Chip_tbuy180_7 = false;
     this._shouldFilter_Chip_tbuy180_8 = false;
+
+    this.shouldFilter_Chip_tod1 = false;
+    this._shouldFilter_Chip_tod1_1 = false;
+    this._shouldFilter_Chip_tod1_2 = false;
+    this._shouldFilter_Chip_tod1_3 = false;
+    this._shouldFilter_Chip_tod1_4 = false;
+    this._shouldFilter_Chip_tod1_5 = false;
+    this._shouldFilter_Chip_tod1_6 = false;
+    this._shouldFilter_Chip_tod1_7 = false;
+    this._shouldFilter_Chip_tod1_8 = false;
+    this._shouldFilter_Chip_tod1_9 = false;
+    this._shouldFilter_Chip_tod1_10 = false;
 
     // ------------------------------------------------------------------------
     if (this.bFastChipPickerValues.includes("b_fast_picker_chip_phigh240")) {
@@ -543,6 +567,48 @@ export class StockSideComponent implements OnInit {
       this._shouldFilter_Chip_tbuy180_8 = true;
     }
 
+
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tod1_1")) {
+      this.shouldFilter_Chip_tod1 = true;
+      this._shouldFilter_Chip_tod1_1 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tod1_2")) {
+      this.shouldFilter_Chip_tod1 = true;
+      this._shouldFilter_Chip_tod1_2 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tod1_3")) {
+      this.shouldFilter_Chip_tod1 = true;
+      this._shouldFilter_Chip_tod1_3 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tod1_4")) {
+      this.shouldFilter_Chip_tod1 = true;
+      this._shouldFilter_Chip_tod1_4 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tod1_5")) {
+      this.shouldFilter_Chip_tod1 = true;
+      this._shouldFilter_Chip_tod1_5 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tod1_6")) {
+      this.shouldFilter_Chip_tod1 = true;
+      this._shouldFilter_Chip_tod1_6 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tod1_7")) {
+      this.shouldFilter_Chip_tod1 = true;
+      this._shouldFilter_Chip_tod1_7 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tod1_8")) {
+      this.shouldFilter_Chip_tod1 = true;
+      this._shouldFilter_Chip_tod1_8 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tod1_9")) {
+      this.shouldFilter_Chip_tod1 = true;
+      this._shouldFilter_Chip_tod1_9 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tod1_10")) {
+      this.shouldFilter_Chip_tod1 = true;
+      this._shouldFilter_Chip_tod1_10 = true;
+    }
+
   }
   _fastChipCondition(item: any) {
     let isValid = true;
@@ -578,8 +644,47 @@ export class StockSideComponent implements OnInit {
       }
       isValid = isValid && (isChip);
     }
+
+    if (this.shouldFilter_Chip_tod1) {
+      let isChip = false;
+      if (this._shouldFilter_Chip_tod1_1) {
+        isChip = isChip || (item.m_chip_tod1 == 1);
+      }
+      if (this._shouldFilter_Chip_tod1_2) {
+        isChip = isChip || (item.m_chip_tod1 == 2);
+      }
+      if (this._shouldFilter_Chip_tod1_3) {
+        isChip = isChip || (item.m_chip_tod1 == 3);
+      }
+      if (this._shouldFilter_Chip_tod1_4) {
+        isChip = isChip || (item.m_chip_tod1 == 4);
+      }
+      if (this._shouldFilter_Chip_tod1_5) {
+        isChip = isChip || (item.m_chip_tod1 == 5);
+      }
+      if (this._shouldFilter_Chip_tod1_6) {
+        isChip = isChip || (item.m_chip_tod1 == 6);
+      }
+      if (this._shouldFilter_Chip_tod1_7) {
+        isChip = isChip || (item.m_chip_tod1 == 7);
+      }
+      if (this._shouldFilter_Chip_tod1_8) {
+        isChip = isChip || (item.m_chip_tod1 == 8);
+      }
+      if (this._shouldFilter_Chip_tod1_9) {
+        isChip = isChip || (item.m_chip_tod1 == 9);
+      }
+      if (this._shouldFilter_Chip_tod1_10) {
+        isChip = isChip || (item.m_chip_tod1 == 10);
+      }
+      isValid = isValid && (isChip);
+    }
+
+
     return isValid;
   }
+
+
 
 
   //#endregion --- --- 籌碼快選 --- --- --- --- --- --- --- --- --- --- --- --- ---
