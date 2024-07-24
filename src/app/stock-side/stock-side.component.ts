@@ -105,6 +105,7 @@ export class StockSideComponent implements OnInit {
     // 動態變數設置過濾條件
     this._fastInit();
     this._fastChipInit();
+    this._pickerDescription();
 
     tmpData = this.filterdData.pipe(
       map((items: any[]) => {
@@ -289,11 +290,13 @@ export class StockSideComponent implements OnInit {
   //#region === === 選股心法 === === === === === === === === === === === === ===
   pickSelected: string;
   pickMethods: PickMethod[] = [
-    { value: 'stock_fish', viewValue: '股魚選股心法(A4)' },
-    { value: 'export_yield', viewValue: '高殖填息心法(A5)' },
-    { value: 'weight', viewValue: 'Weight' },
+    { value: 'stock_fish', viewValue: '基本_股魚選股心法(A4)' },
+    { value: 'export_yield', viewValue: '基本_高殖填息心法(A5)' },
+    { value: 'chip_trust', viewValue: '籌碼_投信起飆買(A7)' },
+    { value: 'chip_foreign', viewValue: '籌碼_外資起飆買(A8)' },
     { value: 'none', viewValue: '沒選' },
   ];
+  pickerMethodsDescription: string;
 
   // ---------------------------------------------------------------------------
   selected_ByPickerMethods: string = "";
@@ -318,8 +321,18 @@ export class StockSideComponent implements OnInit {
         isValid = isValid && item.e_yield_cashG >= 5; // 殖利率大於等於5
         break;
       }
-      case 'weight': {
-        // this.displayedColumns = ['weight'];
+      case 'chip_trust': {
+        isValid = isValid && item.c_trust_today > 0;
+        isValid = isValid && item.c_trust_day5 > 0;
+        isValid = isValid && item.c_trust_today > item.c_trust_day5 * 2 / 5;
+        isValid = isValid && item.b_info_pct > 1;
+        break;
+      }
+      case 'chip_foreign': {
+        isValid = isValid && item.c_foreign_today > 0;
+        isValid = isValid && item.c_foreign_day5 > 0;
+        isValid = isValid && item.c_foreign_today > item.c_foreign_day5 * 2 / 5;
+        isValid = isValid && item.b_info_pct > 1;
         break;
       }
       default: {  // 沒選
@@ -328,6 +341,31 @@ export class StockSideComponent implements OnInit {
       }
     }
     return isValid;
+  }
+
+  _pickerDescription() {
+    switch (this.pickSelected) {
+      case 'stock_fish': {
+        this.pickerMethodsDescription = "平均ROE (>8%)、平均利息率 (>80%)、負債總額 (<60%)、營運現金流量 (>0億)、營益率 (>0%)";
+        break;
+      }
+      case 'export_yield': {
+        this.pickerMethodsDescription = "5年全填息、殖利率大於等於5";
+        break;
+      }
+      case 'chip_trust': {
+        this.pickerMethodsDescription = "本日投本比 > 5日投本比均量的2倍、漲幅大於1%";
+        break;
+      }
+      case 'chip_foreign': {
+        this.pickerMethodsDescription = "本日外本比 > 5日外本比均量的2倍、漲幅大於1%";
+        break;
+      }
+      default: {  // 沒選
+        // this.displayedColumns = ['symbol'];
+        break;
+      }
+    }
   }
 
 
