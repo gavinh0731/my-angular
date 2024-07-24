@@ -236,6 +236,7 @@ export class StockSideComponent implements OnInit {
     this.selected_ByIndustrys = [];   // 取消產業別選取
     this.selected_ByPickerMethods = "none";   // 取消選股心法選取
     this.bFastPickerValues = [];  // 取消快選
+    this.bFastChipPickerValues = [];  // 取消快選
 
     tmpData.subscribe(
       // this.stockDataService.getData1().subscribe(
@@ -480,6 +481,9 @@ export class StockSideComponent implements OnInit {
   bFastChipPickerValues: string[] = []; // 多選模式的選擇值
 
   shouldFilter_Chip_phigh240 = false;
+  shouldFilter_Chip_retail = false;
+  shouldFilter_Chip_big = false;
+  shouldFilter_Chip_loan10 = false;
 
   shouldFilter_Chip_tbuy180 = false;
   _shouldFilter_Chip_tbuy180_1 = false;
@@ -503,9 +507,22 @@ export class StockSideComponent implements OnInit {
   _shouldFilter_Chip_tod1_9 = false;
   _shouldFilter_Chip_tod1_10 = false;
 
+  shouldFilter_Chip_fbuy180 = false;
+  _shouldFilter_Chip_fbuy180_1 = false;
+  _shouldFilter_Chip_fbuy180_2 = false;
+  _shouldFilter_Chip_fbuy180_3 = false;
+  _shouldFilter_Chip_fbuy180_4 = false;
+  _shouldFilter_Chip_fbuy180_5 = false;
+  _shouldFilter_Chip_fbuy180_6 = false;
+  _shouldFilter_Chip_fbuy180_7 = false;
+  _shouldFilter_Chip_fbuy180_8 = false;
+
 
   _fastChipInit() {
     this.shouldFilter_Chip_phigh240 = false;
+    this.shouldFilter_Chip_retail = false;
+    this.shouldFilter_Chip_big = false;
+    this.shouldFilter_Chip_loan10 = false;
 
     this.shouldFilter_Chip_tbuy180 = false;
     this._shouldFilter_Chip_tbuy180_1 = false;
@@ -529,9 +546,28 @@ export class StockSideComponent implements OnInit {
     this._shouldFilter_Chip_tod1_9 = false;
     this._shouldFilter_Chip_tod1_10 = false;
 
+    this.shouldFilter_Chip_fbuy180 = false;
+    this._shouldFilter_Chip_fbuy180_1 = false;
+    this._shouldFilter_Chip_fbuy180_2 = false;
+    this._shouldFilter_Chip_fbuy180_3 = false;
+    this._shouldFilter_Chip_fbuy180_4 = false;
+    this._shouldFilter_Chip_fbuy180_5 = false;
+    this._shouldFilter_Chip_fbuy180_6 = false;
+    this._shouldFilter_Chip_fbuy180_7 = false;
+    this._shouldFilter_Chip_fbuy180_8 = false;
+
     // ------------------------------------------------------------------------
     if (this.bFastChipPickerValues.includes("b_fast_picker_chip_phigh240")) {
       this.shouldFilter_Chip_phigh240 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_retail")) {
+      this.shouldFilter_Chip_retail = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_big")) {
+      this.shouldFilter_Chip_big = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_loan10")) {
+      this.shouldFilter_Chip_loan10 = true;
     }
 
     if (this.bFastChipPickerValues.includes("b_fast_picker_chip_tbuy180_1")) {
@@ -609,11 +645,53 @@ export class StockSideComponent implements OnInit {
       this._shouldFilter_Chip_tod1_10 = true;
     }
 
+
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_fbuy180_1")) {
+      this.shouldFilter_Chip_fbuy180 = true;
+      this._shouldFilter_Chip_fbuy180_1 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_fbuy180_2")) {
+      this.shouldFilter_Chip_fbuy180 = true;
+      this._shouldFilter_Chip_fbuy180_2 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_fbuy180_3")) {
+      this.shouldFilter_Chip_fbuy180 = true;
+      this._shouldFilter_Chip_fbuy180_3 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_fbuy180_4")) {
+      this.shouldFilter_Chip_fbuy180 = true;
+      this._shouldFilter_Chip_fbuy180_4 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_fbuy180_5")) {
+      this.shouldFilter_Chip_fbuy180 = true;
+      this._shouldFilter_Chip_fbuy180_5 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_fbuy180_6")) {
+      this.shouldFilter_Chip_fbuy180 = true;
+      this._shouldFilter_Chip_fbuy180_6 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_fbuy180_7")) {
+      this.shouldFilter_Chip_fbuy180 = true;
+      this._shouldFilter_Chip_fbuy180_7 = true;
+    }
+    if (this.bFastChipPickerValues.includes("b_fast_picker_chip_fbuy180_8")) {
+      this.shouldFilter_Chip_fbuy180 = true;
+      this._shouldFilter_Chip_fbuy180_8 = true;
+    }
   }
   _fastChipCondition(item: any) {
     let isValid = true;
     if (this.shouldFilter_Chip_phigh240) {
       isValid = isValid && item.m_chip_phigh240 == 1;
+    }
+    if (this.shouldFilter_Chip_retail) {
+      isValid = isValid && item.m_chip_retail == 1;
+    }
+    if (this.shouldFilter_Chip_big) {
+      isValid = isValid && item.m_chip_big == 1;
+    }
+    if (this.shouldFilter_Chip_loan10) {
+      isValid = isValid && item.m_chip_loan10 == 1;
     }
 
     if (this.shouldFilter_Chip_tbuy180) {
@@ -680,6 +758,34 @@ export class StockSideComponent implements OnInit {
       isValid = isValid && (isChip);
     }
 
+    if (this.shouldFilter_Chip_fbuy180) {
+      let isChip = false;
+      if (this._shouldFilter_Chip_fbuy180_1) {
+        isChip = isChip || (item.m_chip_fbuy180 == 1);
+      }
+      if (this._shouldFilter_Chip_fbuy180_2) {
+        isChip = isChip || (item.m_chip_fbuy180 == 2);
+      }
+      if (this._shouldFilter_Chip_fbuy180_3) {
+        isChip = isChip || (item.m_chip_fbuy180 == 3);
+      }
+      if (this._shouldFilter_Chip_fbuy180_4) {
+        isChip = isChip || (item.m_chip_fbuy180 == 4);
+      }
+      if (this._shouldFilter_Chip_fbuy180_5) {
+        isChip = isChip || (item.m_chip_fbuy180 == 5);
+      }
+      if (this._shouldFilter_Chip_fbuy180_6) {
+        isChip = isChip || (item.m_chip_fbuy180 == 6);
+      }
+      if (this._shouldFilter_Chip_fbuy180_7) {
+        isChip = isChip || (item.m_chip_fbuy180 == 7);
+      }
+      if (this._shouldFilter_Chip_fbuy180_8) {
+        isChip = isChip || (item.m_chip_fbuy180 == 8);
+      }
+      isValid = isValid && (isChip);
+    }
 
     return isValid;
   }
