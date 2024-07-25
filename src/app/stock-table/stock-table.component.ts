@@ -113,6 +113,10 @@ export class StockTableComponent implements AfterViewInit {
     { key: "c_foreign_year", value: "今年外本比" }, { key: "c_foreign_year1", value: "一年外本比" }, { key: "c_foreign_year3", value: "三年外本比" },
     { key: "c_foreign_year10", value: "十年外本比" },
   ];
+
+  columnStr_my_tech = [
+    { key: "m_tech_ma60", value: "季均線" }, { key: "m_tech_makink", value: "均線糾結" }, { key: "m_tech_dies", value: "長黑跌破所有均線" }, { key: "m_tech_mamany", value: "均線多頭排列5日/10日/月" },
+  ];
   //#endregion --- --- 自動生成項目 --- --- --- --- --- --- --- --- --- --- --- ---
 
   // ---------------------------------------------------------------------------
@@ -242,6 +246,10 @@ export class StockTableComponent implements AfterViewInit {
     { value: 'c_foreign', viewValue: '👨法人外本比　(A8)' },
   ];
 
+  menu_items_tech: StockMenu[] = [
+    { value: 'm_tech', viewValue: '📈我的技術面　(Az)' },
+  ];
+
 
   //#region === === 顯示的欄位名稱 === === === === === === === === === === === ===
   changeDisplayedColumns(perspective: any) {
@@ -347,6 +355,16 @@ export class StockTableComponent implements AfterViewInit {
         ];
         break;
       }
+
+      case 'm_tech': {
+        this.displayedColumns = [
+          'b_info_code', 'b_info_name', 'b_info_price', 'b_info_change', 'b_info_pct',
+          'p_dpct_volume', 'm_basic_amount',
+          "m_tech_ma60", "m_tech_makink", "m_tech_dies", "m_tech_mamany",
+        ];
+        break;
+      }
+
       default: {
         this.displayedColumns = ['date'];
         break;

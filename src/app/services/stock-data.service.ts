@@ -39,6 +39,12 @@ export class StockDataService {
   private json_otc_c_foreign = 'assets/json_otc/chip_foreign.json'; // JSON 檔案的路徑
   //#endregion --- --- 籌碼面 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
+  //#region === === 技術面 === === === === === === === === === === === === === ===
+  private json_m_tech = 'assets/json/my_tech.json'; // JSON 檔案的路徑
+
+  // private json_otc_m_tech = 'assets/json_otc/my_tech.json'; // JSON 檔案的路徑
+  //#endregion --- --- 技術面 --- --- --- --- --- --- --- --- --- --- --- --- ---
+
   constructor(private http: HttpClient) { }
 
   // [ {"b_info": {"code": "0050", "price": 50}}, {"b_info": {"code": "0051", "price": 150}}]
@@ -179,6 +185,15 @@ export class StockDataService {
   }
   //#endregion --- --- 籌碼面 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
+
+  //#region === === 技術面 === === === === === === === === === === === === === ===
+  getData11(): Observable<any> {
+    return this.http.get(this.json_m_tech).pipe(
+      map((data: any) => data.map((item: any) => this.transformObject(item.m_tech, "m_tech")))
+    );
+  }
+  //#endregion --- --- 技術面 --- --- --- --- --- --- --- --- --- --- --- --- ---
+
   // ---------------------------------------------------------------------------
   mergeData(obs1: Observable<any>, key1: any, obs2: Observable<any>, key2: any): Observable<any> {
     return combineLatest([obs1, obs2]).pipe(
@@ -202,6 +217,7 @@ export class StockDataService {
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData7(), "e_yield_code");
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData8(), "m_chip_code");
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData9(), "c_trust_code");
-    return this.mergeData(tmpCombine, "b_info_code", this.getData10(), "c_foreign_code");
+    tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData10(), "c_foreign_code");
+    return this.mergeData(tmpCombine, "b_info_code", this.getData11(), "m_tech_code");
   }
 }
