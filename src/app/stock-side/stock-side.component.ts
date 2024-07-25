@@ -76,7 +76,6 @@ export class StockSideComponent implements OnInit {
     //   map((items: any) => items.filter((item: any) => item.b_info_code === "0050"))
     // );
 
-    // 晚點再做
     tmpData.subscribe(
       // this.stockDataService.getData1().subscribe(
       (response: any) => {
