@@ -230,12 +230,29 @@ export class StockSideComponent implements OnInit {
 
   // 重新設定
   refresh() {
+    let tmpData: any;
+
+    tmpData = this.obsData;
+    this.filterdData = tmpData;
     this.selected_ByIndustrys = [];   // 取消產業別選取
     this.selected_ByPickerMethods = "none";   // 取消選股心法選取
     this.bFastPickerValues = [];  // 取消快選
     this.bFastChipPickerValues = [];  // 取消快選
 
-    this.change_XXX();
+    tmpData.subscribe(
+      // this.stockDataService.getData1().subscribe(
+      (response: any) => {
+        this.data = response;
+        console.log("this.data = ", this.data);
+      },
+      (error: any) => {
+        console.error('Error:', error);
+      }
+    );
+
+    setTimeout(() => {
+      this.setChildDataFun();
+    }, 1000);
   }
 
   refresh_Basic() {
@@ -294,6 +311,7 @@ export class StockSideComponent implements OnInit {
     { value: 'export_yield', viewValue: '基本_高殖填息心法(A5)' },
     { value: 'chip_trust', viewValue: '籌碼_投信起飆買(A7)' },
     { value: 'chip_foreign', viewValue: '籌碼_外資起飆買(A8)' },
+    { value: 'export_water', viewValue: '技術_阿水一式(Ae)' },
     { value: 'none', viewValue: '沒選' },
   ];
   pickerMethodsDescription: string;
@@ -335,6 +353,18 @@ export class StockSideComponent implements OnInit {
         isValid = isValid && item.b_info_pct > 1;
         break;
       }
+      case 'export_water': {
+        // 壓縮:股價壓縮至少10個交易日、
+        isValid = isValid && item.e_water_avgPct > -1;
+        isValid = isValid && item.e_water_avgPct < 1;
+        // 帶量:成交量出現過去5日均量的2~10倍、
+        isValid = isValid && item.e_water_vol >= item.e_water_avgVol * 2;
+        isValid = isValid && item.e_water_vol <= item.e_water_avgVol * 10;
+        // 突破:當日收盤價突破通道頂且收紅K棒
+        isValid = isValid && item.b_info_price >= parseFloat(item.e_water_up.replace(/[^\d.-]/g, ""));  // 去除非數字和小數點的字元
+        isValid = isValid && item.b_info_pct >= 0;
+        break;
+      }
       default: {  // 沒選
         // this.displayedColumns = ['symbol'];
         break;
@@ -359,6 +389,10 @@ export class StockSideComponent implements OnInit {
       }
       case 'chip_foreign': {
         this.pickerMethodsDescription = "本日外本比 > 5日外本比均量的2倍、漲幅大於1%";
+        break;
+      }
+      case 'export_water': {
+        this.pickerMethodsDescription = "壓縮:股價壓縮至少10個交易日、帶量:成交量出現過去5日均量的2~10倍、突破:當日收盤價突破通道頂且收紅K棒";
         break;
       }
       default: {  // 沒選

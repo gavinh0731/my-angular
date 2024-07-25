@@ -117,6 +117,13 @@ export class StockTableComponent implements AfterViewInit {
   columnStr_my_tech = [
     { key: "m_tech_ma60", value: "季均線" }, { key: "m_tech_makink", value: "均線糾結" }, { key: "m_tech_dies", value: "長黑跌破所有均線" }, { key: "m_tech_mamany", value: "均線多頭排列5日/10日/月" },
   ];
+
+  columnStr_e_water = [
+    { key: "e_water_pct", value: "漲跌幅" }, { key: "e_water_avgPct", value: "10日均幅" }, { key: "e_water_avgVol", value: "5日均量" },
+    { key: "e_water_vol", value: "成交張數" }, { key: "e_water_bchb", value: "布林%b" },
+    { key: "e_water_up", value: "布林上軌" }, { key: "e_water_center", value: "布林中軌" }, { key: "e_water_down", value: "布林下軌" },
+
+  ];
   //#endregion --- --- 自動生成項目 --- --- --- --- --- --- --- --- --- --- --- ---
 
   // ---------------------------------------------------------------------------
@@ -247,7 +254,8 @@ export class StockTableComponent implements AfterViewInit {
   ];
 
   menu_items_tech: StockMenu[] = [
-    { value: 'm_tech', viewValue: '📈我的技術面　(Az)' },
+    { value: 'm_tech', viewValue: '📈我的技術面　(Aq)' },
+    { value: 'e_water', viewValue: '💧阿水一式　(Ae)' },
   ];
 
 
@@ -365,6 +373,15 @@ export class StockTableComponent implements AfterViewInit {
         break;
       }
 
+      case 'e_water': {
+        this.displayedColumns = [
+          'b_info_code', 'b_info_name', 'b_info_price', 'b_info_change', 'b_info_pct',
+          "e_water_pct", "e_water_avgPct", "e_water_avgVol", "e_water_vol", 'm_basic_amount',
+          "e_water_bchb", "e_water_up", "e_water_center", "e_water_down",
+        ];
+        break;
+      }
+
       default: {
         this.displayedColumns = ['date'];
         break;
@@ -408,6 +425,14 @@ export class StockTableComponent implements AfterViewInit {
       event.preventDefault();
       this.changeDisplayedColumns("c_foreign");
       this.selected = "c_foreign";
+    } else if (event.altKey && event.key === 'q') {
+      event.preventDefault();
+      this.changeDisplayedColumns("m_tech");
+      this.selected = "m_tech";
+    } else if (event.altKey && event.key === 'e') {
+      event.preventDefault();
+      this.changeDisplayedColumns("e_water");
+      this.selected = "e_water";
     } else if (event.key === 'ArrowRight') {
       this.nextPage();
     } else if (event.key === 'ArrowLeft') {

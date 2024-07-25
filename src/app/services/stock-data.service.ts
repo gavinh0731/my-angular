@@ -19,6 +19,7 @@ export class StockDataService {
   private json_m_eps = 'assets/json/my_eps.json'; // 我的EPS
   private json_e_yield = 'assets/json/export_yield.json'; // JSON 檔案的路徑
 
+
   private json_otc_basic_info = 'assets/json_otc/basic_info.json'; // JSON 檔案的路徑
   // private json_otc_my_basic = 'assets/json_otc/my_basic.json'; // JSON 檔案的路徑
   // private json_otc_e_fish = 'assets/json_otc/export_stockfish.json'; // JSON 檔案的路徑  
@@ -41,8 +42,10 @@ export class StockDataService {
 
   //#region === === 技術面 === === === === === === === === === === === === === ===
   private json_m_tech = 'assets/json/my_tech.json'; // JSON 檔案的路徑
+  private json_e_water = 'assets/json/export_water.json'; // JSON 檔案的路徑
 
   // private json_otc_m_tech = 'assets/json_otc/my_tech.json'; // JSON 檔案的路徑
+  // private json_otc_e_water = 'assets/json_otc/export_water.json'; // JSON 檔案的路徑
   //#endregion --- --- 技術面 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   constructor(private http: HttpClient) { }
@@ -192,6 +195,12 @@ export class StockDataService {
       map((data: any) => data.map((item: any) => this.transformObject(item.m_tech, "m_tech")))
     );
   }
+
+  getData12(): Observable<any> {
+    return this.http.get(this.json_e_water).pipe(
+      map((data: any) => data.map((item: any) => this.transformObject(item.e_water, "e_water")))
+    );
+  }
   //#endregion --- --- 技術面 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   // ---------------------------------------------------------------------------
@@ -218,6 +227,7 @@ export class StockDataService {
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData8(), "m_chip_code");
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData9(), "c_trust_code");
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData10(), "c_foreign_code");
-    return this.mergeData(tmpCombine, "b_info_code", this.getData11(), "m_tech_code");
+    tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData11(), "m_tech_code");
+    return this.mergeData(tmpCombine, "b_info_code", this.getData12(), "e_water_code");
   }
 }

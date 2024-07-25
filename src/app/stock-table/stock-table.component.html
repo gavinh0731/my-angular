@@ -512,6 +512,15 @@
   </ng-container>
   <!-- 📈我的技術面 End --------------------------------------------------------->
 
+  <!-- 💧阿水一式　Start ------------------------------------------------------>
+  <!-- 1. Column -->
+  <ng-container *ngFor="let col of columnStr_e_water let idx=index" [matColumnDef]="col.key">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <b>{{col.value}}</b>
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element[col.key]}} </td>
+  </ng-container>
+  <!-- 💧阿水一式 End --------------------------------------------------------->
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns" class="sticky-header"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"
