@@ -47,21 +47,24 @@ export class StockSideComponent implements OnInit {
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private stockDataService: StockDataService) {
+    console.log("[side] 0. constructor");
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
-
-    setTimeout(() => {
-      this.setChildDataFun();
-    }, 1000);
   }
+
   setChildDataFun() {
-    // console.log(this.data);
+    console.log(`setChildDataFun(this.data)`);
     this.child.setData(this.data);
   }
 
   //#region === === 生命週期 === === === === === === === === === === === === ===
+  ngOnChanges() {
+    console.log("[side] 1. ngOnChanges");
+  }
+
   ngOnInit() {
+    console.log("[side] 2. ngOnInit");
     let tmpData: any;
     // this.data = this.stockDataService.getData1();
     // console.log("this.data = ", this.data);
@@ -73,19 +76,31 @@ export class StockSideComponent implements OnInit {
     //   map((items: any) => items.filter((item: any) => item.b_info_code === "0050"))
     // );
 
+    // 晚點再做
     tmpData.subscribe(
       // this.stockDataService.getData1().subscribe(
       (response: any) => {
         this.data = response;
         console.log("this.data = ", this.data);
+        // console.log(`==> setChildDataFun = ${this.data}`);
+        this.setChildDataFun();
       },
       (error: any) => {
         console.error('Error:', error);
       }
     );
   }
-  ngAfterContentInit() {
-    console.log(`4. ngAfterContentInit`);
+  // ngDoCheck() {
+  //   console.log("[side] 3. ngDoCheck");
+  // }
+  // ngAfterContentInit() {
+  //   console.log("[side] 4. ngAfterContentInit");
+  // }
+  // ngAfterContentChecked() {
+  //   console.log("[side] 5. ngAfterContentChecked");
+  // }
+  ngAfterViewInit() {
+    console.log("[side] 6. ngAfterViewInit");
   }
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
@@ -128,15 +143,13 @@ export class StockSideComponent implements OnInit {
       (response: any) => {
         this.data = response;
         console.log("this.data = ", this.data);
+        console.log(`==> setChildDataFun(this.data)`);
+        this.setChildDataFun();
       },
       (error: any) => {
         console.error('Error:', error);
       }
     );
-
-    setTimeout(() => {
-      this.setChildDataFun();
-    }, 1000);
   }
 
   //#region === === 過濾產業別 === === === === === === === === === === === === ===
@@ -243,16 +256,15 @@ export class StockSideComponent implements OnInit {
       // this.stockDataService.getData1().subscribe(
       (response: any) => {
         this.data = response;
-        console.log("this.data = ", this.data);
+        console.log("[refresh] this.data = ", this.data);
+        // console.log(`==> setChildDataFun(this.data)`);
+        this.setChildDataFun();
       },
       (error: any) => {
         console.error('Error:', error);
       }
     );
 
-    setTimeout(() => {
-      this.setChildDataFun();
-    }, 1000);
   }
 
   refresh_Basic() {
