@@ -434,7 +434,7 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header>
       <b>{{col.value}}</b>
     </th>
-    <td mat-cell *matCellDef="let element" [ngClass]="{'hl_eps_2': hl_my_eps(element[col.key])==2, 
+    <td mat-cell *matCellDef="let element" [ngClass]="{'hl_eps_2': hl_my_eps(element[col.key])==2,
       'hl_eps_3': hl_my_eps(element[col.key])==3,
       'hl_eps_4': hl_my_eps(element[col.key])==4,
       'hl_eps_5': hl_my_eps(element[col.key])==5}">
@@ -539,3 +539,5 @@
     </li>
   </ul>
 </div>
+
+<button mat-button (click)="logCurrentPageData()">Log Current Page Data</button>

@@ -37,7 +37,7 @@ export class StockTableComponent implements AfterViewInit {
   //#region === === 自動生成項目 === === === === === === === === === === === ===
   columnStr_m_basic = [
     // { key: "epsp", value: "EPS估價" }, { key: "yiep", value: "殖利率估價" }, { key: "kp", value: "ROE估價" },
-    //{ key: "pbr", value: "股價淨值比" }, { key: "m_basic_tper", value: "總報酬本益比" }, { key: "m_basic_cheap", value: "便宜度" },  
+    //{ key: "pbr", value: "股價淨值比" }, { key: "m_basic_tper", value: "總報酬本益比" }, { key: "m_basic_cheap", value: "便宜度" },
     { key: "m_basic_per", value: "本益比" }, { key: "m_basic_gross_f", value: "毛利成長(%)" }, { key: "m_basic_netrate5", value: "年複合成長率" },
     //{ key: "peg", value: "PEG" }, { key: "cash_y", value: "現金殖利率" },
     { key: "m_basic_yCnt", value: "股利連漲(5年)" }, { key: "m_basic_eps", value: "平均EPS (元)" },// { key: "e_icr_yepsCount", value: "EPS成長" },
@@ -83,7 +83,7 @@ export class StockTableComponent implements AfterViewInit {
 
   columnStr_e_yield = [
     { key: "e_yield_stat2", value: "除息交易日" }, { key: "e_yield_cashC", value: "統計次數" }, { key: "e_yield_cashF", value: "現金發放次數" },
-    // { key: "e_yield_cashG", value: "平均殖利率" }, { key: "e_yield_cashT", value: "填息成功次數" }, 
+    // { key: "e_yield_cashG", value: "平均殖利率" }, { key: "e_yield_cashT", value: "填息成功次數" },
     { key: "e_yield_cashD", value: "填息平均天數" },
     { key: "e_yield_cash_g1", value: "-1年殖利率" }, { key: "e_yield_cash_g2", value: "-2年殖利率" }, { key: "e_yield_cash_g3", value: "-3年殖利率" },
     { key: "e_yield_cash_g4", value: "-4年殖利率" }, { key: "e_yield_cash_g5", value: "-5年殖利率" },
@@ -510,5 +510,18 @@ export class StockTableComponent implements AfterViewInit {
     this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  getCurrentPageData() {
+    const currentPageIndex = this.paginator.pageIndex;
+    const pageSize = this.paginator.pageSize;
+    const startIndex = currentPageIndex * pageSize;
+    const endIndex = startIndex + pageSize;
+    return this.dataSource.data.slice(startIndex, endIndex);
+  }
+
+  logCurrentPageData() {
+    const currentPageData = this.getCurrentPageData();
+    console.log('Current Page Data:', currentPageData);
   }
 }
