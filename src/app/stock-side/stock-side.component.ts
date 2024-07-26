@@ -38,6 +38,7 @@ interface PickMethod {
 export class StockSideComponent implements OnInit {
   @ViewChild("stockTableChild") child: any;
 
+
   obsData: any;
   filterdData: any;
   data: any;

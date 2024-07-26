@@ -9,6 +9,8 @@ import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
+import { StockChartComponent } from '../stock-chart/stock-chart.component'
+
 // standalone
 import { CommonModule } from '@angular/common';  // 確保導入 CommonModule
 
@@ -26,13 +28,18 @@ interface StockMenu {
   standalone: true,
   imports: [
     MatTableModule, MatCheckboxModule, MatInputModule, MatPaginatorModule,
-    MatSortModule, CommonModule, MatFormFieldModule, MatSelectModule,],
+    MatSortModule, CommonModule, MatFormFieldModule, MatSelectModule,
+    StockChartComponent,],
 })
 export class StockTableComponent implements AfterViewInit {
   ELEMENT_DATA: any;
   dataSource: any;
   selection: any;
+  currentIndex: number = 0;
 
+  stockCode: string = "0050";
+
+  @ViewChild("stockChartChild") childChart: any;
 
   //#region === === 自動生成項目 === === === === === === === === === === === ===
   columnStr_m_basic = [
@@ -437,6 +444,10 @@ export class StockTableComponent implements AfterViewInit {
       this.nextPage();
     } else if (event.key === 'ArrowLeft') {
       this.previousPage();
+    } else if (event.key === 'ArrowUp') {
+      this.previousStock();
+    } else if (event.key === 'ArrowDown') {
+      this.nextStock();
     }
   }
 
@@ -512,6 +523,7 @@ export class StockTableComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  //#region === === 選擇單一個股 === === === === === === === === === === === === ===
   getCurrentPageData() {
     const currentPageIndex = this.paginator.pageIndex;
     const pageSize = this.paginator.pageSize;
@@ -524,4 +536,41 @@ export class StockTableComponent implements AfterViewInit {
     const currentPageData = this.getCurrentPageData();
     console.log('Current Page Data:', currentPageData);
   }
+
+  setChildChartDataFun(stockCode: string) {
+    // console.log(`setChildChartDataFun(${stockCode})`);
+    this.childChart.setData(stockCode);
+  }
+
+  previousStock() {
+    const currentPageIndex = this.paginator.pageIndex;
+    const pageSize = this.paginator.pageSize;
+    let startIndex = currentPageIndex * pageSize;
+
+    this.currentIndex = (this.currentIndex + pageSize - 1) % pageSize;
+    // console.log(`currentIndex = ${this.currentIndex}`);
+
+    startIndex = startIndex + this.currentIndex;
+    // console.log("this.dataSource.data =", this.dataSource.data[startIndex]);
+
+    this.stockCode = this.dataSource.data[startIndex].b_info_code;
+    this.setChildChartDataFun(this.stockCode)
+  }
+
+  nextStock() {
+    const currentPageIndex = this.paginator.pageIndex;
+    const pageSize = this.paginator.pageSize;
+    let startIndex = currentPageIndex * pageSize;
+
+    this.currentIndex = (this.currentIndex + 1) % pageSize;
+    // console.log(`currentIndex = ${this.currentIndex}`);
+
+    startIndex = startIndex + this.currentIndex;
+    // console.log("this.dataSource.data =", this.dataSource.data[startIndex]);
+
+    this.stockCode = this.dataSource.data[startIndex].b_info_code;
+    this.setChildChartDataFun(this.stockCode)
+  }
+
+  //#endregion --- --- 選擇單一個股 --- --- --- --- --- --- --- --- --- --- --- ---
 }
