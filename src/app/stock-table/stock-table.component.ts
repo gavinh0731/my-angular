@@ -38,6 +38,7 @@ export class StockTableComponent implements AfterViewInit {
   selection: any;
   currentIndex: number = 0;
 
+  showChartContainer: boolean = false;
   stockObj: any;
 
   @ViewChild("stockChartChild") childChart: any;
@@ -442,6 +443,8 @@ export class StockTableComponent implements AfterViewInit {
       event.preventDefault();
       this.changeDisplayedColumns("e_water");
       this.selected = "e_water";
+    } else if (event.altKey && event.key === 'c') {
+      this.showChartContainer = !this.showChartContainer;
     } else if (event.key === 'ArrowRight') {
       this.nextPage();
     } else if (event.key === 'ArrowLeft') {

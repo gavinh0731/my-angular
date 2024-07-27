@@ -542,5 +542,8 @@
 
 <button mat-button (click)="logCurrentPageData()">Log Current Page Data</button>
 {{currentIndex}}
-<app-stock-chart-triplerate #stockChartTriplerateChild></app-stock-chart-triplerate>
-<app-stock-chart #stockChartChild></app-stock-chart>
+<!-- <div *ngIf="showChartContainer" class="chart-container"> -->
+<div [ngStyle]="{'display': showChartContainer ? 'block' : 'none'}" class="chart-container">
+  <app-stock-chart-triplerate #stockChartTriplerateChild></app-stock-chart-triplerate>
+  <app-stock-chart #stockChartChild></app-stock-chart>
+</div>
