@@ -24,7 +24,6 @@ import { ServersComponent } from './servers/servers.component';
 import { TestPipe } from './pipes/test.pipe';
 import { HomeComponent } from './home/home.component';
 import { TitleComponent } from './title/title.component';
-import { StockChartComponent } from './stock-chart/stock-chart.component';
 @NgModule({
   declarations: [
     AppComponent,

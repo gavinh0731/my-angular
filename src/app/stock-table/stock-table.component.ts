@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { StockChartComponent } from '../stock-chart/stock-chart.component'
+import { StockChartTriplerateComponent } from '../stock-chart-triplerate/stock-chart-triplerate.component'
 
 // standalone
 import { CommonModule } from '@angular/common';  // 確保導入 CommonModule
@@ -29,7 +30,7 @@ interface StockMenu {
   imports: [
     MatTableModule, MatCheckboxModule, MatInputModule, MatPaginatorModule,
     MatSortModule, CommonModule, MatFormFieldModule, MatSelectModule,
-    StockChartComponent,],
+    StockChartComponent, StockChartTriplerateComponent,],
 })
 export class StockTableComponent implements AfterViewInit {
   ELEMENT_DATA: any;
@@ -37,9 +38,10 @@ export class StockTableComponent implements AfterViewInit {
   selection: any;
   currentIndex: number = 0;
 
-  stockCode: string = "0050";
+  stockObj: any;
 
   @ViewChild("stockChartChild") childChart: any;
+  @ViewChild("stockChartTriplerateChild") childChartTriplerate: any;
 
   //#region === === 自動生成項目 === === === === === === === === === === === ===
   columnStr_m_basic = [
@@ -529,7 +531,7 @@ export class StockTableComponent implements AfterViewInit {
     const pageSize = this.paginator.pageSize;
     const startIndex = currentPageIndex * pageSize;
     const endIndex = startIndex + pageSize;
-    return this.dataSource.data.slice(startIndex, endIndex);
+    return this.dataSource._renderData._value.slice(startIndex, endIndex);
   }
 
   logCurrentPageData() {
@@ -537,9 +539,10 @@ export class StockTableComponent implements AfterViewInit {
     console.log('Current Page Data:', currentPageData);
   }
 
-  setChildChartDataFun(stockCode: string) {
-    // console.log(`setChildChartDataFun(${stockCode})`);
-    this.childChart.setData(stockCode);
+  setChildChartDataFun(stockObj: any) {
+    console.log(`setChildChartDataFun(${stockObj})`);
+    this.childChart.setData(stockObj);
+    this.childChartTriplerate.setData(stockObj);
   }
 
   previousStock() {
@@ -553,8 +556,8 @@ export class StockTableComponent implements AfterViewInit {
     startIndex = startIndex + this.currentIndex;
     // console.log("this.dataSource.data =", this.dataSource.data[startIndex]);
 
-    this.stockCode = this.dataSource.data[startIndex].b_info_code;
-    this.setChildChartDataFun(this.stockCode)
+    this.stockObj = this.dataSource._renderData._value[startIndex];
+    this.setChildChartDataFun(this.stockObj)
   }
 
   nextStock() {
@@ -568,8 +571,8 @@ export class StockTableComponent implements AfterViewInit {
     startIndex = startIndex + this.currentIndex;
     // console.log("this.dataSource.data =", this.dataSource.data[startIndex]);
 
-    this.stockCode = this.dataSource.data[startIndex].b_info_code;
-    this.setChildChartDataFun(this.stockCode)
+    this.stockObj = this.dataSource._renderData._value[startIndex];
+    this.setChildChartDataFun(this.stockObj)
   }
 
   //#endregion --- --- 選擇單一個股 --- --- --- --- --- --- --- --- --- --- --- ---

@@ -16,7 +16,7 @@ StockModule(Highcharts);
   ]
 })
 export class StockChartComponent {
-  stockCode: string = 'AAPL';
+  stockObj: any;
 
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options = {
@@ -41,8 +41,8 @@ export class StockChartComponent {
     }]
   };
   // ---------------------------------------------------------------------------
-  setData(stockCode: string) {
-    this.stockCode = stockCode;
-    // console.log(`stockCode = ${stockCode}`)
+  setData(stockObj: any) {
+    this.stockObj = stockObj;
+    // console.log(`stockObj = ${stockObj}`)
   }
 }

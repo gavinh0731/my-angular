@@ -18,7 +18,9 @@ export class StockDataService {
   private json_e_icr = 'assets/json/export_incomerate.json'; // EPS成長
   private json_m_eps = 'assets/json/my_eps.json'; // 我的EPS
   private json_e_yield = 'assets/json/export_yield.json'; // JSON 檔案的路徑
-
+  private json_e_tpr = 'assets/json/export_triplerate.json'; // 三率：圖表用
+  private json_b_rvn = 'assets/json/basic_rvn.json'; // 月營收：圖表用
+  private json_y_yield = 'assets/json/year_yield.json'; // 股利：圖表用
 
   private json_otc_basic_info = 'assets/json_otc/basic_info.json'; // JSON 檔案的路徑
   // private json_otc_my_basic = 'assets/json_otc/my_basic.json'; // JSON 檔案的路徑
@@ -27,6 +29,9 @@ export class StockDataService {
   // private json_otc_e_icr = 'assets/json_otc/export_incomerate.json'; // EPS成長
   // private json_otc_m_eps = 'assets/json_otc/my_eps.json'; // 我的EPS
   // private json_otc_e_yield = 'assets/json_otc/export_yield.json'; // JSON 檔案的路徑
+  // private json_otc_e_tpr = 'assets/json_otc/export_triplerate.json'; // 三率：圖表用
+  private json_otc_b_rvn = 'assets/json_otc/basic_rvn.json'; // 月營收：圖表用
+  private json_otc_y_yield = 'assets/json_otc/year_yield.json'; // 股利：圖表用
   //#endregion --- --- 基本面 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
 
@@ -133,6 +138,56 @@ export class StockDataService {
       map((data: any) => data.map((item: any) => this.transformObject(item.e_yield, "e_yield")))
     );
   }
+
+  getData13(): Observable<any> {
+    return this.http.get(this.json_e_tpr).pipe(
+      map((data: any) => data.map((item: any) => this.transformObject(item.e_tpr, "e_tpr")))
+    );
+  }
+
+  getData14(): Observable<any> {
+    // 發送兩個 HTTP 請求來讀取 JSON 檔案
+    return forkJoin([
+      this.http.get<any[]>(this.json_b_rvn),
+      this.http.get<any[]>(this.json_otc_b_rvn)
+    ]).pipe(
+      // 合併兩個數據流的結果
+      map(([array1, array2]) => {
+        // 確保每個請求返回的是數組
+        if (!Array.isArray(array1)) {
+          array1 = [];
+        }
+        if (!Array.isArray(array2)) {
+          array2 = [];
+        }
+        // 合併兩個數組
+        return [...array1, ...array2];
+      }), map((data: any) => data.map((item: any) => this.transformObject(item.b_rvn, "b_rvn")))
+
+    );
+  }
+
+  getData15(): Observable<any> {
+    // 發送兩個 HTTP 請求來讀取 JSON 檔案
+    return forkJoin([
+      this.http.get<any[]>(this.json_y_yield),
+      this.http.get<any[]>(this.json_otc_y_yield)
+    ]).pipe(
+      // 合併兩個數據流的結果
+      map(([array1, array2]) => {
+        // 確保每個請求返回的是數組
+        if (!Array.isArray(array1)) {
+          array1 = [];
+        }
+        if (!Array.isArray(array2)) {
+          array2 = [];
+        }
+        // 合併兩個數組
+        return [...array1, ...array2];
+      }), map((data: any) => data.map((item: any) => this.transformObject(item.y_yield, "y_yield")))
+
+    );
+  }
   //#endregion --- --- 基本面 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
 
@@ -228,6 +283,9 @@ export class StockDataService {
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData9(), "c_trust_code");
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData10(), "c_foreign_code");
     tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData11(), "m_tech_code");
-    return this.mergeData(tmpCombine, "b_info_code", this.getData12(), "e_water_code");
+    tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData12(), "e_water_code");
+    tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData13(), "e_tpr_code");
+    tmpCombine = this.mergeData(tmpCombine, "b_info_code", this.getData14(), "b_rvn_code");
+    return this.mergeData(tmpCombine, "b_info_code", this.getData15(), "y_yield_code");
   }
 }

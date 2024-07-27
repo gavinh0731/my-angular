@@ -36,7 +36,7 @@ interface PickMethod {
     HttpClientModule, StockTableComponent, FormsModule],
 })
 export class StockSideComponent implements OnInit {
-  @ViewChild("stockTableChild") child: any;
+  @ViewChild("stockTableChild") childTable: any;
 
 
   obsData: any;
@@ -56,7 +56,7 @@ export class StockSideComponent implements OnInit {
 
   setChildDataFun() {
     console.log(`setChildDataFun(this.data)`);
-    this.child.setData(this.data);
+    this.childTable.setData(this.data);
   }
 
   //#region === === 生命週期 === === === === === === === === === === === === ===
