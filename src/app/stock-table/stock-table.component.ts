@@ -546,32 +546,26 @@ export class StockTableComponent implements AfterViewInit {
   }
 
   previousStock() {
-    const currentPageIndex = this.paginator.pageIndex;
     const pageSize = this.paginator.pageSize;
-    let startIndex = currentPageIndex * pageSize;
 
     this.currentIndex = (this.currentIndex + pageSize - 1) % pageSize;
     // console.log(`currentIndex = ${this.currentIndex}`);
 
-    startIndex = startIndex + this.currentIndex;
-    // console.log("this.dataSource.data =", this.dataSource.data[startIndex]);
+    // console.log("this.dataSource._renderData._value =", this.dataSource._renderData._value[this.currentIndex]);
 
-    this.stockObj = this.dataSource._renderData._value[startIndex];
+    this.stockObj = this.dataSource._renderData._value[this.currentIndex];
     this.setChildChartDataFun(this.stockObj)
   }
 
   nextStock() {
-    const currentPageIndex = this.paginator.pageIndex;
     const pageSize = this.paginator.pageSize;
-    let startIndex = currentPageIndex * pageSize;
 
     this.currentIndex = (this.currentIndex + 1) % pageSize;
     // console.log(`currentIndex = ${this.currentIndex}`);
 
-    startIndex = startIndex + this.currentIndex;
-    // console.log("this.dataSource.data =", this.dataSource.data[startIndex]);
+    // console.log("this.dataSource._renderData._value =", this.dataSource._renderData._value[this.currentIndex]);
 
-    this.stockObj = this.dataSource._renderData._value[startIndex];
+    this.stockObj = this.dataSource._renderData._value[this.currentIndex];
     this.setChildChartDataFun(this.stockObj)
   }
 
