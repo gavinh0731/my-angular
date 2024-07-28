@@ -1,8 +1,26 @@
 <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
   <mat-toolbar class="example-toolbar">
     <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-    <h1 class="example-app-name">選股神器</h1>
+
+    <!-- <h1 class="example-app-name">選股神器</h1> -->
     <!-- <button (click)="setChildDataFun()">調用子組件</button> -->
+
+    <mat-button-toggle value="toggle_graph" (click)="toggleGraph()">
+      <mat-icon>assessment</mat-icon> 圖表(Alt+C)
+    </mat-button-toggle>
+    <mat-button-toggle value="previous_page" (click)="previousPage()">
+      <mat-icon>arrow_circle_left</mat-icon> 上一頁(←)
+    </mat-button-toggle>
+    <mat-button-toggle value="previous_stock" (click)="previousStock()">
+      <mat-icon>file_upload</mat-icon> 上一股(↑)
+    </mat-button-toggle>
+    <mat-button-toggle value="next_stock" (click)="nextStock()">
+      <mat-icon>download</mat-icon> 下一股(↓)
+    </mat-button-toggle>
+    <mat-button-toggle value="next_page" (click)="nextPage()">
+      <mat-icon>arrow_circle_right</mat-icon> 下一頁(→)
+    </mat-button-toggle>
+
   </mat-toolbar>
 
   <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">

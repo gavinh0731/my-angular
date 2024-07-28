@@ -1,13 +1,16 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, AfterViewInit, ViewChild, HostListener } from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
+
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
-import { SelectionModel } from '@angular/cdk/collections';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatIconModule } from '@angular/material/icon';
 
 import { StockChartComponent } from '../stock-chart/stock-chart.component'
 import { StockChartTriplerateComponent } from '../stock-chart-triplerate/stock-chart-triplerate.component'
@@ -30,6 +33,7 @@ interface StockMenu {
   imports: [
     MatTableModule, MatCheckboxModule, MatInputModule, MatPaginatorModule,
     MatSortModule, CommonModule, MatFormFieldModule, MatSelectModule,
+    MatButtonToggleModule, MatIconModule,
     StockChartComponent, StockChartTriplerateComponent,],
 })
 export class StockTableComponent implements AfterViewInit {
@@ -444,7 +448,7 @@ export class StockTableComponent implements AfterViewInit {
       this.changeDisplayedColumns("e_water");
       this.selected = "e_water";
     } else if (event.altKey && event.key === 'c') {
-      this.showChartContainer = !this.showChartContainer;
+      this.toggleGraph();
     } else if (event.key === 'ArrowRight') {
       this.nextPage();
     } else if (event.key === 'ArrowLeft') {
@@ -466,6 +470,10 @@ export class StockTableComponent implements AfterViewInit {
     if (this.paginator.hasPreviousPage()) {
       this.paginator.previousPage();
     }
+  }
+
+  toggleGraph() {
+    this.showChartContainer = !this.showChartContainer;
   }
   //#endregion --- --- 快捷鍵 --- --- --- --- --- --- --- --- --- --- --- --- ---
 

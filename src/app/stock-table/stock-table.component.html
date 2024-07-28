@@ -530,6 +530,23 @@
   aria-label="Select page of periodic elements">
 </mat-paginator>
 
+<mat-button-toggle value="toggle_graph" (click)="toggleGraph()">
+  <mat-icon>assessment</mat-icon> 圖表(Alt+C)
+</mat-button-toggle>
+<mat-button-toggle value="previous_page" (click)="previousPage()">
+  <mat-icon>arrow_circle_left</mat-icon> 上一頁(←)
+</mat-button-toggle>
+<mat-button-toggle value="previous_stock" (click)="previousStock()">
+  <mat-icon>file_upload</mat-icon> 上一股(↑)
+</mat-button-toggle>
+<mat-button-toggle value="next_stock" (click)="nextStock()">
+  <mat-icon>download</mat-icon> 下一股(↓)
+</mat-button-toggle>
+<mat-button-toggle value="next_page" (click)="nextPage()">
+  <mat-icon>arrow_circle_right</mat-icon> 下一頁(→)
+</mat-button-toggle>
+
+
 <button mat-button (click)="selectedRows = getSelectedRows()">Show Selected Rows</button>
 <div *ngIf="selectedRows && selectedRows.length">
   <h3>Selected Rows:</h3>
@@ -542,6 +559,7 @@
 
 <button mat-button (click)="logCurrentPageData()">Log Current Page Data</button>
 {{currentIndex}}
+
 <!-- <div *ngIf="showChartContainer" class="chart-container"> -->
 <div [ngStyle]="{'display': showChartContainer ? 'block' : 'none'}" class="chart-container">
   <app-stock-chart-triplerate #stockChartTriplerateChild></app-stock-chart-triplerate>

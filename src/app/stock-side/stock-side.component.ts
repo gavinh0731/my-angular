@@ -107,6 +107,28 @@ export class StockSideComponent implements OnInit {
   }
   //#endregion --- --- 生命週期 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
+  //#region === === 上方案紐 === === === === === === === === === === === === ===
+  toggleGraph() {
+    this.childTable.toggleGraph();
+  }
+
+  previousPage() {
+    this.childTable.previousPage();
+  }
+
+  nextPage() {
+    this.childTable.nextPage();
+  }
+
+  previousStock() {
+    this.childTable.previousStock();
+  }
+
+  nextStock() {
+    this.childTable.nextStock();
+  }
+  //#endregion --- --- 上方案紐 --- --- --- --- --- --- --- --- --- --- --- ---
+
   //#region === === DropDown Menu === === === === === === === === === === === ===
   change_XXX() {
     let tmpData: any;
