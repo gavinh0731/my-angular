@@ -140,59 +140,47 @@ export class StockChartComponent {
       legend: {
         enabled: true
       },
-      plotOptions: {
-        // //修改蠟燭顏色
-        // candlestick: {
-        //   color: "COLOR_GREEN",
-        //   upColor: this.COLOR_RED,
-        //   lineColor: this.COLOR_GREEN,
-        //   upLineColor: this.COLOR_RED,
-        //   states: {
-        //     hover: {
-        //       enabled: false,
-        //     }
-        //   }
-        // },
-        column: {
-          color: this.COLOR_GREEN,
+      tooltip: {
+        headerFormat: '<span style="font-size: 25px">【{point.key}】</span><br/>', //日期格式(大小)
+        dateTimeLabelFormats: {
+          hour: "%m-%e %H:%M",
+          day: "%Y-%m-%e",
+          month: "%Y-%m",
         },
-        // //去掉曲線和蠟燭上的hover事件
-        // series: {
-        //   states: {
-        //     hover: {
-        //       enabled: false
-        //     }
-        //   },
-        //   line: {
-        //     marker: {
-        //       enabled: false
-        //     }
-        //   },
-        //   events: {
-        //     legendItemClick: function () {
-        //       var ret = false;
-        //       console.log("legendItemClick this.visible = " + this.visible);
-        //       if (!this.visible) {
-        //         ret = true;
-        //       }
-
-        //       var seriesIndex = this.index;
-        //       var series = this.chart.series;
-
-        //       for (var i = 0; i < series.length; i++) {
-        //         if (series[i].index == seriesIndex) {
-        //           // series[i].visible ? series[i].hide() : series[i].show();
-        //           // console.log(`i = ${i}`);
-        //           g_showSeries[name_showSeries[i]] = ret;
-        //           storage.setItem('ChartMACD_showSeries', g_showSeries);
-        //         }
-        //       }
-        //       return true;
-        //       //return false; // <== returning false will cancel the default action
-        //     }
-        //   },
-        //   enableMouseTracking: getMouseTracking()
-        // }
+        // backgroundColor: "RGBA(21, 51, 78, 0.8)",   //背景顏色
+        //borderColor: '#FCFFC5'      //邊框顏色
+        //borderRadius: 2             //邊框的圓角大小
+        borderWidth: 0,               //邊框寬度(大小) 包含連接線
+        //enabled: false,             //是否顯示提示框
+        //shadow: false,              //提示框是否應用陰影  ?沒有看出明顯效果?????????
+        //snap: 0,                    //沒有看出明顯效果?????????
+        outside: false,                //放在外面
+        style: {  //提示框內容的樣式
+          // color: 'white',
+          padding: '10px',    //內邊距 (這個會常用到)
+          fontSize: '15pt',    // 設定字型大小          
+        },
+        // crosshairs: [true, true], // 同時啟用豎直及水平準星線
+        // crosshairs: [
+        //   { // 設置準星線樣式
+        //     width: 2,
+        //     color: 'gray',
+        //     dashStyle: 'shortdot'
+        //   }, {
+        //     width: 2,
+        //     color: 'gray',
+        //     dashStyle: 'shortdot'
+        //   }
+        // ],
+        split: false,
+        shared: true,  //當開啟這個屬性，滑鼠幾個某一區域的時候，如果有多條線，所有的線上的據點都會有響應(ipad)
+        valueDecimals: 2,
+        positioner: function () {
+          return {  // tooltip 位置 FIXME
+            x: 5,
+            y: 80
+          }
+        },
       },
       xAxis: {
         type: 'datetime',
@@ -275,16 +263,18 @@ export class StockChartComponent {
   //#endregion --- --- 顯示圖表 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   //#region === === Series === === === === === === === === === === === === === ===
-  //#region --- 主圖 ----------------------------------------------------
+  //#region --- 主圖 ------------------------------------------------------------
   getSeries_OHLC(series_Item: any, OHLC_Data: any, title: any) {
     return {
       type: "candlestick",
       id: series_Item["id"],
       name: title,
       data: OHLC_Data,
-      color: series_Item["color"],
+      upColor: 'red',  // 上漲蠟燭顏色
+      color: 'green',      // 下跌蠟燭顏色
+      // color: series_Item["color"],
       yAxis: series_Item["yAxis"],
-      showInLegend: false,
+      showInLegend: true,
       tooltip: {
         pointFormat: '<span style="color:{point.color}">\u25BA</span> <b> {series.name}</b><br/>' +
           '&nbsp&nbsp\u25CF 開盤: {point.open}<br/>' +
@@ -297,7 +287,7 @@ export class StockChartComponent {
       }
     } as Highcharts.SeriesOptionsType;
   }
-  //#endregion --- 主圖 ----
+  //#endregion --- 主圖 ---------------------------------------------------------
 
   getSeries_Volume(series_Item: any, OHLC_Data: any, title: any) {
     return {
