@@ -39,10 +39,17 @@ export class StockChartComponent {
   // ---------------------------------------------------------------------------
   stockObj: any;
 
-  data: any;
+  chartData_ohlc: any;
+  chartData_volume: any;
 
   g_showItems: S_ShowItem;
   g_showItems_def = { "zoom": this.ZOOM_IDX_SEASON, "ktype": this.KTYPE_IDX_DAY };  // 預設 { zoom: 1, ktype: 0 }
+
+
+  //#region === === Series === === === === === === === === === === === === === ===
+  g_series_Volume: any = { "id": "volume", "title": "成交量", "color": "#92b5d3", "yAxis": 1 };
+  g_series_OHLC: any = { "id": "main-series", "title": "OHLC", "color": "#f05f5f", "yAxis": 0 };
+  //#endregion --- --- Series --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options;
@@ -134,23 +141,21 @@ export class StockChartComponent {
         enabled: true
       },
       plotOptions: {
-        //修改蠟燭顏色
-        candlestick: {
-          color: "COLOR_GREEN",
-          upColor: this.COLOR_RED,
-          lineColor: this.COLOR_GREEN,
-          upLineColor: this.COLOR_RED,
-          // maker: {
-          //   states: {
-          //     hover: {
-          //       enabled: false,
-          //     }
-          //   }
-          // }
-        },
-        // column: {
-        //   color: COLOR_GREEN
+        // //修改蠟燭顏色
+        // candlestick: {
+        //   color: "COLOR_GREEN",
+        //   upColor: this.COLOR_RED,
+        //   lineColor: this.COLOR_GREEN,
+        //   upLineColor: this.COLOR_RED,
+        //   states: {
+        //     hover: {
+        //       enabled: false,
+        //     }
+        //   }
         // },
+        column: {
+          color: this.COLOR_GREEN,
+        },
         // //去掉曲線和蠟燭上的hover事件
         // series: {
         //   states: {
@@ -230,20 +235,91 @@ export class StockChartComponent {
           }
         }
       },
+      yAxis: [{
+        labels: {
+          align: 'left',
+          x: 2
+        },
+        title: {
+          // text: "<b>" + g_yAxis_Item["title"] + "</b>"
+          text: "<b>" + "股價(元)" + "</b>"
+        },
+        width: '100%',
+        top: "0%",
+        height: "100%",
+        offset: 0,
+        lineWidth: 2,
+        opposite: true // 放在右邊
+      },
+      {
+        labels: {
+          align: 'left',
+          x: 2
+        },
+        title: {
+          // text: "<b>" + g_yAxis_Item["title"] + "</b>"
+          text: "<b>" + "成交量(股)" + "</b>"
+        },
+        width: '100%',
+        top: "80%",
+        height: "20%",
+        offset: 0,
+        lineWidth: 2
+      }],
       series: [
-        {
-          type: 'candlestick',
-          name: 'AAPL Stock Price',
-          data: this.data,  // 數據
-          tooltip: {
-            valueDecimals: 2
-          }
-        }
+        this.getSeries_Volume(this.g_series_Volume, this.chartData_volume, "Chart Volume"),
+        this.getSeries_OHLC(this.g_series_OHLC, this.chartData_ohlc, "Chart OHLC")
       ]
     };
   }
   //#endregion --- --- 顯示圖表 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
+  //#region === === Series === === === === === === === === === === === === === ===
+  //#region --- 主圖 ----------------------------------------------------
+  getSeries_OHLC(series_Item: any, OHLC_Data: any, title: any) {
+    return {
+      type: "candlestick",
+      id: series_Item["id"],
+      name: title,
+      data: OHLC_Data,
+      color: series_Item["color"],
+      yAxis: series_Item["yAxis"],
+      showInLegend: false,
+      tooltip: {
+        pointFormat: '<span style="color:{point.color}">\u25BA</span> <b> {series.name}</b><br/>' +
+          '&nbsp&nbsp\u25CF 開盤: {point.open}<br/>' +
+          '&nbsp&nbsp\u25CF 最高: {point.high}<br/>' +
+          '&nbsp&nbsp\u25CF 最低: {point.low}<br/>' +
+          '&nbsp&nbsp\u25CF 收盤: {point.close}<br/><br/>'
+      },
+      dataGrouping: {
+        enabled: false
+      }
+    } as Highcharts.SeriesOptionsType;
+  }
+  //#endregion --- 主圖 ----
+
+  getSeries_Volume(series_Item: any, OHLC_Data: any, title: any) {
+    return {
+      type: 'column',
+      id: series_Item["id"],
+      name: series_Item["title"],
+      data: OHLC_Data,  // 數據
+      color: series_Item["color"],
+      yAxis: series_Item["yAxis"],
+      showInLegend: true,
+      tooltip: {
+        pointFormat: '<span style="color:{point.color}">\u25BA</span> <b> {series.name}</b><br/>' +
+          '&nbsp&nbsp\u25CF {point.y}股<br/><br/>'
+      },
+      // visible: g_showSeries["volume"],
+      visible: true,
+      dataGrouping: {
+        enabled: false
+      }
+    } as Highcharts.SeriesOptionsType;
+  }
+  //#region --- --- Series --- --- --- --- --- --- --- --- --- --- --- --- --- ---
   // ---------------------------------------------------------------------------
   setData(stockObj: any) {
     this.stockObj = stockObj;
@@ -255,10 +331,17 @@ export class StockChartComponent {
     tmpData.subscribe(
       // this.stockDataService.getData1().subscribe(
       (response: any) => {
-        this.data = response;
-        console.log("this.data = ", this.data);
-        // console.log(`==> response = ${response}`);
-        // this.setChildDataFun();
+        const data = response.data;
+        const entries = Object.entries(data);
+        this.chartData_ohlc = entries.map(([key, value]) => [parseInt(key), ...(value as any).slice(0, 4)]);
+        this.chartData_volume = entries.map(([key, value]) => [parseInt(key), ...(value as any).slice(4, 5)]);
+        console.log(this.chartData_ohlc);
+        console.log(this.chartData_volume);
+
+        // this.data = response;
+        // console.log("this.data = ", this.data);
+        // // console.log(`==> response = ${response}`);
+        // // this.setChildDataFun();
       },
       (error: any) => {
         console.error('Error:', error);

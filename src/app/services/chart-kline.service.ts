@@ -21,10 +21,11 @@ export class ChartKlineService {
   getData(stockCode: string): Observable<any[]> {
     let my_url = this.url_kline + stockCode;
     return this.http.get(my_url).pipe(
-      map((response: any) => response.data),
-      map(data => Object.entries(data)),
-      map(entries => entries.map(([key, value]) => [parseInt(key), ...(value as any)])),
-      map(dataArray => dataArray.map(item => item.slice(0, 5))) // 提取前五個元素
+      map((response: any) => response),
+      // map((response: any) => response.data),
+      // map(data => Object.entries(data)),
+      // map(entries => entries.map(([key, value]) => [parseInt(key), ...(value as any)])),
+      // map(dataArray => dataArray.map(item => item.slice(0, 6))) // 提取前五個元素
     );
   }
 }
