@@ -47,6 +47,7 @@ export class StockSideComponent implements OnInit {
 
   private _mobileQueryListener: () => void;
 
+  // ---------------------------------------------------------------------------
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private stockDataService: StockDataService) {
     console.log("[side] 0. constructor");
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -59,6 +60,8 @@ export class StockSideComponent implements OnInit {
     this.childTable.setData(this.data);
   }
 
+  //#endregion --- --- 本地除存空間 --- --- --- --- --- --- --- --- --- --- --- ---
+
   //#region === === 生命週期 === === === === === === === === === === === === ===
   ngOnChanges() {
     console.log("[side] 1. ngOnChanges");
@@ -70,6 +73,7 @@ export class StockSideComponent implements OnInit {
     // this.data = this.stockDataService.getData1();
     // console.log("this.data = ", this.data);
 
+    // -------------------------------------------------------------------------
     this.obsData = this.stockDataService.getMergedData();
     this.filterdData = this.obsData;
     tmpData = this.obsData;
@@ -99,9 +103,9 @@ export class StockSideComponent implements OnInit {
   // ngAfterContentChecked() {
   //   console.log("[side] 5. ngAfterContentChecked");
   // }
-  ngAfterViewInit() {
-    console.log("[side] 6. ngAfterViewInit");
-  }
+  // ngAfterViewInit() {
+  //   console.log("[side] 6. ngAfterViewInit");
+  // }
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }

@@ -16,7 +16,7 @@ export class StockChartTriplerateComponent {
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options;
 
-  // region === === 生命週期 === === === === === === === === === === === === ===
+  //#region === === 生命週期 === === === === === === === === === === === === ===
   ngOnChanges() {
     console.log("1. ngOnChanges");
   }
@@ -32,17 +32,18 @@ export class StockChartTriplerateComponent {
   // ngAfterContentChecked() {
   //   console.log("5. ngAfterContentChecked");
   // }
-  ngAfterViewInit() {
-    console.log("6. ngAfterViewInit");
-  }
+  // ngAfterViewInit() {
+  //   console.log("6. ngAfterViewInit");
+  // }
   // ngAfterViewChecked() {
   //   console.log("7. ngAfterViewChecked");
   // }
   ngOnDestroy() {
     console.log("8. ngOnDestroy");
   }
-  // region --- --- 生命週期 --- --- --- --- --- --- --- --- --- --- --- --- ---
+  //#endregion --- --- 生命週期 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
+  //#region === === 顯示圖表 === === === === === === === === === === === === ===
   showChart() {
     this.chartOptions = {
       title: {
@@ -157,6 +158,7 @@ export class StockChartTriplerateComponent {
       ]
     };
   }
+  //#endregion --- --- 顯示圖表 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   // ---------------------------------------------------------------------------
   setData(stockObj: any) {
