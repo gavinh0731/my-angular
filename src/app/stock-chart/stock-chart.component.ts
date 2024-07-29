@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HighchartsChartModule } from 'highcharts-angular';
-import * as Highcharts from 'highcharts';
+// 匯入 highcharts/highstock 模組：確保匯入 highcharts/highstock 模組，而不是 highcharts 模組，以便使用股票圖表功能。
+import * as Highcharts from 'highcharts/highstock';
 import StockModule from 'highcharts/modules/stock';
 
 import { StorageService } from '../services/storage.service';
@@ -158,7 +159,7 @@ export class StockChartComponent {
         style: {  //提示框內容的樣式
           // color: 'white',
           padding: '10px',    //內邊距 (這個會常用到)
-          fontSize: '15pt',    // 設定字型大小          
+          fontSize: '15pt',    // 設定字型大小
         },
         // crosshairs: [true, true], // 同時啟用豎直及水平準星線
         // crosshairs: [
@@ -184,6 +185,7 @@ export class StockChartComponent {
       },
       xAxis: {
         type: 'datetime',
+        crosshair: true as any, // 使用类型断言
         dateTimeLabelFormats: {
           millisecond: "%H:%M:%S.%L",
           second: "%H:%M:%S",
@@ -224,6 +226,7 @@ export class StockChartComponent {
         }
       },
       yAxis: [{
+        crosshair: true as any, // 使用类型断言
         labels: {
           align: 'left',
           x: 2
@@ -240,6 +243,7 @@ export class StockChartComponent {
         opposite: true // 放在右邊
       },
       {
+        crosshair: true as any, // 使用类型断言
         labels: {
           align: 'left',
           x: 2
