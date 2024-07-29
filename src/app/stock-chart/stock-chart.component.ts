@@ -199,34 +199,11 @@ export class StockChartComponent {
         tickLength: 0, //X軸下標長度
         // minRange: 3600 * 1000*24*30, // one month
         events: {
-          afterSetExtremes: function (e) {
-            var minTime = Highcharts.dateFormat("%Y-%m-%d", e.min);
-            var maxTime = Highcharts.dateFormat("%Y-%m-%d", e.max);
-            var chart = this.chart;
-            // showTips(e.min, e.max, chart);
-
-            // rangeSelectorButton(Zoom) 事件
-            // console.log(this);
-            // if (typeof (e.rangeSelectorButton) !== 'undefined') {
-            //   if (e.rangeSelectorButton.text == '月') {
-            //     g_showItems["zoom"] = ZOOM_IDX_MONTH;
-            //   } else if (e.rangeSelectorButton.text == '季') {
-            //     g_showItems["zoom"] = ZOOM_IDX_SEASON;
-            //   } else if (e.rangeSelectorButton.text == '半年') {
-            //     g_showItems["zoom"] = ZOOM_IDX_HALFYEAR;
-            //   } else if (e.rangeSelectorButton.text == '1年') {
-            //     g_showItems["zoom"] = ZOOM_IDX_YEAR;
-            //   } else if (e.rangeSelectorButton.text == '所有') {
-            //     g_showItems["zoom"] = ZOOM_IDX_ALL;
-            //   }
-            //   storage.setItem('ChartMACD_showItems', g_showItems);
-            //   // alert('count: '+e.rangeSelectorButton.count + 'text: ' +e.rangeSelectorButton.text + ' type:' + e.rangeSelectorButton.type);
-            // }
-          }
+          afterSetExtremes: this.afterSetExtremes.bind(this)
         }
       },
       yAxis: [{
-        crosshair: true as any, // 使用类型断言
+        crosshair: true as any, // 十字輔助線
         labels: {
           align: 'left',
           x: 2
@@ -243,7 +220,7 @@ export class StockChartComponent {
         opposite: true // 放在右邊
       },
       {
-        crosshair: true as any, // 使用类型断言
+        crosshair: true as any, // 十字輔助線
         labels: {
           align: 'left',
           x: 2
@@ -263,6 +240,22 @@ export class StockChartComponent {
         this.getSeries_OHLC(this.g_series_OHLC, this.chartData_ohlc, "Chart OHLC")
       ]
     };
+  }
+
+  afterSetExtremes(event: any) {
+    // console.log('New range selected:', event.min, event.max);
+    // console.log('event:', event);
+    if (event.rangeSelectorButton.text == '月') {
+      this.g_showItems["zoom"] = this.ZOOM_IDX_MONTH;
+    } else if (event.rangeSelectorButton.text == '季') {
+      this.g_showItems["zoom"] = this.ZOOM_IDX_SEASON;
+    } else if (event.rangeSelectorButton.text == '半年') {
+      this.g_showItems["zoom"] = this.ZOOM_IDX_HALFYEAR;
+    } else if (event.rangeSelectorButton.text == '1年') {
+      this.g_showItems["zoom"] = this.ZOOM_IDX_YEAR;
+    } else if (event.rangeSelectorButton.text == '所有') {
+      this.g_showItems["zoom"] = this.ZOOM_IDX_ALL;
+    }
   }
   //#endregion --- --- 顯示圖表 --- --- --- --- --- --- --- --- --- --- --- --- ---
 
@@ -329,8 +322,8 @@ export class StockChartComponent {
         const entries = Object.entries(data);
         this.chartData_ohlc = entries.map(([key, value]) => [parseInt(key), ...(value as any).slice(0, 4)]);
         this.chartData_volume = entries.map(([key, value]) => [parseInt(key), ...(value as any).slice(4, 5)]);
-        console.log(this.chartData_ohlc);
-        console.log(this.chartData_volume);
+        // console.log(this.chartData_ohlc);
+        // console.log(this.chartData_volume);
 
         // this.data = response;
         // console.log("this.data = ", this.data);
