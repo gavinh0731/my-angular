@@ -1,18 +1,34 @@
 import { Component } from '@angular/core';
+
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 import { HighchartsChartModule } from 'highcharts-angular';
 // 匯入 highcharts/highstock 模組：確保匯入 highcharts/highstock 模組，而不是 highcharts 模組，以便使用股票圖表功能。
 import * as Highcharts from 'highcharts/highstock';
 import StockModule from 'highcharts/modules/stock';
+import HC_indicators from 'highcharts/indicators/indicators';
+import HC_bollinger from 'highcharts/indicators/bollinger-bands';
+import ema from "highcharts/indicators/ema";
 
 import { StorageService } from '../services/storage.service';
 import { ChartKlineService } from '../services/chart-kline.service'
 
 // 初始化 Highcharts 的股票模塊
 StockModule(Highcharts);
+HC_indicators(Highcharts);
+HC_bollinger(Highcharts);
+ema(Highcharts);
 
+// 定義 interface
 interface S_ShowItem {
   zoom: number;
   ktype: number;
+}
+
+interface PickMethod {
+  value: string;
+  viewValue: string;
 }
 
 @Component({
@@ -21,6 +37,7 @@ interface S_ShowItem {
   styleUrl: './stock-chart.component.scss',
   standalone: true,
   imports: [
+    MatSelectModule, MatFormFieldModule,
     HighchartsChartModule,
   ]
 })
@@ -42,6 +59,14 @@ export class StockChartComponent {
 
   chartData_ohlc: any;
   chartData_volume: any;
+
+  // 主圖選項
+  selected_ByMainChartMenu: any = "ema";  // 主圖選項，預設為 Bollinger Bands (bb,ema)
+  mainChartMenu: PickMethod[] = [
+    { value: 'bb', viewValue: '布林指標' },
+    { value: 'ema', viewValue: 'EMA' },
+  ];
+  g_showSeries_MainChartMenu: any = { "bb": true, "ema": false };
 
   g_showItems: S_ShowItem;
   g_showItems_def = { "zoom": this.ZOOM_IDX_SEASON, "ktype": this.KTYPE_IDX_DAY };  // 預設 { zoom: 1, ktype: 0 }
@@ -96,6 +121,33 @@ export class StockChartComponent {
 
     this.g_showItems = this.storageService.getLocalStorageObject('storage_ChartMACD_showItems');
   }
+  //#endregion --- --- 本地除存空間 --- --- --- --- --- --- --- --- --- --- --- ---
+
+  //#region === === === === === === === === === === === === === === === === ===
+  change_ByMainChartMenu(perspective: any) {
+    console.log(`perspective = ${perspective}`);
+    // this.change_ByStockFish(perspective);
+    // 使用 for...in 循环将所有值改为 false
+    for (let key in this.g_showSeries_MainChartMenu) {
+      if (this.g_showSeries_MainChartMenu.hasOwnProperty(key)) {
+        this.g_showSeries_MainChartMenu[key] = false;
+      }
+    }
+
+    switch (perspective) {
+      case "bb":
+        this.g_showSeries_MainChartMenu.bb = true;
+        break;
+      case "ema":
+        this.g_showSeries_MainChartMenu.ema = true;
+        break;
+      default:
+        console.log("No match found");
+    }
+
+    this.showChart();
+  }
+  //#endregion --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   //#region === === 顯示圖表 === === === === === === === === === === === === ===
   showChart() {
@@ -238,7 +290,9 @@ export class StockChartComponent {
       }],
       series: [
         this.getSeries_Volume(this.g_series_Volume, this.chartData_volume, "Chart Volume"),
-        this.getSeries_OHLC(this.g_series_OHLC, this.chartData_ohlc, "Chart OHLC")
+        this.getSeries_OHLC(this.g_series_OHLC, this.chartData_ohlc, "Chart OHLC"),
+        this.getSeries_bb(),
+        this.getSeries_ma5(),
       ]
     };
   }
@@ -287,7 +341,6 @@ export class StockChartComponent {
       }
     } as Highcharts.SeriesOptionsType;
   }
-  //#endregion --- 主圖 ---------------------------------------------------------
 
   getSeries_Volume(series_Item: any, OHLC_Data: any, title: any) {
     return {
@@ -309,7 +362,61 @@ export class StockChartComponent {
       }
     } as Highcharts.SeriesOptionsType;
   }
-  //#region --- --- Series --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+  getSeries_bb() {
+    return {
+      type: 'bb',     //bollinger 指標
+      linkedTo: 'main-series',         //計算boll的數據
+      id: "bollingseries",
+      name: '布林（20,2）',
+      yAxis: 0,            //對應坐標軸
+      showInLegend: true,
+      tooltip: {
+        pointFormat: '<span style="color:{point.color}">\u25BA</span> <b> {series.name}</b><br/>' +
+          '&nbsp&nbsp\u25CF 上軌: {point.top}<br/>' +
+          '&nbsp&nbsp\u25CF 中軌: {point.middle}<br/>' +
+          '&nbsp&nbsp\u25CF 下軌: {point.bottom}<br/><br/>'
+      },
+      topLine: {
+        styles: {
+          lineColor: '#006cee'    //上軌線顏色
+        }
+      },
+      bottomLine: {
+        styles: {
+          lineColor: '#006cee'     //下軌線顏色
+        }
+      },
+      color: '#006cee',        //中軌顏色
+      lineWidth: 4,
+      visible: this.g_showSeries_MainChartMenu["bb"],
+      // visible: true,
+    } as Highcharts.SeriesOptionsType;
+  }
+
+  getSeries_ma5() {
+    return {
+      type: "sma",
+      linkedTo: "main-series",
+      name: "MA5",
+      params: {
+        period: 5
+      },
+      color: "#D75442",
+      lineWidth: 2,
+      showInLegend: true,
+      marker: {
+        enabled: false
+      },
+      // visible: g_showSeries["ma5"],
+      visible: this.g_showSeries_MainChartMenu["ema"],
+      // visible: true,
+    } as Highcharts.SeriesOptionsType;
+  }
+  //#endregion --- 主圖 ---------------------------------------------------------
+  //#endregion --- --- Series --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+
   // ---------------------------------------------------------------------------
   setData(stockObj: any) {
     this.stockObj = stockObj;
