@@ -233,7 +233,8 @@ export class StockChartComponent {
         top: "80%",
         height: "20%",
         offset: 0,
-        lineWidth: 2
+        lineWidth: 2,
+        opposite: false // 放在左邊
       }],
       series: [
         this.getSeries_Volume(this.g_series_Volume, this.chartData_volume, "Chart Volume"),
@@ -245,16 +246,18 @@ export class StockChartComponent {
   afterSetExtremes(event: any) {
     // console.log('New range selected:', event.min, event.max);
     // console.log('event:', event);
-    if (event.rangeSelectorButton.text == '月') {
-      this.g_showItems["zoom"] = this.ZOOM_IDX_MONTH;
-    } else if (event.rangeSelectorButton.text == '季') {
-      this.g_showItems["zoom"] = this.ZOOM_IDX_SEASON;
-    } else if (event.rangeSelectorButton.text == '半年') {
-      this.g_showItems["zoom"] = this.ZOOM_IDX_HALFYEAR;
-    } else if (event.rangeSelectorButton.text == '1年') {
-      this.g_showItems["zoom"] = this.ZOOM_IDX_YEAR;
-    } else if (event.rangeSelectorButton.text == '所有') {
-      this.g_showItems["zoom"] = this.ZOOM_IDX_ALL;
+    if (typeof (event.rangeSelectorButton) !== 'undefined') {
+      if (event.rangeSelectorButton.text == '月') {
+        this.g_showItems["zoom"] = this.ZOOM_IDX_MONTH;
+      } else if (event.rangeSelectorButton.text == '季') {
+        this.g_showItems["zoom"] = this.ZOOM_IDX_SEASON;
+      } else if (event.rangeSelectorButton.text == '半年') {
+        this.g_showItems["zoom"] = this.ZOOM_IDX_HALFYEAR;
+      } else if (event.rangeSelectorButton.text == '1年') {
+        this.g_showItems["zoom"] = this.ZOOM_IDX_YEAR;
+      } else if (event.rangeSelectorButton.text == '所有') {
+        this.g_showItems["zoom"] = this.ZOOM_IDX_ALL;
+      }
     }
   }
   //#endregion --- --- 顯示圖表 --- --- --- --- --- --- --- --- --- --- --- --- ---
@@ -265,7 +268,7 @@ export class StockChartComponent {
     return {
       type: "candlestick",
       id: series_Item["id"],
-      name: title,
+      name: series_Item["title"],
       data: OHLC_Data,
       upColor: 'red',  // 上漲蠟燭顏色
       color: 'green',      // 下跌蠟燭顏色
