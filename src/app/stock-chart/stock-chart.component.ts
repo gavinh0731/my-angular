@@ -28,7 +28,7 @@ interface S_ShowItem {
   ktype: number;
 }
 
-interface PickMethod {
+interface MainChartItems {
   value: string;
   viewValue: string;
 }
@@ -63,13 +63,13 @@ export class StockChartComponent {
   chartData_volume: any;
 
   // 主圖選項
-  selected_ByMainChartMenu: any = "ema";  // 主圖選項，預設為 Bollinger Bands (bb,ema)
-  mainChartMenu: PickMethod[] = [
+  selected_ByMainChartMenu: any = "bb";  // 主圖選項，預設為 Bollinger Bands (bb,ema)
+  mainChartMenu: MainChartItems[] = [
     { value: 'bb', viewValue: '布林指標' },
     { value: 'ema', viewValue: 'EMA' },
     { value: 'vbp', viewValue: '量價關係' },
   ];
-  g_showSeries_MainChartMenu: any = { "bb": true, "ema": false };
+  g_showSeries_MainChartMenu: any = { "bb": true, "ema": false, "vbp": false };
 
   g_showItems: S_ShowItem;
   g_showItems_def = { "zoom": this.ZOOM_IDX_SEASON, "ktype": this.KTYPE_IDX_DAY };  // 預設 { zoom: 1, ktype: 0 }
@@ -115,18 +115,49 @@ export class StockChartComponent {
 
   //#region === === 本地除存空間 === === === === === === === === === === === ===
   storageInit() {
-    this.g_showItems = this.storageService.getLocalStorageObject('storage_ChartMACD_showItems');
+    //#region === === g_showSeries_MainChartMenu === === === === === === === ===
+    this.g_showSeries_MainChartMenu = this.storageService.getLocalStorageObject('storage_showSeries_MainChartMenu');
+    console.log("this.g_showSeries_MainChartMenu = ", this.g_showSeries_MainChartMenu); // { zoom: 4, ktype: 3 }
+
+    if (this.g_showSeries_MainChartMenu == null) {
+      this.storageService.setLocalStorageObject('storage_showSeries_MainChartMenu', this.g_showSeries_MainChartMenu);
+    }
+
+    this.g_showSeries_MainChartMenu = this.storageService.getLocalStorageObject('storage_showSeries_MainChartMenu');
+    this.setSelected_ByMainChartMenu()
+    //#endregion --- --- g_showSeries_MainChartMenu --- --- --- --- --- --- ---
+
+
+    //#region === === g_showItems === === === === === === === === === === === ===
+    this.g_showItems = this.storageService.getLocalStorageObject('storage_showItems');
     console.log("this.g_showItems = ", this.g_showItems); // { zoom: 4, ktype: 3 }
 
     if (this.g_showItems == null) {
-      this.storageService.setLocalStorageObject('storage_ChartMACD_showItems', this.g_showItems_def);
+      this.storageService.setLocalStorageObject('storage_showItems', this.g_showItems_def);
     }
 
-    this.g_showItems = this.storageService.getLocalStorageObject('storage_ChartMACD_showItems');
+    this.g_showItems = this.storageService.getLocalStorageObject('storage_showItems');
+    //#endregion --- --- g_showItems --- --- --- --- --- --- --- --- --- --- ---
+
   }
   //#endregion --- --- 本地除存空間 --- --- --- --- --- --- --- --- --- --- --- ---
 
   //#region === === === === === === === === === === === === === === === === ===
+  setSelected_ByMainChartMenu() {
+    if (this.g_showSeries_MainChartMenu.bb == true) {
+      this.selected_ByMainChartMenu = "bb";
+    }
+    else if (this.g_showSeries_MainChartMenu.ema == true) {
+      this.selected_ByMainChartMenu = "ema";
+    }
+    else if (this.g_showSeries_MainChartMenu.vbp == true) {
+      this.selected_ByMainChartMenu = "vbp";
+    }
+    else {
+      this.selected_ByMainChartMenu = "bb";
+    }
+  }
+
   change_ByMainChartMenu(perspective: any) {
     console.log(`perspective = ${perspective}`);
     // this.change_ByStockFish(perspective);
@@ -144,9 +175,14 @@ export class StockChartComponent {
       case "ema":
         this.g_showSeries_MainChartMenu.ema = true;
         break;
+      case "vbp":
+        this.g_showSeries_MainChartMenu.vbp = true;
+        break;
       default:
         console.log("No match found");
     }
+    // 存入本地儲存空間
+    this.storageService.setLocalStorageObject('storage_showSeries_MainChartMenu', this.g_showSeries_MainChartMenu);
 
     this.showChart();
   }
@@ -216,18 +252,6 @@ export class StockChartComponent {
           padding: '10px',    //內邊距 (這個會常用到)
           fontSize: '15pt',    // 設定字型大小
         },
-        // crosshairs: [true, true], // 同時啟用豎直及水平準星線
-        // crosshairs: [
-        //   { // 設置準星線樣式
-        //     width: 2,
-        //     color: 'gray',
-        //     dashStyle: 'shortdot'
-        //   }, {
-        //     width: 2,
-        //     color: 'gray',
-        //     dashStyle: 'shortdot'
-        //   }
-        // ],
         split: false,
         shared: true,  //當開啟這個屬性，滑鼠幾個某一區域的時候，如果有多條線，所有的線上的據點都會有響應(ipad)
         valueDecimals: 2,
@@ -411,7 +435,7 @@ export class StockChartComponent {
       params: {
         period: 5
       },
-      color: "#D75442",
+      color: "#2962ff",
       lineWidth: 2,
       showInLegend: true,
       marker: {
@@ -431,7 +455,7 @@ export class StockChartComponent {
       params: {
         period: 10
       },
-      color: "#E5A95D",
+      color: "#e8aa00",
       lineWidth: 2,
       showInLegend: true,
       marker: {
@@ -450,7 +474,7 @@ export class StockChartComponent {
       params: {
         period: 20
       },
-      color: "#70956E",
+      color: "#4db051",
       lineWidth: 2,
       showInLegend: true,
       marker: {
@@ -469,7 +493,7 @@ export class StockChartComponent {
       params: {
         period: 60
       },
-      color: "#5050F2",
+      color: "#ba70e9",
       lineWidth: 2,
       showInLegend: true,
       marker: {
@@ -488,7 +512,7 @@ export class StockChartComponent {
       params: {
         period: 120
       },
-      color: "#9C8CC6",
+      color: "#7800e9",
       lineWidth: 2,
       showInLegend: true,
       marker: {
@@ -507,7 +531,7 @@ export class StockChartComponent {
       params: {
         period: 240
       },
-      color: "#6600cc",
+      color: "#00ccc5",
       lineWidth: 2,
       showInLegend: true,
       marker: {
