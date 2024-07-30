@@ -10,6 +10,7 @@ import StockModule from 'highcharts/modules/stock';
 import HC_indicators from 'highcharts/indicators/indicators';
 import HC_bollinger from 'highcharts/indicators/bollinger-bands';
 import ema from "highcharts/indicators/ema";
+import VBP from 'highcharts/indicators/volume-by-price';
 
 import { StorageService } from '../services/storage.service';
 import { ChartKlineService } from '../services/chart-kline.service'
@@ -19,6 +20,7 @@ StockModule(Highcharts);
 HC_indicators(Highcharts);
 HC_bollinger(Highcharts);
 ema(Highcharts);
+VBP(Highcharts);
 
 // 定義 interface
 interface S_ShowItem {
@@ -65,6 +67,7 @@ export class StockChartComponent {
   mainChartMenu: PickMethod[] = [
     { value: 'bb', viewValue: '布林指標' },
     { value: 'ema', viewValue: 'EMA' },
+    { value: 'vbp', viewValue: '量價關係' },
   ];
   g_showSeries_MainChartMenu: any = { "bb": true, "ema": false };
 
@@ -293,6 +296,12 @@ export class StockChartComponent {
         this.getSeries_OHLC(this.g_series_OHLC, this.chartData_ohlc, "Chart OHLC"),
         this.getSeries_bb(),
         this.getSeries_ma5(),
+        this.getSeries_ma10(),
+        this.getSeries_ma20(),
+        this.getSeries_ma60(),
+        this.getSeries_ma120(),
+        this.getSeries_ma240(),
+        this.getSeries_vbp(),
       ]
     };
   }
@@ -411,6 +420,114 @@ export class StockChartComponent {
       // visible: g_showSeries["ma5"],
       visible: this.g_showSeries_MainChartMenu["ema"],
       // visible: true,
+    } as Highcharts.SeriesOptionsType;
+  }
+
+  getSeries_ma10() {
+    return {
+      type: "sma",
+      linkedTo: "main-series",
+      name: "MA10",
+      params: {
+        period: 10
+      },
+      color: "#E5A95D",
+      lineWidth: 2,
+      showInLegend: true,
+      marker: {
+        enabled: false
+      },
+      // visible: g_showSeries["ma10"],
+      visible: this.g_showSeries_MainChartMenu["ema"],
+    } as Highcharts.SeriesOptionsType;
+  }
+
+  getSeries_ma20() {
+    return {
+      type: "sma",
+      linkedTo: "main-series",
+      name: "MA20",
+      params: {
+        period: 20
+      },
+      color: "#70956E",
+      lineWidth: 2,
+      showInLegend: true,
+      marker: {
+        enabled: false
+      },
+      // visible: g_showSeries["ma20"],
+      visible: this.g_showSeries_MainChartMenu["ema"],
+    } as Highcharts.SeriesOptionsType;
+  }
+
+  getSeries_ma60() {
+    return {
+      type: "sma",
+      linkedTo: "main-series",
+      name: "MA60",
+      params: {
+        period: 60
+      },
+      color: "#5050F2",
+      lineWidth: 2,
+      showInLegend: true,
+      marker: {
+        enabled: false
+      },
+      // visible: g_showSeries["ma60"],
+      visible: this.g_showSeries_MainChartMenu["ema"],
+    } as Highcharts.SeriesOptionsType;
+  }
+
+  getSeries_ma120() {
+    return {
+      type: "sma",
+      linkedTo: "main-series",
+      name: "MA120",
+      params: {
+        period: 120
+      },
+      color: "#9C8CC6",
+      lineWidth: 2,
+      showInLegend: true,
+      marker: {
+        enabled: false
+      },
+      // visible: g_showSeries["ma120"],
+      visible: this.g_showSeries_MainChartMenu["ema"],
+    } as Highcharts.SeriesOptionsType;
+  }
+
+  getSeries_ma240() {
+    return {
+      type: "sma",
+      linkedTo: "main-series",
+      name: "MA240",
+      params: {
+        period: 240
+      },
+      color: "#6600cc",
+      lineWidth: 2,
+      showInLegend: true,
+      marker: {
+        enabled: false
+      },
+      // visible: g_showSeries["ma240"],
+      visible: this.g_showSeries_MainChartMenu["ema"],
+    } as Highcharts.SeriesOptionsType;
+  }
+
+  getSeries_vbp() {
+    return {
+      type: 'vbp',     //Volume By Price (VBP)
+      linkedTo: 'main-series',         //計算boll的數據
+      id: "vbp",
+      name: '量價關係',
+      yAxis: 0,            //對應坐標軸
+      showInLegend: true,
+      // visible: g_showSeries["vbp"],
+      visible: this.g_showSeries_MainChartMenu["vbp"],
     } as Highcharts.SeriesOptionsType;
   }
   //#endregion --- 主圖 ---------------------------------------------------------
