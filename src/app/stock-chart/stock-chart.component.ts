@@ -564,6 +564,7 @@ export class StockChartComponent {
     // console.log(`stockObj = ${stockObj}`)
 
     let tmpData = this.chartKlineService.getData(stockObj.b_info_code);
+    console.log("stockObj.b_info_code = ", stockObj.b_info_code);
     console.log("tmpData = ", tmpData);
 
     tmpData.subscribe(
@@ -580,12 +581,12 @@ export class StockChartComponent {
         // console.log("this.data = ", this.data);
         // // console.log(`==> response = ${response}`);
         // // this.setChildDataFun();
+
+        this.showChart();
       },
       (error: any) => {
         console.error('Error:', error);
       }
     );
-
-    this.showChart();
   }
 }
