@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { HighchartsChartModule } from 'highcharts-angular';
 // 匯入 highcharts/highstock 模組：確保匯入 highcharts/highstock 模組，而不是 highcharts 模組，以便使用股票圖表功能。
@@ -39,7 +40,7 @@ interface MainChartItems {
   styleUrl: './stock-chart.component.scss',
   standalone: true,
   imports: [
-    MatSelectModule, MatFormFieldModule,
+    MatSelectModule, MatFormFieldModule, MatButtonToggleModule,
     HighchartsChartModule,
   ]
 })
@@ -62,6 +63,15 @@ export class StockChartComponent {
   chartData_ohlc: any;
   chartData_volume: any;
 
+  // 組別選項
+  selected_ByGroupMenu: any = "group1";  // 組別選項
+  selected_ByGroupMenu_def: any = "group1";  // 組別選項
+  groupMenu: MainChartItems[] = [
+    { value: 'group1', viewValue: '第一組' },
+    { value: 'group2', viewValue: '第二組' },
+    { value: 'group3', viewValue: '第三組' },
+  ];
+
   // 主圖選項
   selected_ByMainChartMenu: any = "bb";  // 主圖選項，預設為 Bollinger Bands (bb,ema)
   mainChartMenu: MainChartItems[] = [
@@ -70,6 +80,7 @@ export class StockChartComponent {
     { value: 'vbp', viewValue: '量價關係' },
   ];
   g_showSeries_MainChartMenu: any = { "bb": true, "ema": false, "vbp": false };
+  g_showSeries_MainChartMenu_def: any = { "bb": true, "ema": false, "vbp": false };
 
   g_showItems: S_ShowItem;
   g_showItems_def = { "zoom": this.ZOOM_IDX_SEASON, "ktype": this.KTYPE_IDX_DAY };  // 預設 { zoom: 1, ktype: 0 }
@@ -115,15 +126,28 @@ export class StockChartComponent {
 
   //#region === === 本地除存空間 === === === === === === === === === === === ===
   storageInit() {
+
+    //#region === === 組別選項 === === === === === === === === === === === === ===
+    this.selected_ByGroupMenu = this.storageService.getLocalStorageString("storage_showSeries_GroupMenu");
+    console.log("this.selected_ByGroupMenu = ", this.selected_ByGroupMenu); // "group1"
+
+    if (this.selected_ByGroupMenu == null) {
+      this.storageService.setLocalStorageString('storage_showSeries_GroupMenu', this.selected_ByGroupMenu_def);
+    }
+
+    this.selected_ByGroupMenu = this.storageService.getLocalStorageString("storage_showSeries_GroupMenu");
+    //#endregion --- --- 組別選項 --- --- --- --- --- --- --- --- --- --- --- ---
+
+
     //#region === === g_showSeries_MainChartMenu === === === === === === === ===
-    this.g_showSeries_MainChartMenu = this.storageService.getLocalStorageObject('storage_showSeries_MainChartMenu');
+    this.g_showSeries_MainChartMenu = this.storageService.getLocalStorageObject(`storage_showSeries_MainChartMenu_${this.selected_ByGroupMenu}`);
     console.log("this.g_showSeries_MainChartMenu = ", this.g_showSeries_MainChartMenu); // { zoom: 4, ktype: 3 }
 
     if (this.g_showSeries_MainChartMenu == null) {
-      this.storageService.setLocalStorageObject('storage_showSeries_MainChartMenu', this.g_showSeries_MainChartMenu);
+      this.storageService.setLocalStorageObject(`storage_showSeries_MainChartMenu_${this.selected_ByGroupMenu}`, this.g_showSeries_MainChartMenu_def);
     }
 
-    this.g_showSeries_MainChartMenu = this.storageService.getLocalStorageObject('storage_showSeries_MainChartMenu');
+    this.g_showSeries_MainChartMenu = this.storageService.getLocalStorageObject(`storage_showSeries_MainChartMenu_${this.selected_ByGroupMenu}`);
     this.setSelected_ByMainChartMenu()
     //#endregion --- --- g_showSeries_MainChartMenu --- --- --- --- --- --- ---
 
@@ -143,6 +167,16 @@ export class StockChartComponent {
   //#endregion --- --- 本地除存空間 --- --- --- --- --- --- --- --- --- --- --- ---
 
   //#region === === === === === === === === === === === === === === === === ===
+  change_ByGroupMenu(perspective: any) {
+    console.log(`perspective = ${perspective}`);
+
+    // 存入本地儲存空間
+    this.storageService.setLocalStorageString('storage_showSeries_GroupMenu', this.selected_ByGroupMenu);
+
+    this.storageInit();
+    this.showChart();
+  }
+
   setSelected_ByMainChartMenu() {
     if (this.g_showSeries_MainChartMenu.bb == true) {
       this.selected_ByMainChartMenu = "bb";
@@ -182,7 +216,7 @@ export class StockChartComponent {
         console.log("No match found");
     }
     // 存入本地儲存空間
-    this.storageService.setLocalStorageObject('storage_showSeries_MainChartMenu', this.g_showSeries_MainChartMenu);
+    this.storageService.setLocalStorageObject(`storage_showSeries_MainChartMenu_${this.selected_ByGroupMenu}`, this.g_showSeries_MainChartMenu);
 
     this.showChart();
   }

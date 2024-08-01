@@ -7,7 +7,26 @@ export class StorageService {
 
   constructor() { }
 
-  // Local Storage
+  //#region === === Local Storage === === === === === === === === === === === ===
+  setLocalStorageString(key: string, value: string): void {
+    localStorage.setItem(key, value);
+  }
+
+  getLocalStorageString(key: string): any {
+    const storedString = localStorage.getItem(key);
+    return storedString ? storedString : null;
+  }
+
+  // removeLocalStorage(key: string): void {
+  //   localStorage.removeItem(key);
+  // }
+
+  // clearLocalStorage(): void {
+  //   localStorage.clear();
+  // }
+  //#endregion --- --- Local Storage --- --- --- --- --- --- --- --- --- --- ---
+
+  //#region === === Local Storage === === === === === === === === === === === ===
   setLocalStorageObject(key: string, value: object): void {
     localStorage.setItem(key, JSON.stringify(value));
   }
@@ -24,8 +43,10 @@ export class StorageService {
   clearLocalStorage(): void {
     localStorage.clear();
   }
+  //#endregion --- --- Local Storage --- --- --- --- --- --- --- --- --- --- ---
 
-  // Session Storage
+
+  //#region === === Session Storage === === === === === === === === === === ===
   setSessionStorageObject(key: string, value: object): void {
     sessionStorage.setItem(key, JSON.stringify(value));
   }
@@ -42,4 +63,5 @@ export class StorageService {
   clearSessionStorage(): void {
     sessionStorage.clear();
   }
+  //#endregion --- --- Session Storage --- --- --- --- --- --- --- --- --- ---
 }
