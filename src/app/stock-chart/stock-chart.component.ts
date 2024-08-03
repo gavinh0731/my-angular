@@ -16,6 +16,7 @@ import HC_bollinger from 'highcharts/indicators/bollinger-bands';
 import ema from "highcharts/indicators/ema";
 import VBP from 'highcharts/indicators/volume-by-price';
 import stochastic from 'highcharts/indicators/stochastic';
+import MACD from 'highcharts/indicators/macd';
 
 import { StorageService } from '../services/storage.service';
 import { ChartKlineService } from '../services/chart-kline.service'
@@ -28,6 +29,7 @@ HC_bollinger(Highcharts);
 ema(Highcharts);
 VBP(Highcharts);
 stochastic(Highcharts);
+MACD(Highcharts);
 
 // 定義 interface
 interface S_ShowItem {
@@ -71,6 +73,9 @@ export class StockChartComponent {
   chartData_volume: any;
   chartData_txo: any; // 投信買賣超
   chartData_txob: any; // 投信買賣超累積
+  chartData_wzo: any; // 外資買賣超
+  chartData_wzob: any; // 外資買賣超累積
+
 
   // 組別選項
   selected_ByGroupMenu: any = "group1";  // 組別選項
@@ -92,7 +97,7 @@ export class StockChartComponent {
   g_showSeries_MainChartMenu_def: any = { "bb": true, "ema": false, "vbp": false };
 
   // ---------------------------------------------------------------------------
-  // 副圖1 選項
+  // 副圖圖表1 選項
   selected_BySub1ChartMenu: any = "kd";  // 組別選項
   Sub1ChartMenu: MainChartItems[] = [
     { value: 'kd', viewValue: 'KD指標' },
@@ -102,13 +107,24 @@ export class StockChartComponent {
   g_showSeries_Sub1ChartMenu_def: any = { "kd": true, "txo": false };
 
   // ---------------------------------------------------------------------------
+  // 副圖圖表2 選項
+  selected_BySub2ChartMenu: any = "macd";  // 組別選項
+  Sub2ChartMenu: MainChartItems[] = [
+    { value: 'macd', viewValue: 'MACD指標' },
+    { value: 'wzo', viewValue: '外資買賣超' },
+  ];
+  g_showSeries_Sub2ChartMenu: any = { "macd": true, "wzo": false };
+  g_showSeries_Sub2ChartMenu_def: any = { "macd": true, "wzo": false };
+
+  // ---------------------------------------------------------------------------
   g_showItems: S_ShowItem;
   g_showItems_def = { "zoom": this.ZOOM_IDX_SEASON, "ktype": this.KTYPE_IDX_DAY };  // 預設 { zoom: 1, ktype: 0 }
 
   //#region === === Series === === === === === === === === === === === === === ===
   g_Series: any = [];
   g_YAxis: any = [];
-  gYAxis_Idx: number = 2;
+  gYAxis_Idx1: number = 2;
+  gYAxis_Idx2: number = 2;
   g_series_Volume: any = { "id": "volume", "title": "成交量", "color": "#92b5d3", "yAxis": 1 };
   g_series_OHLC: any = { "id": "main-series", "title": "OHLC", "color": "#f05f5f", "yAxis": 0 };
   //#endregion --- --- Series --- --- --- --- --- --- --- --- --- --- --- --- ---
@@ -175,7 +191,7 @@ export class StockChartComponent {
 
     //#region === === g_showSeries_Sub1ChartMenu === === === === === === === ===
     this.g_showSeries_Sub1ChartMenu = this.storageService.getLocalStorageObject(`storage_showSeries_Sub1ChartMenu_${this.selected_ByGroupMenu}`);
-    console.log("this.g_showSeries_Sub1ChartMenu = ", this.g_showSeries_Sub1ChartMenu); // { zoom: 4, ktype: 3 }
+    // console.log("this.g_showSeries_Sub1ChartMenu = ", this.g_showSeries_Sub1ChartMenu); // { zoom: 4, ktype: 3 }
 
     if (this.g_showSeries_Sub1ChartMenu == null) {
       this.storageService.setLocalStorageObject(`storage_showSeries_Sub1ChartMenu_${this.selected_ByGroupMenu}`, this.g_showSeries_Sub1ChartMenu_def);
@@ -185,10 +201,22 @@ export class StockChartComponent {
     this.setSelected_BySub1ChartMenu()
     //#endregion --- --- g_showSeries_Sub1ChartMenu --- --- --- --- --- --- ---
 
+    //#region === === g_showSeries_Sub2ChartMenu === === === === === === === ===
+    this.g_showSeries_Sub2ChartMenu = this.storageService.getLocalStorageObject(`storage_showSeries_Sub2ChartMenu_${this.selected_ByGroupMenu}`);
+    console.log("this.g_showSeries_Sub2ChartMenu = ", this.g_showSeries_Sub2ChartMenu); // { macd: true, wzo: false }
+
+    if (this.g_showSeries_Sub2ChartMenu == null) {
+      this.storageService.setLocalStorageObject(`storage_showSeries_Sub2ChartMenu_${this.selected_ByGroupMenu}`, this.g_showSeries_Sub2ChartMenu_def);
+    }
+
+    this.g_showSeries_Sub2ChartMenu = this.storageService.getLocalStorageObject(`storage_showSeries_Sub2ChartMenu_${this.selected_ByGroupMenu}`);
+    this.setSelected_BySub2ChartMenu()
+    //#endregion --- --- g_showSeries_Sub2ChartMenu --- --- --- --- --- --- ---
+
 
     //#region === === g_showItems === === === === === === === === === === === ===
     this.g_showItems = this.storageService.getLocalStorageObject('storage_showItems');
-    console.log("this.g_showItems = ", this.g_showItems); // { zoom: 4, ktype: 3 }
+    // console.log("this.g_showItems = ", this.g_showItems); // { zoom: 4, ktype: 3 }
 
     if (this.g_showItems == null) {
       this.storageService.setLocalStorageObject('storage_showItems', this.g_showItems_def);
@@ -256,7 +284,9 @@ export class StockChartComponent {
     this.storageInit();
     this.showChart();
   }
+
   // ---------------------------------------------------------------------------
+  // 副圖圖表1 選項
   setSelected_BySub1ChartMenu() {
     if (this.g_showSeries_Sub1ChartMenu.kd == true) {
       this.selected_BySub1ChartMenu = "kd";
@@ -295,6 +325,47 @@ export class StockChartComponent {
     this.storageInit();
     this.showChart();
   }
+
+  // ---------------------------------------------------------------------------
+  // 副圖圖表2 選項
+  setSelected_BySub2ChartMenu() {
+    if (this.g_showSeries_Sub2ChartMenu.macd == true) {
+      this.selected_BySub2ChartMenu = "macd";
+    }
+    else if (this.g_showSeries_Sub2ChartMenu.wzo == true) {
+      this.selected_BySub2ChartMenu = "wzo";
+    }
+    else {
+      this.selected_BySub2ChartMenu = "macd";
+    }
+  }
+
+  change_BySub2ChartMenu(perspective: any) {
+    console.log(`perspective = ${perspective}`);
+    // this.change_ByStockFish(perspective);
+    // 使用 for...in 循环将所有值改为 false
+    for (let key in this.g_showSeries_Sub2ChartMenu) {
+      if (this.g_showSeries_Sub2ChartMenu.hasOwnProperty(key)) {
+        this.g_showSeries_Sub2ChartMenu[key] = false;
+      }
+    }
+
+    switch (perspective) {
+      case "macd":
+        this.g_showSeries_Sub2ChartMenu.macd = true;
+        break;
+      case "wzo":
+        this.g_showSeries_Sub2ChartMenu.wzo = true;
+        break;
+      default:
+        console.log("No match found");
+    }
+    // 存入本地儲存空間
+    this.storageService.setLocalStorageObject(`storage_showSeries_Sub2ChartMenu_${this.selected_ByGroupMenu}`, this.g_showSeries_Sub2ChartMenu);
+
+    this.storageInit();
+    this.showChart();
+  }
   //#endregion --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
   //#region === === 顯示圖表 === === === === === === === === === === === === ===
@@ -314,12 +385,12 @@ export class StockChartComponent {
 
     // g_YAxis
     this.g_YAxis = [];
-    this.g_YAxis.push(this.getYAxis_OHLC("0%", "80%"));
-    this.g_YAxis.push(this.getYAxis_Volume("60%", "20%"));
+    this.g_YAxis.push(this.getYAxis_OHLC("0%", "70%"));
+    this.g_YAxis.push(this.getYAxis_Volume("50%", "20%"));
 
 
-    this.pushSeriseYAxis_First();
-    // Series.push(this.getSerise_Second());
+    this.pushSeriseYAxis_First("70%", "15%");
+    this.pushSeriseYAxis_Second("85%", "15%");
 
     this.chartOptions = {
       exporting: {
@@ -475,28 +546,6 @@ export class StockChartComponent {
       offset: 0,
       lineWidth: 2,
       opposite: false // 放在左邊
-    } as Highcharts.YAxisOptions;
-  }
-
-
-  getYAxis_KD(top: any, height: any, visible: boolean) {
-    return {
-      crosshair: true as any, // 十字輔助線
-      labels: {
-        align: 'left',
-        x: 2
-      },
-      title: {
-        // text: "<b>" + g_yAxis_Item["title"] + "</b>"
-        text: "<b>" + "KD值" + "</b>"
-      },
-      width: '100%',
-      top: top,
-      height: height,
-      offset: 0,
-      lineWidth: 2,
-      opposite: true, // 放在右邊
-      visible: visible,
     } as Highcharts.YAxisOptions;
   }
 
@@ -751,31 +800,37 @@ export class StockChartComponent {
   //#endregion --- 主圖 ---------------------------------------------------------
 
   //#region === === 副圖 === === === === === === === === === === === === === ===
-  pushSeriseYAxis_First() {
-    this.gYAxis_Idx = 2;
+  pushSeriseYAxis_First(top: any, height: any) {
+    this.gYAxis_Idx1 = 2;
 
-    this.g_Series.push(this.getSerise_KD(this.gYAxis_Idx));
-    this.g_YAxis.push(this.getYAxis_KD("80%", "20%", this.g_showSeries_Sub1ChartMenu["kd"]));
-    this.gYAxis_Idx = this.gYAxis_Idx + 1;
+    this.g_Series.push(this.getSerise_KD(this.gYAxis_Idx1));
+    this.g_YAxis.push(this.getYAxis_Main("KD值", top, height, this.g_showSeries_Sub1ChartMenu["kd"]));
+    this.gYAxis_Idx1 = this.gYAxis_Idx1 + 1;
 
-    this.g_Series.push(this.getSeries_TXO(this.gYAxis_Idx));
-    this.g_YAxis.push(this.getYAxis_Main("投信買賣超", "80%", "20%", this.g_showSeries_Sub1ChartMenu["txo"]));
-    this.gYAxis_Idx = this.gYAxis_Idx + 1;
+    this.g_Series.push(this.getSeries_TXO(this.gYAxis_Idx1));
+    this.g_YAxis.push(this.getYAxis_Main("投信買賣超", top, height, this.g_showSeries_Sub1ChartMenu["txo"]));
+    this.gYAxis_Idx1 = this.gYAxis_Idx1 + 1;
 
-    this.g_Series.push(this.getSeries_TXOB(this.gYAxis_Idx));
-    this.g_YAxis.push(this.getYAxis_Sub("投信買賣超累積", "80%", "20%", this.g_showSeries_Sub1ChartMenu["txo"]));
-    this.gYAxis_Idx = this.gYAxis_Idx + 1;
+    this.g_Series.push(this.getSeries_TXOB(this.gYAxis_Idx1));
+    this.g_YAxis.push(this.getYAxis_Sub("投信買賣超累積", top, height, this.g_showSeries_Sub1ChartMenu["txo"]));
+    this.gYAxis_Idx1 = this.gYAxis_Idx1 + 1;
   }
 
-  // getSerise_Second() {
-  //   console.log("this.selected_BySub1ChartMenu = ", this.selected_BySub1ChartMenu);
-  //   if (this.selected_BySub1ChartMenu == "kd") {
-  //     return this.getSeries_TXO() as Highcharts.SeriesOptionsType;
-  //   }
-  //   else {
-  //     return this.getSerise_KD() as Highcharts.SeriesOptionsType;
-  //   }
-  // }
+  pushSeriseYAxis_Second(top: any, height: any) {
+    this.gYAxis_Idx2 = this.gYAxis_Idx1;
+
+    this.g_Series.push(this.getSerise_MACD(this.gYAxis_Idx2));
+    this.g_YAxis.push(this.getYAxis_Main("MACD值", top, height, this.g_showSeries_Sub2ChartMenu["macd"]));
+    this.gYAxis_Idx2 = this.gYAxis_Idx2 + 1;
+
+    this.g_Series.push(this.getSeries_WZO(this.gYAxis_Idx2));
+    this.g_YAxis.push(this.getYAxis_Main("外資買賣超", top, height, this.g_showSeries_Sub2ChartMenu["wzo"]));
+    this.gYAxis_Idx2 = this.gYAxis_Idx2 + 1;
+
+    this.g_Series.push(this.getSeries_WZOB(this.gYAxis_Idx2));
+    this.g_YAxis.push(this.getYAxis_Sub("外資買賣超累積", top, height, this.g_showSeries_Sub2ChartMenu["wzo"]));
+    this.gYAxis_Idx2 = this.gYAxis_Idx2 + 1;
+  }
 
   getSerise_KD(yAxisIdx: number) {
     return {
@@ -812,6 +867,64 @@ export class StockChartComponent {
     return this._getSeries_Sub(yAxisIdx, g_series_Item_txob, this.chartData_txob, this.g_showSeries_Sub1ChartMenu["txo"]) as Highcharts.SeriesOptionsType;
   }
 
+  // ---------------------------------------------------------------------------
+  getSerise_MACD(yAxisIdx: number) {
+    return {
+      type: 'macd',              //Volume By Price (VBP)
+      linkedTo: 'main-series', //計算boll的數據
+      id: "MACD",
+      name: 'MACD指標',
+      yAxis: yAxisIdx,                 //對應坐標軸
+      showInLegend: true,
+      visible: this.g_showSeries_Sub2ChartMenu["macd"],
+      params: {
+        shortPeriod: 12,
+        longPeriod: 26,
+        signalPeriod: 9,
+        period: 26
+      },
+      color: this.COLOR_BLUE,
+      marker: {
+        enabled: false
+      },
+      tooltip: {
+        pointFormat:
+          '<span style="color:{point.color}">\u25BA</span> <b> {series.name}</b><br/>' +
+          "&nbsp&nbsp\u25CF DIFF(快線)：{point.signal}<br/>" +
+          "&nbsp&nbsp\u25CF MACD(慢線)：{point.MACD}<br/>" +
+          "&nbsp&nbsp\u25CF OSC(柱狀體)：{point.y}<br/>"
+      },
+      zones: [
+        {
+          value: 0,
+          color: this.COLOR_GREEN
+        },
+        {
+          color: this.COLOR_RED
+        }
+      ],
+      macdLine: {
+        styles: {
+          lineColor: this.COLOR_RED,    //DIFF訊號線顏色
+          lineWidth: 2
+        }
+      },
+    } as Highcharts.SeriesOptionsType;
+  }
+
+  getSeries_WZO(yAxisIdx: number) {
+    // console.log("this.chartData_wzo = ", this.chartData_wzo);
+    let g_series_Item_wzo = { "id": "wzo", "title": "外資買賣超", "color": "#F4CCCC" };
+    return this._getSeries_Main(yAxisIdx, g_series_Item_wzo, this.chartData_wzo, this.g_showSeries_Sub2ChartMenu["wzo"]) as Highcharts.SeriesOptionsType;
+  }
+
+  getSeries_WZOB(yAxisIdx: number) {
+    // console.log("this.chartData_wzob = ", this.chartData_wzob);
+    let g_series_Item_wzob = { "id": "total_wzo", "title": "外資買賣超累積", "color": "#990000" };
+    return this._getSeries_Sub(yAxisIdx, g_series_Item_wzob, this.chartData_wzob, this.g_showSeries_Sub2ChartMenu["wzo"]) as Highcharts.SeriesOptionsType;
+  }
+
+  // ---------------------------------------------------------------------------
   _getSeries_Main(yAxisIdx: any, g_series_Item: any, dataArg: any, visible: boolean) {
     return {
       type: 'column',
@@ -924,6 +1037,8 @@ export class StockChartComponent {
         const entries2 = Object.entries(data2);
         this.chartData_txo = entries2.map(([key, value]) => [parseInt(key), ...(value as any).slice(2, 3)]);
         this.chartData_txob = entries2.map(([key, value]) => [parseInt(key), ...(value as any).slice(3, 4)]);
+        this.chartData_wzo = entries2.map(([key, value]) => [parseInt(key), ...(value as any).slice(0, 1)]);
+        this.chartData_wzob = entries2.map(([key, value]) => [parseInt(key), ...(value as any).slice(1, 2)]);
         // console.log(this.chartData_txo);
 
         this.storageInit();

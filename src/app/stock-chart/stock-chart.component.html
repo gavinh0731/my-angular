@@ -28,6 +28,15 @@
   </mat-select>
 </mat-form-field>
 
+<mat-form-field>
+  <mat-label>副圖圖表2</mat-label>
+  <mat-select [(value)]="selected_BySub2ChartMenu" (valueChange)="change_BySub2ChartMenu($event)">
+    @for (food of Sub2ChartMenu; track food) {
+    <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
 <!-- 在範本中顯示圖表：在 app.component.html 中使用 highcharts-chart 元件，
   並指定 constructorType 為 'stockChart' 以確保正確渲染帶有 rangeSelector 的股票圖表。
 -->
