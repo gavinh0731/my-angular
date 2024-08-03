@@ -479,7 +479,7 @@ export class StockChartComponent {
   }
 
 
-  getYAxis_KD(top: any, height: any) {
+  getYAxis_KD(top: any, height: any, visible: boolean) {
     return {
       crosshair: true as any, // 十字輔助線
       labels: {
@@ -495,11 +495,12 @@ export class StockChartComponent {
       height: height,
       offset: 0,
       lineWidth: 2,
-      opposite: true // 放在右邊
+      opposite: true, // 放在右邊
+      visible: visible,
     } as Highcharts.YAxisOptions;
   }
 
-  getYAxis_Main(title: any, top: any, height: any) {
+  getYAxis_Main(title: any, top: any, height: any, visible: boolean) {
     return {
       crosshair: true as any, // 十字輔助線
       labels: {
@@ -515,11 +516,12 @@ export class StockChartComponent {
       height: height,
       offset: 0,
       lineWidth: 2,
-      opposite: true // 放在右邊
+      opposite: true, // 放在右邊
+      visible: visible,
     } as Highcharts.YAxisOptions;
   }
 
-  getYAxis_Sub(title: any, top: any, height: any) {
+  getYAxis_Sub(title: any, top: any, height: any, visible: boolean) {
     return {
       crosshair: true as any, // 十字輔助線
       labels: {
@@ -536,6 +538,7 @@ export class StockChartComponent {
       offset: 0,
       lineWidth: 2,
       opposite: false, // 放在左邊
+      visible: visible,
     } as Highcharts.YAxisOptions;
   }
   //#endregion --- --- YAxis --- --- --- --- --- --- --- --- --- --- --- --- ---
@@ -752,19 +755,16 @@ export class StockChartComponent {
     this.gYAxis_Idx = 2;
 
     this.g_Series.push(this.getSerise_KD(this.gYAxis_Idx));
-    this.g_YAxis.push(this.getYAxis_KD("80%", "20%"));
+    this.g_YAxis.push(this.getYAxis_KD("80%", "20%", this.g_showSeries_Sub1ChartMenu["kd"]));
     this.gYAxis_Idx = this.gYAxis_Idx + 1;
 
     this.g_Series.push(this.getSeries_TXO(this.gYAxis_Idx));
-    this.g_YAxis.push(this.getYAxis_Main("投信買賣超", "80%", "20%"));
+    this.g_YAxis.push(this.getYAxis_Main("投信買賣超", "80%", "20%", this.g_showSeries_Sub1ChartMenu["txo"]));
     this.gYAxis_Idx = this.gYAxis_Idx + 1;
 
     this.g_Series.push(this.getSeries_TXOB(this.gYAxis_Idx));
-    this.g_YAxis.push(this.getYAxis_Sub("投信買賣超累積", "80%", "20%"));
+    this.g_YAxis.push(this.getYAxis_Sub("投信買賣超累積", "80%", "20%", this.g_showSeries_Sub1ChartMenu["txo"]));
     this.gYAxis_Idx = this.gYAxis_Idx + 1;
-
-
-
   }
 
   // getSerise_Second() {
