@@ -503,6 +503,7 @@ export class StockChartComponent {
       } else if (event.rangeSelectorButton.text == '所有') {
         this.g_showItems["zoom"] = this.ZOOM_IDX_ALL;
       }
+      this.storageService.setLocalStorageObject('storage_showItems', this.g_showItems);
     }
   }
   //#endregion --- --- 顯示圖表 --- --- --- --- --- --- --- --- --- --- --- --- ---
