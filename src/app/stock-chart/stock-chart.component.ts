@@ -396,10 +396,10 @@ export class StockChartComponent {
       exporting: {
         enabled: false
       },
-      navigator: {
-        enabled: true
+      navigator: {  // 下方導航列
+        enabled: false
       },
-      scrollbar: {
+      scrollbar: {  // 下方scrollbar，取代導航列
         enabled: true
       },
       title: {
@@ -549,6 +549,43 @@ export class StockChartComponent {
     } as Highcharts.YAxisOptions;
   }
 
+  getYAxis_KD(title: any, top: any, height: any, visible: boolean) {
+    return {
+      crosshair: true as any, // 十字輔助線
+      labels: {
+        align: 'left',
+        x: 2
+      },
+      title: {
+        // text: "<b>" + g_yAxis_Item["title"] + "</b>"
+        text: "<b>" + title + "</b>"
+      },
+      width: '100%',
+      top: top,
+      height: height,
+      offset: 0,
+      lineWidth: 2,
+      opposite: true, // 放在右邊
+      plotLines: [
+        {
+          dashStyle: 'Dash', // 設定虛線樣式
+          value: 20,   // 零軸顏色
+          color: 'blue',
+          width: 1,
+          zIndex: 3
+        },
+        {
+          dashStyle: 'Dash', // 設定虛線樣式
+          value: 80,   // 零軸顏色
+          color: 'blue',
+          width: 1,
+          zIndex: 3
+        }
+      ],
+      visible: visible,
+    } as Highcharts.YAxisOptions;
+  }
+
   getYAxis_Main(title: any, top: any, height: any, visible: boolean) {
     return {
       crosshair: true as any, // 十字輔助線
@@ -566,6 +603,15 @@ export class StockChartComponent {
       offset: 0,
       lineWidth: 2,
       opposite: true, // 放在右邊
+      plotLines: [
+        {
+          dashStyle: 'Dash', // 設定虛線樣式
+          value: 0,   // 零軸顏色
+          color: 'blue',
+          width: 1,
+          zIndex: 3
+        }
+      ],
       visible: visible,
     } as Highcharts.YAxisOptions;
   }
@@ -587,6 +633,15 @@ export class StockChartComponent {
       offset: 0,
       lineWidth: 2,
       opposite: false, // 放在左邊
+      plotLines: [
+        {
+          dashStyle: 'Dash', // 設定虛線樣式
+          value: 0,   // 零軸顏色
+          color: 'yellow',
+          width: 1,
+          zIndex: 3
+        }
+      ],
       visible: visible,
     } as Highcharts.YAxisOptions;
   }
@@ -804,15 +859,15 @@ export class StockChartComponent {
     this.gYAxis_Idx1 = 2;
 
     this.g_Series.push(this.getSerise_KD(this.gYAxis_Idx1));
-    this.g_YAxis.push(this.getYAxis_Main("KD值", top, height, this.g_showSeries_Sub1ChartMenu["kd"]));
-    this.gYAxis_Idx1 = this.gYAxis_Idx1 + 1;
-
-    this.g_Series.push(this.getSeries_TXO(this.gYAxis_Idx1));
-    this.g_YAxis.push(this.getYAxis_Main("投信買賣超", top, height, this.g_showSeries_Sub1ChartMenu["txo"]));
+    this.g_YAxis.push(this.getYAxis_KD("KD值", top, height, this.g_showSeries_Sub1ChartMenu["kd"]));
     this.gYAxis_Idx1 = this.gYAxis_Idx1 + 1;
 
     this.g_Series.push(this.getSeries_TXOB(this.gYAxis_Idx1));
     this.g_YAxis.push(this.getYAxis_Sub("投信買賣超累積", top, height, this.g_showSeries_Sub1ChartMenu["txo"]));
+    this.gYAxis_Idx1 = this.gYAxis_Idx1 + 1;
+
+    this.g_Series.push(this.getSeries_TXO(this.gYAxis_Idx1));
+    this.g_YAxis.push(this.getYAxis_Main("投信買賣超", top, height, this.g_showSeries_Sub1ChartMenu["txo"]));
     this.gYAxis_Idx1 = this.gYAxis_Idx1 + 1;
   }
 
@@ -823,12 +878,12 @@ export class StockChartComponent {
     this.g_YAxis.push(this.getYAxis_Main("MACD值", top, height, this.g_showSeries_Sub2ChartMenu["macd"]));
     this.gYAxis_Idx2 = this.gYAxis_Idx2 + 1;
 
-    this.g_Series.push(this.getSeries_WZO(this.gYAxis_Idx2));
-    this.g_YAxis.push(this.getYAxis_Main("外資買賣超", top, height, this.g_showSeries_Sub2ChartMenu["wzo"]));
-    this.gYAxis_Idx2 = this.gYAxis_Idx2 + 1;
-
     this.g_Series.push(this.getSeries_WZOB(this.gYAxis_Idx2));
     this.g_YAxis.push(this.getYAxis_Sub("外資買賣超累積", top, height, this.g_showSeries_Sub2ChartMenu["wzo"]));
+    this.gYAxis_Idx2 = this.gYAxis_Idx2 + 1;
+
+    this.g_Series.push(this.getSeries_WZO(this.gYAxis_Idx2));
+    this.g_YAxis.push(this.getYAxis_Main("外資買賣超", top, height, this.g_showSeries_Sub2ChartMenu["wzo"]));
     this.gYAxis_Idx2 = this.gYAxis_Idx2 + 1;
   }
 
