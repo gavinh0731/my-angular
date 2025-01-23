@@ -9,7 +9,7 @@ import { map, switchMap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ChartKlineService {
-  // private url_kline = 'http://192.168.1.111/history/history/dayk?code=';
+  // private url_kline = 'http://192.168.1.222/history/history/dayk?code=';
   // 使用代理 參考 src/proxy.conf.json
   private url_kline = '/history/history/dayk?code=';
 
